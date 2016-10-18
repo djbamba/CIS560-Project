@@ -23,3 +23,4 @@ A node.js application that displays information on video games. The application 
 * cheerio
 * requests
 * express
+* ejs
