@@ -1,4 +1,4 @@
-# CIS-560/561 Project
+# CIS-560/562 Project
 ### Authors:
 *Allan Jay Cabanatuan, Arun Paramanathan, Daniel Bamba, Zachary Terwort*
 #### App Description:
