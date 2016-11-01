@@ -17,13 +17,14 @@ db.serialize(()=>{
     // db.run("DROP TABLE IF EXISTS developer");
     // db.run("DROP TABLE IF EXISTS publisher");
 
-
     db.run("CREATE TABLE IF NOT EXISTS game (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(20), release_date DATE)");
-    db.run("CREATE TABLE IF NOT EXISTS website (game_id INTEGER, name VARCHAR(25), url VARCHAR(40), FOREIGN KEY (game_id) REFERENCES game(id))");
-    db.run("CREATE TABLE IF NOT EXISTS score (game_id INTEGER, score INTEGER, score_type VARCHAR(10), FOREIGN KEY (game_id) REFERENCES game(id))");
-    db.run("CREATE TABLE IF NOT EXISTS genre (game_id INTEGER, genre VARCHAR(20), FOREIGN KEY (game_id) REFERENCES game(id))");
+    db.run("CREATE TABLE IF NOT EXISTS website (name VARCHAR(35) PRIMARY KEY NOT NULL, url VARCHAR(40))");
 
-    db.run("CREATE TABLE IF NOT EXISTS system (id INTEGER PRIMARY KEY AUTOINCREMENT, NAME VARCHAR(20))");
+    db.run("CREATE TABLE IF NOT EXISTS genre (id INTEGER PRIMARY KEY AUTOINCREMENT, genre VARCHAR(20))");
+    db.run("CREATE TABLE IF NOT EXISTS game_genre (game_id INTEGER NOT NULL, genre_id INTEGER NOT NULL, FOREIGN KEY (game_id) REFERENCES game (id), FOREIGN KEY (genre_id) REFERENCES genre (id))");
+    db.run("CREATE TABLE IF NOT EXISTS score (game_id INTEGER FOREIGN KEY NOT NULL, score INTEGER, score_type VARCHAR(1), FOREIGN KEY (game_id) REFERENCES game (id))");
+
+    db.run("CREATE TABLE IF NOT EXISTS system (id INTEGER PRIMARY KEY AUTOINCREMENT, NAME VARCHAR(25))");
     db.run("CREATE TABLE IF NOT EXISTS console (system_id INTEGER, units_sold, FOREIGN KEY (system_id) REFERENCES system(id))");
     db.run("CREATE TABLE IF NOT EXISTS handheld (system_id INTEGER, screen_size VARCHAR(15), FOREIGN KEY (system_id) REFERENCES system(id))");
     db.run("CREATE TABLE IF NOT EXISTS pc (system_id INTEGER, price DOUBLE, FOREIGN KEY (system_id) REFERENCES system(id))");

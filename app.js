@@ -11,6 +11,8 @@ var http = require('http'),
 
 //telling express that our template/view engine will be ejs.
 app.set('view engine', 'ejs');
+//telling express where our pages/partials (really only required if our directory wasn't named 'views').
+app.set('views', './views');
 
 //telling express that our static content is in the 'public' directory. This is where all client-side css/js will go.
 app.use(express.static(__dirname+'/public'));

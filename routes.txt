@@ -1,0 +1,4 @@
+../games - lists all games
+../games/genre/:genre - lists all games of a genre
+../games/:siteName - lists all games for a site
+../games/:system - lists all games for a system
