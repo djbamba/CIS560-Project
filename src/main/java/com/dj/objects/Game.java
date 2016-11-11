@@ -11,9 +11,8 @@ import org.springframework.data.annotation.Id;
 
 public class Game {
 	
-	@Id
 	@JsonProperty(value = "id")
-	private int id;
+	private long id;
 	
 	@JsonProperty(value = "name")
 	private String name;
@@ -24,17 +23,19 @@ public class Game {
 	public Game() {
 	}
 	
-	public Game(String name, String release) {
+	public Game(long id, String name, String release) {
+		this.id = id;
 		this.name = name;
 		this.release = release;
 	}
 	
+	@JsonProperty(value = "id")
 	public void setId(int id) {
 		this.id = id;
 	}
 	
 	@JsonProperty(value = "id")
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 	
@@ -44,7 +45,16 @@ public class Game {
 	}
 	
 	@JsonProperty(value = "release")
+	public void setRelease(String release) {
+		 this.release = release;
+	}
+	@JsonProperty(value = "release")
 	public String getRelease() {
 		return this.release;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("id: %l name: %s release: %s");
 	}
 }

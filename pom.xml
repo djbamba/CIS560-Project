@@ -15,8 +15,8 @@
         <java.version>1.8</java.version>
         <jackson.version>2.8.1</jackson.version>
         <testng.version>6.9.10</testng.version>
-        <logger.version>2.7</logger.version>
-        <h2.version>1.4.192</h2.version>
+        <restassured.version>3.0.1</restassured.version>
+        <jsoup.version>1.10.1</jsoup.version>
     </properties>
 
     <parent>
@@ -36,11 +36,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <!--Java Persistence API-->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -49,56 +44,59 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
-
-        <!--JSON package-->
+        <!--JSON packages-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.4.1.3</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.4.1.1</version>
         </dependency>
-
         <!--Logging packages-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>${logger.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>${logger.version}</version>
         </dependency>
-
         <!--Testing package-->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
-            <!--<scope>test</scope>-->
         </dependency>
-
         <!--H2 Database package-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
         </dependency>
         <!--Using this for making requests-->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>3.0.1</version>
+            <version>${restassured.version}</version>
         </dependency>
         <!--Using this for processing requests-->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.10.1</version>
+            <version>${jsoup.version}</version>
+        </dependency>
+        <!--Automation packages-->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-support</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-firefox-driver</artifactId>
         </dependency>
     </dependencies>
 
@@ -110,6 +108,8 @@
                 <configuration>
                     <!--Tells devtools to reload static resources-->
                     <addResources>true</addResources>
+                    <!--Fixes issue with hot-swapping when making changes-->
+                    <fork>true</fork>
                 </configuration>
             </plugin>
         </plugins>

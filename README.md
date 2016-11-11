@@ -21,6 +21,7 @@ A node.js application that displays information on video games. The application 
 ###### Packages used:
 * Spring
 * Jsoup
-* REST-Assured
+* REST Assured
+* Selenium
 * Thymeleaf
 * TestNG
