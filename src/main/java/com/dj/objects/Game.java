@@ -47,4 +47,9 @@ public class Game {
 	public String getRelease() {
 		return this.release;
 	}
+	
+	@Override
+	public String toString() {
+		return name+" "+release;
+	}
 }

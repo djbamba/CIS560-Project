@@ -18,9 +18,9 @@ import java.nio.file.Paths;
  * Created by DJ on 11/10/16.
  */
 @Controller
-public class Test {
+public class TestController {
 	
-	private static final Logger LOG = LogManager.getLogger(Test.class);
+	private static final Logger LOG = LogManager.getLogger(TestController.class);
 	
 	private static Path testDataPath = Paths.get("src/main/resources/data/test/").toAbsolutePath();
 	
@@ -38,7 +38,7 @@ public class Test {
 		ObjectMapper mapper = new ObjectMapper();
 		Game game = mapper.readValue(gameFile, Game.class);
 		
-		LOG.info("fullPath: {}\n testDataPath: {}\n gamePath:{}\n game:{}",
+		LOG.info("testDataPath: {}\n gamePath: {}\n game: {}",
 		         testDataPath, gamePath, game);
 		
 		return mapper.writeValueAsString(game);
