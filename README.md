@@ -19,8 +19,8 @@ A node.js application that displays information on video games. The application 
     * A country in which they are located.
 
 ###### Packages used:
-* sqlite3
-* cheerio
-* requests
-* express
-* ejs
+* Spring
+* Jsoup
+* REST-Assured
+* Thymeleaf
+* TestNG
