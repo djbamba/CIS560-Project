@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset= UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css" th:href="@{css/index.css}"/>
+    <title>Home</title>
+</head>
+<body>
+    <header class="text-center">
+        <h1>Header Stuff</h1>
+        <h6>Everything is going to change on this page</h6>
+    </header>
+    <div class="text-center">
+        <p><a href="/games">All Games</a></p>
+    </div>
+    <div class="text-center">
+        <section>
+            <h5 class="ul-header">Games By Genre</h5>
+            <ul id="genre-ul">
+                <li><a href="/games/genre/action"><b>A</b>ction</a></li>
+                <li><a href="/games/genre/sports"><b>S</b>ports</a></li>
+                <li><a href="/games/genre/shooting"><b>S</b>hooting</a></li>
+                <li><a href="/games/genre/fighting"><b>F</b>ighting</a></li>
+                <li><a href="/games/genre/adventure"><b>A</b>dventure</a></li>
+                <li><a href="/games/genre/trivia"><b>T</b>rivia</a></li>
+            </ul>
+        </section>
+    </div>
+    <div class="text-center">
+        <p>Third Div</p>
+    </div>
+    <footer class="text-center">
+        <h1 class="text-center">Footer Stuff</h1>
+    </footer>
+</body>
+</html>
