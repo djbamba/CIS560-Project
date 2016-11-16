@@ -5,18 +5,45 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by DJ on 11/15/16.
  */
-public class Publisher extends Company {
+public class Publisher implements Company {
+	
+	@JsonProperty(value = "id")
+	private long id; // primary key
+	
+	@JsonProperty(value = "name")
+	private String name;
 	
 	@JsonProperty(value = "contentRating")
 	private String contentRating;
 	
 	public Publisher() {
-		super();
+		
 	}
 	
 	public Publisher(long id, String name, String contentRating) {
-		super(id, name);
+		this.id = id;
+		this.name = name;
 		this.contentRating = contentRating;
+	}
+	
+	@JsonProperty(value = "id")
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	@JsonProperty(value = "id")
+	public long getId() {
+		return id;
+	}
+	
+	@JsonProperty(value = "name")
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@JsonProperty(value = "name")
+	public String getName() {
+		return name;
 	}
 	
 	@JsonProperty(value = "contentRating")
@@ -32,9 +59,8 @@ public class Publisher extends Company {
 	@Override
 	public String toString() {
 		return String.format("id: %l name: %s contentRating: %s",
-		                     super.getId(), super.getName(), contentRating);
+		                     id, name, contentRating);
 	}
-	
 	
 	
 }

@@ -12,7 +12,7 @@ import org.springframework.data.annotation.Id;
 public class Game {
 	
 	@JsonProperty(value = "id")
-	private long id;
+	private long id; // primary key
 	
 	@JsonProperty(value = "name")
 	private String name;

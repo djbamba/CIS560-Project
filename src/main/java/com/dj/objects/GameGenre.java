@@ -9,10 +9,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class GameGenre {
 	
 	@JsonProperty(value = "gameId")
-	private long gameId;
+	private long gameId; // foreign key for id in Game
 	
 	@JsonProperty(value = "genreId")
-	private long genreId;
+	private long genreId; // foreign key for id in Genre
 	
 	public GameGenre() {
 		

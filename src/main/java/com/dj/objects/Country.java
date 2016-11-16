@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Country {
 	
 	@JsonProperty(value = "code")
-	private String code;
+	private String code; // primary key
 	
 	@JsonProperty(value = "name")
 	private String name;

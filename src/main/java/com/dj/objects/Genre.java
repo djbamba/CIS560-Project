@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Genre {
 	
-	@JsonProperty(value = "genreId")
-	private long genreId;
+	@JsonProperty(value = "id")
+	private long id; // primary key
 	
 	@JsonProperty(value = "genre")
 	private String genre;
@@ -17,19 +17,19 @@ public class Genre {
 		
 	}
 	
-	public Genre(long genreId, String genre) {
-		this.genreId = genreId;
+	public Genre(long id, String genre) {
+		this.id = id;
 		this.genre = genre;
 	}
 	
-	@JsonProperty(value = "genreId")
-	public void setGenreId(long genreId) {
-		this.genreId = genreId;
+	@JsonProperty(value = "id")
+	public void setId(long id) {
+		this.id = id;
 	}
 	
-	@JsonProperty(value = "genreId")
-	public long getGenreId() {
-		return genreId;
+	@JsonProperty(value = "id")
+	public long getId() {
+		return id;
 	}
 	
 	@JsonProperty(value = "genre")
@@ -44,7 +44,7 @@ public class Genre {
 	
 	@Override
 	public String toString() {
-		return String.format("genreId: %l genre: %s", genreId, genre);
+		return String.format("id: %l genre: %s", id, genre);
 	}
 	
 }

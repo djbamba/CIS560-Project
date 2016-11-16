@@ -9,7 +9,7 @@ import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
 public class Score {
 	
 	@JsonProperty(value = "id")
-	private long id;
+	private long id; // primary key
 	
 	@JsonProperty(value = "websiteName")
 	private String websiteName;

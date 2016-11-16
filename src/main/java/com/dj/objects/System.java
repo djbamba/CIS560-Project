@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class System {
 	
-	@JsonProperty(value = "systemId")
-	private long systemId;
+	@JsonProperty(value = "id")
+	private long id; // primary key
 	
 	@JsonProperty(value = "name")
 	private String name;
@@ -17,19 +17,19 @@ public class System {
 		
 	}
 	
-	public System(long systemId, String name) {
-		this.systemId = systemId;
+	public System(long id, String name) {
+		this.id = id;
 		this.name = name;
 	}
 	
-	@JsonProperty(value = "systemId")
-	public void setSystemId(long systemId) {
-		this.systemId = systemId;
+	@JsonProperty(value = "id")
+	public void setId(long id) {
+		this.id = id;
 	}
 	
-	@JsonProperty(value = "systemId")
-	public long getSystemId() {
-		return systemId;
+	@JsonProperty(value = "id")
+	public long getId() {
+		return id;
 	}
 	
 	@JsonProperty(value = "name")
@@ -44,7 +44,7 @@ public class System {
 	
 	@Override
 	public String toString() {
-		return String.format("systemId: %l name: %s", systemId, name);
+		return String.format("id: %l name: %s", id, name);
 	}
 	
 }

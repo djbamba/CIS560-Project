@@ -10,10 +10,10 @@ import static com.sun.tools.javac.jvm.ByteCodes.ret;
 public class GameSystem {
 	
 	@JsonProperty(value = "gameId")
-	private long gameId;
+	private long gameId; // foreign key for id in Game
 	
 	@JsonProperty(value = "systemId")
-	private long systemId;
+	private long systemId; // foreign key for id in System
 	
 	public GameSystem() {
 		

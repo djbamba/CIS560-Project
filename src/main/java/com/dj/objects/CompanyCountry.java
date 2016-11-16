@@ -8,18 +8,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CompanyCountry {
 	
 	@JsonProperty(value = "companyId")
-	private long companyId;
+	private long companyId; // foreign key to id in Company
 	
-	@JsonProperty(value = "countryId")
-	private long countryId;
+	@JsonProperty(value = "countryCode")
+	private long countryCode; // foreign key to code in Country
 	
 	public CompanyCountry() {
 		
 	}
 	
-	public CompanyCountry(long companyId, long countryId) {
+	public CompanyCountry(long companyId, long countryCode) {
 		this.companyId = companyId;
-		this.countryId = countryId;
+		this.countryCode = countryCode;
 	}
 	
 	@JsonProperty(value = "companyId")
@@ -32,18 +32,18 @@ public class CompanyCountry {
 		return companyId;
 	}
 	
-	@JsonProperty(value = "countryId")
-	public void setCountryId(long countryId) {
-		this.countryId = countryId;
+	@JsonProperty(value = "countryCode")
+	public void setCountryCode(long countryCode) {
+		this.countryCode = countryCode;
 	}
 	
-	@JsonProperty(value = "countryId")
-	public long getCountryId() {
-		return countryId;
+	@JsonProperty(value = "countryCode")
+	public long getCountryCode() {
+		return countryCode;
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("companyId: %l countryId: %l", companyId, countryId);
+		return String.format("companyId: %l countryCode: %l", companyId, countryCode);
 	}
 }
