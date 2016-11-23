@@ -1,4 +1,4 @@
-package com.dj.objects;
+package com.dj.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

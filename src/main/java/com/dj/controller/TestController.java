@@ -1,6 +1,6 @@
-package com.dj.controllers;
+package com.dj.controller;
 
-import com.dj.objects.Game;
+import com.dj.model.Game;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.logging.log4j.LogManager;

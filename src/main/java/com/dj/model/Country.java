@@ -1,15 +1,23 @@
-package com.dj.objects;
+package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * Created by DJ on 11/10/16.
  */
+@Entity
 public class Country {
 	
+	@Id
+	@Column(name = "code", unique = true, nullable = false)
 	@JsonProperty(value = "code")
 	private String code; // primary key
 	
+	@Column(name = "name",nullable = false)
 	@JsonProperty(value = "name")
 	private String name;
 	

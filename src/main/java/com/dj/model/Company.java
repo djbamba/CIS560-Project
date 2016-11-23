@@ -1,4 +1,4 @@
-package com.dj.objects;
+package com.dj.model;
 
 /**
  * Created by DJ on 11/10/16.

@@ -1,15 +1,22 @@
-package com.dj.objects;
+package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * Created by DJ on 11/10/16.
  */
+@Entity
 public class CompanyCountry {
 	
+	@Id
 	@JsonProperty(value = "companyId")
 	private long companyId; // foreign key to id in Company
 	
+	@Column(name = "country_code", nullable = false)
 	@JsonProperty(value = "countryCode")
 	private long countryCode; // foreign key to code in Country
 	
