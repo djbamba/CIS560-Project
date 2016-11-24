@@ -9,20 +9,18 @@ import javax.persistence.Id;
 /**
  * Created by DJ on 11/15/16.
  */
+
 @Entity
 public class Developer implements Company {
 	
 	@Id
-	@Column(name = "id")
-	@JsonProperty(value = "id")
+	@JsonProperty("id")
 	private long id; // primary key
 	
-	@Column(name = "name", unique = true, nullable = false)
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	private String name;
 	
-	@Column(name = "lead_designer",nullable = false)
-	@JsonProperty(value = "leadDesigner")
+	@JsonProperty("leadDesigner")
 	private String leadDesigner;
 	
 	public Developer() {
@@ -36,36 +34,36 @@ public class Developer implements Company {
 	}
 	
 	
-	@JsonProperty(value = "id")
+	@JsonProperty("id")
 	@Override
 	public void setId(long id) {
 		this.id = id;
 	}
 	
-	@JsonProperty(value = "id")
+	@JsonProperty("id")
 	@Override
 	public long getId() {
 		return id;
 	}
 	
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	@Override
 	public String getName() {
 		return name;
 	}
 	
-	@JsonProperty(value = "leadDesigner")
+	@JsonProperty("leadDesigner")
 	public void setLeadDesigner(String leadDesigner) {
 		this.leadDesigner = leadDesigner;
 	}
 	
-	@JsonProperty(value = "leadDesigner")
+	@JsonProperty("leadDesigner")
 	public String getLeadDesigner() {
 		return leadDesigner;
 	}

@@ -2,16 +2,25 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 
 /**
  * Created by DJ on 11/10/16.
  */
+
+@Entity
 public class GameGenre {
 	
-	@JsonProperty(value = "gameId")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("gameId")
 	private long gameId; // foreign key for id in Game
 	
-	@JsonProperty(value = "genreId")
+	@JsonProperty("genreId")
 	private long genreId; // foreign key for id in Genre
 	
 	public GameGenre() {
@@ -23,22 +32,22 @@ public class GameGenre {
 		this.genreId = genreId;
 	}
 	
-	@JsonProperty(value = "gameId")
+	@JsonProperty("gameId")
 	public void setGameId(long gameId) {
 		this.gameId = gameId;
 	}
 	
-	@JsonProperty(value = "gameId")
+	@JsonProperty("gameId")
 	public long getGameId() {
 		return gameId;
 	}
 	
-	@JsonProperty(value = "genreId")
+	@JsonProperty("genreId")
 	public void setGenreId(long genreId) {
 		this.genreId = genreId;
 	}
 	
-	@JsonProperty(value = "genreId")
+	@JsonProperty("genreId")
 	public long getGenreId() {
 		return genreId;
 	}

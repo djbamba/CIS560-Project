@@ -1,26 +1,34 @@
 package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by DJ on 11/10/16.
  */
+
+@Entity
 public class Score {
 	
-	@JsonProperty(value = "id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("id")
 	private long id; // primary key
 	
-	@JsonProperty(value = "websiteName")
+	@JsonProperty("websiteName")
 	private String websiteName;
 	
-	@JsonProperty(value = "gameId")
+	@JsonProperty("gameId")
 	private long gameId;
 	
-	@JsonProperty(value = "score")
+	@JsonProperty("score")
 	private int score;
 	
-	@JsonProperty(value = "scoreType")
+	@JsonProperty("scoreType")
 	private char scoreType;
 	
 	public Score() {
@@ -35,42 +43,42 @@ public class Score {
 		this.scoreType = scoreType;
 	}
 	
-	@JsonProperty(value = "id")
+	@JsonProperty("id")
 	public void setId(long id) {
 		this.id = id;
 	}
 	
-	@JsonProperty(value = "id")
+	@JsonProperty("id")
 	public long getId() {
 		return id;
 	}
 	
-	@JsonProperty(value = "websiteName")
+	@JsonProperty("websiteName")
 	public void setWebsiteName(String websiteName) {
 		this.websiteName = websiteName;
 	}
 	
-	@JsonProperty(value = "websiteName")
+	@JsonProperty("websiteName")
 	public String getWebsiteName() {
 		return websiteName;
 	}
 	
-	@JsonProperty(value = "score")
+	@JsonProperty("score")
 	public void setScore(int score) {
 		this.score = score;
 	}
 	
-	@JsonProperty(value = "score")
+	@JsonProperty("score")
 	public int getScore() {
 		return score;
 	}
 	
-	@JsonProperty(value = "scoreType")
+	@JsonProperty("scoreType")
 	public void setScoreType(char scoreType) {
 		this.scoreType = scoreType;
 	}
 	
-	@JsonProperty(value = "scoreType")
+	@JsonProperty("scoreType")
 	public char getScoreType() {
 		return scoreType;
 	}

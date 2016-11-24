@@ -2,44 +2,64 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import static com.sun.tools.javac.jvm.ByteCodes.ret;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by DJ on 11/10/16.
  */
+
+@Entity
 public class Website {
 	
-	@JsonProperty(value = "name")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+	
+	@JsonProperty("name")
 	private String name;
 	
-	@JsonProperty(value = "url")
+	@JsonProperty("url")
 	private String url;
 	
 	public Website() {
 		
 	}
 	
-	public Website(String name, String url) {
+	public Website(Long Id,String name, String url) {
+		this.id = id;
 		this.name = name;
 		this.url = url;
 	}
 	
-	@JsonProperty(value = "name")
+	@JsonProperty("id")
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	@JsonProperty("id")
+	public long getId() {
+		return id;
+	}
+	
+	@JsonProperty("name")
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	public String getName() {
 		return name;
 	}
 	
-	@JsonProperty(value = "url")
+	@JsonProperty("url")
 	public void setUrl(String url) {
 		this.url = url;
 	}
 	
-	@JsonProperty(value = "url")
+	@JsonProperty("url")
 	public String getUrl() {
 		return url;
 	}

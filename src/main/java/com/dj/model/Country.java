@@ -9,16 +9,15 @@ import javax.persistence.Id;
 /**
  * Created by DJ on 11/10/16.
  */
+
 @Entity
 public class Country {
 	
 	@Id
-	@Column(name = "code", unique = true, nullable = false)
-	@JsonProperty(value = "code")
+	@JsonProperty("code")
 	private String code; // primary key
 	
-	@Column(name = "name",nullable = false)
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	private String name;
 	
 	public Country() {
@@ -30,19 +29,19 @@ public class Country {
 		this.name = name;
 	}
 	
-	@JsonProperty(value = "code")
+	@JsonProperty("code")
 	public void setCode(String code) {
 		this.code = code;
 	}
-	@JsonProperty(value = "code")
+	@JsonProperty("code")
 	public String getCode() {
 		return code;
 	}
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	public void setName(String name) {
 		this.name = name;
 	}
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	public String getName() {
 		return name;
 	}

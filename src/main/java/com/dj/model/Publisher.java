@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -14,16 +16,14 @@ import javax.persistence.Id;
 public class Publisher implements Company {
 	
 	@Id
-	@Column(name = "id", unique = true)
-	@JsonProperty(value = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("id")
 	private long id; // primary key
 	
-	@Column(name = "name", unique = true, nullable = false)
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	private String name;
 	
-	@Column(name = "content_rating")
-	@JsonProperty(value = "contentRating")
+	@JsonProperty("contentRating")
 	private String contentRating;
 	
 	public Publisher() {
@@ -35,36 +35,36 @@ public class Publisher implements Company {
 		this.contentRating = contentRating;
 	}
 	
-	@JsonProperty(value = "id")
+	@JsonProperty("id")
 	@Override
 	public void setId(long id) {
 		this.id = id;
 	}
 	
-	@JsonProperty(value = "id")
+	@JsonProperty("id")
 	@Override
 	public long getId() {
 		return id;
 	}
 	
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	@Override
 	public String getName() {
 		return name;
 	}
 	
-	@JsonProperty(value = "contentRating")
+	@JsonProperty("contentRating")
 	public void setContentRating(String contentRating) {
 		this.contentRating = contentRating;
 	}
 	
-	@JsonProperty(value = "contentRating")
+	@JsonProperty("contentRating")
 	public String getContentRating() {
 		return contentRating;
 	}

@@ -2,17 +2,24 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import static com.sun.tools.javac.jvm.ByteCodes.ret;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by DJ on 11/10/16.
  */
+
+@Entity
 public class GameSystem {
 	
-	@JsonProperty(value = "gameId")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("gameId")
 	private long gameId; // foreign key for id in Game
 	
-	@JsonProperty(value = "systemId")
+	@JsonProperty("systemId")
 	private long systemId; // foreign key for id in System
 	
 	public GameSystem() {
@@ -24,22 +31,22 @@ public class GameSystem {
 		this.systemId = systemId;
 	}
 	
-	@JsonProperty(value = "gameId")
+	@JsonProperty("gameId")
 	public void setGameId(long gameId) {
 		this.gameId = gameId;
 	}
 	
-	@JsonProperty(value = "gameId")
+	@JsonProperty("gameId")
 	public long getGameId() {
 		return gameId;
 	}
 	
-	@JsonProperty(value = "systemId")
+	@JsonProperty("systemId")
 	public void setSystemId(long systemId) {
 		this.systemId = systemId;
 	}
 	
-	@JsonProperty(value = "systemId")
+	@JsonProperty("systemId")
 	public long getSystemId() {
 		return systemId;
 	}

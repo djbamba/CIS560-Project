@@ -1,4 +1,4 @@
-package com.dj.controllers;
+package com.dj.controller;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

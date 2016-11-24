@@ -2,15 +2,24 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * Created by DJ on 11/10/16.
  */
+
+@Entity
 public class System {
 	
-	@JsonProperty(value = "id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("id")
 	private long id; // primary key
 	
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	private String name;
 	
 	public System() {
@@ -22,22 +31,22 @@ public class System {
 		this.name = name;
 	}
 	
-	@JsonProperty(value = "id")
+	@JsonProperty("id")
 	public void setId(long id) {
 		this.id = id;
 	}
 	
-	@JsonProperty(value = "id")
+	@JsonProperty("id")
 	public long getId() {
 		return id;
 	}
 	
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	public String getName() {
 		return name;
 	}

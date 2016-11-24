@@ -1,23 +1,28 @@
 package com.dj.model;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by DJ on 11/10/16.
  */
 
+@Entity
 public class Game {
 	
-	@JsonProperty(value = "id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("id")
 	private long id; // primary key
 	
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	private String name;
 	
-	@JsonProperty(value = "release")
+	@JsonProperty("release")
 	private String release;
 	
 	public Game() {
@@ -29,26 +34,26 @@ public class Game {
 		this.release = release;
 	}
 	
-	@JsonProperty(value = "id")
+	@JsonProperty("id")
 	public void setId(int id) {
 		this.id = id;
 	}
 	
-	@JsonProperty(value = "id")
+	@JsonProperty("id")
 	public long getId() {
 		return this.id;
 	}
 	
-	@JsonProperty(value = "name")
+	@JsonProperty("name")
 	public String getName() {
 		return this.name;
 	}
 	
-	@JsonProperty(value = "release")
+	@JsonProperty("release")
 	public void setRelease(String release) {
 		 this.release = release;
 	}
-	@JsonProperty(value = "release")
+	@JsonProperty("release")
 	public String getRelease() {
 		return this.release;
 	}
