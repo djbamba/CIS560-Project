@@ -22,7 +22,7 @@ public class CompanyCountry {
 		
 	}
 	
-	public CompanyCountry(int companyId, String countryCode) {
+	public CompanyCountry(String countryCode) {
 		this.companyId = companyId;
 		this.countryCode = countryCode;
 	}

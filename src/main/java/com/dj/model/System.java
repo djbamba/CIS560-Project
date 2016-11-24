@@ -25,8 +25,7 @@ public class System {
 		
 	}
 	
-	public System(int id, String name) {
-		this.id = id;
+	public System(String name) {
 		this.name = name;
 	}
 	

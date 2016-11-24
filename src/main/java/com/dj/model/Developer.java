@@ -28,7 +28,7 @@ public class Developer implements Company {
 		
 	}
 	
-	public Developer(int id, String name, String leadDesigner) {
+	public Developer(String name, String leadDesigner) {
 		this.id = id;
 		this.name = name;
 		this.leadDesigner = leadDesigner;

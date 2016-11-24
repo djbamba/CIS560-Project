@@ -31,7 +31,7 @@ public class Score {
 		
 	}
 	
-	public Score(int id, String websiteName, int gameId, int score, char scoreType) {
+	public Score(String websiteName, int gameId, int score, char scoreType) {
 		this.id = id;
 		this.websiteName = websiteName;
 		this.gameId = gameId;

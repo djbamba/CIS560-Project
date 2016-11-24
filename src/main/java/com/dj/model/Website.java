@@ -26,7 +26,7 @@ public class Website {
 		
 	}
 	
-	public Website(int Id,String name, String url) {
+	public Website(String name, String url) {
 		this.id = id;
 		this.name = name;
 		this.url = url;
