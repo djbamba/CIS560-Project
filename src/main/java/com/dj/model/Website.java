@@ -16,7 +16,7 @@ public class Website {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private int id;
 	
 	@JsonProperty("name")
 	private String name;
@@ -28,19 +28,19 @@ public class Website {
 		
 	}
 	
-	public Website(Long Id,String name, String url) {
+	public Website(int Id,String name, String url) {
 		this.id = id;
 		this.name = name;
 		this.url = url;
 	}
 	
 	@JsonProperty("id")
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
 	@JsonProperty("id")
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	

@@ -18,37 +18,37 @@ public class GameGenre {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("gameId")
-	private long gameId; // foreign key for id in Game
+	private int gameId; // foreign key for id in Game
 	
 	@JsonProperty("genreId")
-	private long genreId; // foreign key for id in Genre
+	private int genreId; // foreign key for id in Genre
 	
 	public GameGenre() {
 		
 	}
 	
-	public GameGenre(long gameId, long genreId) {
+	public GameGenre(int gameId, int genreId) {
 		this.gameId = gameId;
 		this.genreId = genreId;
 	}
 	
 	@JsonProperty("gameId")
-	public void setGameId(long gameId) {
+	public void setGameId(int gameId) {
 		this.gameId = gameId;
 	}
 	
 	@JsonProperty("gameId")
-	public long getGameId() {
+	public int getGameId() {
 		return gameId;
 	}
 	
 	@JsonProperty("genreId")
-	public void setGenreId(long genreId) {
+	public void setGenreId(int genreId) {
 		this.genreId = genreId;
 	}
 	
 	@JsonProperty("genreId")
-	public long getGenreId() {
+	public int getGenreId() {
 		return genreId;
 	}
 	

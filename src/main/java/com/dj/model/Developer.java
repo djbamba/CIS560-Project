@@ -15,7 +15,7 @@ public class Developer implements Company {
 	
 	@Id
 	@JsonProperty("id")
-	private long id; // primary key
+	private int id; // primary key
 	
 	@JsonProperty("name")
 	private String name;
@@ -27,7 +27,7 @@ public class Developer implements Company {
 		
 	}
 	
-	public Developer(long id, String name, String leadDesigner) {
+	public Developer(int id, String name, String leadDesigner) {
 		this.id = id;
 		this.name = name;
 		this.leadDesigner = leadDesigner;
@@ -36,13 +36,13 @@ public class Developer implements Company {
 	
 	@JsonProperty("id")
 	@Override
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
 	@JsonProperty("id")
 	@Override
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	

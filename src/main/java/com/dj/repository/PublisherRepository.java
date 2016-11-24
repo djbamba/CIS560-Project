@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  * Created by DJ on 11/23/16.
  */
 @Repository
-public interface PublisherRepository extends JpaRepository<Publisher,Long> {
+public interface PublisherRepository extends JpaRepository<Publisher,Integer> {
 	
 }

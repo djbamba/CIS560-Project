@@ -17,13 +17,13 @@ public class Score {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("id")
-	private long id; // primary key
+	private int id; // primary key
 	
 	@JsonProperty("websiteName")
 	private String websiteName;
 	
 	@JsonProperty("gameId")
-	private long gameId;
+	private int gameId;
 	
 	@JsonProperty("score")
 	private int score;
@@ -35,7 +35,7 @@ public class Score {
 		
 	}
 	
-	public Score(long id, String websiteName, long gameId, int score, char scoreType) {
+	public Score(int id, String websiteName, int gameId, int score, char scoreType) {
 		this.id = id;
 		this.websiteName = websiteName;
 		this.gameId = gameId;
@@ -44,12 +44,12 @@ public class Score {
 	}
 	
 	@JsonProperty("id")
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
 	@JsonProperty("id")
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	

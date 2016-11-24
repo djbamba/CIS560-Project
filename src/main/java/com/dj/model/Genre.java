@@ -17,7 +17,7 @@ public class Genre {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("id")
-	private long id; // primary key
+	private int id; // primary key
 	
 	@JsonProperty("genre")
 	private String genre;
@@ -26,18 +26,18 @@ public class Genre {
 		
 	}
 	
-	public Genre(long id, String genre) {
+	public Genre(int id, String genre) {
 		this.id = id;
 		this.genre = genre;
 	}
 	
 	@JsonProperty("id")
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
 	@JsonProperty("id")
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	

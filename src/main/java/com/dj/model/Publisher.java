@@ -18,7 +18,7 @@ public class Publisher implements Company {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("id")
-	private long id; // primary key
+	private int id; // primary key
 	
 	@JsonProperty("name")
 	private String name;
@@ -37,13 +37,13 @@ public class Publisher implements Company {
 	
 	@JsonProperty("id")
 	@Override
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
 	@JsonProperty("id")
 	@Override
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	

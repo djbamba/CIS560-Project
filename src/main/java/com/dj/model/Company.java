@@ -5,9 +5,9 @@ package com.dj.model;
  */
 public interface Company {
 	
-	public void setId(long id);
+	public void setId(int id);
 	
-	public long getId();
+	public int getId();
 	
 	public void setName(String name);
 	

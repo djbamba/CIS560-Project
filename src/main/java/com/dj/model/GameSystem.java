@@ -17,37 +17,37 @@ public class GameSystem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("gameId")
-	private long gameId; // foreign key for id in Game
+	private int gameId; // foreign key for id in Game
 	
 	@JsonProperty("systemId")
-	private long systemId; // foreign key for id in System
+	private int systemId; // foreign key for id in System
 	
 	public GameSystem() {
 		
 	}
 	
-	public GameSystem(long gameId, long systemId) {
+	public GameSystem(int gameId, int systemId) {
 		this.gameId = gameId;
 		this.systemId = systemId;
 	}
 	
 	@JsonProperty("gameId")
-	public void setGameId(long gameId) {
+	public void setGameId(int gameId) {
 		this.gameId = gameId;
 	}
 	
 	@JsonProperty("gameId")
-	public long getGameId() {
+	public int getGameId() {
 		return gameId;
 	}
 	
 	@JsonProperty("systemId")
-	public void setSystemId(long systemId) {
+	public void setSystemId(int systemId) {
 		this.systemId = systemId;
 	}
 	
 	@JsonProperty("systemId")
-	public long getSystemId() {
+	public int getSystemId() {
 		return systemId;
 	}
 	

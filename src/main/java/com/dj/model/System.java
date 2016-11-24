@@ -17,7 +17,7 @@ public class System {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("id")
-	private long id; // primary key
+	private int id; // primary key
 	
 	@JsonProperty("name")
 	private String name;
@@ -26,18 +26,18 @@ public class System {
 		
 	}
 	
-	public System(long id, String name) {
+	public System(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 	
 	@JsonProperty("id")
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
 	@JsonProperty("id")
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	

@@ -14,7 +14,7 @@ public class CompanyCountry {
 	
 	@Id
 	@JsonProperty("companyId")
-	private long companyId; // foreign key to id in Company
+	private int companyId; // foreign key to id in Company
 	
 	@JsonProperty("countryCode")
 	private String countryCode; // foreign key to code in Country
@@ -23,18 +23,18 @@ public class CompanyCountry {
 		
 	}
 	
-	public CompanyCountry(long companyId, String countryCode) {
+	public CompanyCountry(int companyId, String countryCode) {
 		this.companyId = companyId;
 		this.countryCode = countryCode;
 	}
 	
 	@JsonProperty("companyId")
-	public void setCompanyId(long companyId) {
+	public void setCompanyId(int companyId) {
 		this.companyId = companyId;
 	}
 	
 	@JsonProperty("companyId")
-	public long getCompanyId() {
+	public int getCompanyId() {
 		return companyId;
 	}
 	

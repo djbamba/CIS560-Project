@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  * Created by DJ on 11/23/16.
  */
 @Repository
-public interface GameRepository extends JpaRepository<Game,Long> {
+public interface GameRepository extends JpaRepository<Game,Integer> {
 	
 }

@@ -17,7 +17,7 @@ public class Game {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("id")
-	private long id; // primary key
+	private int id; // primary key
 	
 	@JsonProperty("name")
 	private String name;
@@ -28,7 +28,7 @@ public class Game {
 	public Game() {
 	}
 	
-	public Game(long id, String name, String release) {
+	public Game(int id, String name, String release) {
 		this.id = id;
 		this.name = name;
 		this.release = release;
@@ -40,7 +40,7 @@ public class Game {
 	}
 	
 	@JsonProperty("id")
-	public long getId() {
+	public int getId() {
 		return this.id;
 	}
 	
