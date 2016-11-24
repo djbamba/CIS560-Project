@@ -26,8 +26,7 @@ public class Game {
 	public Game() {
 	}
 	
-	public Game(int id, String name, String release) {
-		this.id = id;
+	public Game(String name, String release) {
 		this.name = name;
 		this.release = release;
 	}

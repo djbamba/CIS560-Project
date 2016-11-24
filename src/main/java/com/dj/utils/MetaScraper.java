@@ -1,11 +1,15 @@
 package com.dj.utils;
 
 
+import com.dj.repository.GameRepository;
+import com.dj.repository.SystemRepository;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -32,6 +36,10 @@ public class MetaScraper {
 	
 	private static int pageCount = 0;
 	
+	@Autowired
+	GameRepository gameRepository;
+	SystemRepository systemRepository;
+	
 	/**
 	 * Method that checks the extracted text from the response body in getPage method.
 	 * Will be adding all values to Game objects.
@@ -40,8 +48,6 @@ public class MetaScraper {
 		
 		final Pattern regex = Pattern.compile(GAME_REGEX);
 		final Matcher regexMatcher = regex.matcher(checkString);
-		
-		List<String> info = new ArrayList<>();
 		
 		LOG.info("Game Text: {}", checkString);
 		if (regexMatcher.find()) {
