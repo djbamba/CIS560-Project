@@ -15,10 +15,8 @@ import javax.persistence.Id;
 public class Genre {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("id")
 	private int id; // primary key
-	
 	@JsonProperty("genre")
 	private String genre;
 	

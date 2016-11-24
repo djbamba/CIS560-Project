@@ -17,10 +17,8 @@ public class Website {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
 	@JsonProperty("name")
 	private String name;
-	
 	@JsonProperty("url")
 	private String url;
 	

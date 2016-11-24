@@ -15,7 +15,6 @@ public class CompanyCountry {
 	@Id
 	@JsonProperty("companyId")
 	private int companyId; // foreign key to id in Company
-	
 	@JsonProperty("countryCode")
 	private String countryCode; // foreign key to code in Country
 	

@@ -18,7 +18,6 @@ public class System {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("id")
 	private int id; // primary key
-	
 	@JsonProperty("name")
 	private String name;
 	

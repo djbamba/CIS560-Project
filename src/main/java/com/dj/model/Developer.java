@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -14,12 +16,11 @@ import javax.persistence.Id;
 public class Developer implements Company {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("id")
 	private int id; // primary key
-	
 	@JsonProperty("name")
 	private String name;
-	
 	@JsonProperty("leadDesigner")
 	private String leadDesigner;
 	

@@ -18,16 +18,12 @@ public class Score {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("id")
 	private int id; // primary key
-	
 	@JsonProperty("websiteName")
 	private String websiteName;
-	
 	@JsonProperty("gameId")
-	private int gameId;
-	
+	private int gameId; // foreign key to id in Games
 	@JsonProperty("score")
 	private int score;
-	
 	@JsonProperty("scoreType")
 	private char scoreType;
 	

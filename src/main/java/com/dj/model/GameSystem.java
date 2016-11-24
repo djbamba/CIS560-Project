@@ -15,10 +15,8 @@ import javax.persistence.Id;
 public class GameSystem {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("gameId")
 	private int gameId; // foreign key for id in Game
-	
 	@JsonProperty("systemId")
 	private int systemId; // foreign key for id in System
 	

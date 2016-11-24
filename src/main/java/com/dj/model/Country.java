@@ -16,7 +16,6 @@ public class Country {
 	@Id
 	@JsonProperty("code")
 	private String code; // primary key
-	
 	@JsonProperty("name")
 	private String name;
 	
