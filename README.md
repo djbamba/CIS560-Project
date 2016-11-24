@@ -2,7 +2,7 @@
 ### Authors:
 *Allan Jay Cabanatuan, Arun Paramanathan, Daniel Bamba, Zachary Terwort*
 #### App Description:
-A node.js application that displays information on video games. The application tracks sites where the video game is sold, platform, score/rating, genre, publishers and developers. A search function that allows users to search for specific games will also be implemented.
+A Spring web application that displays information on video games. The application tracks sites where the video game is sold, platform, score/rating, genre, publishers and developers. A search function that allows users to search for specific games will also be implemented.
 
 #### Backend Description:
  * Each video game has:
@@ -20,8 +20,10 @@ A node.js application that displays information on video games. The application 
 
 ###### Packages used:
 * Spring
+* H2
 * Jsoup
 * REST Assured
 * Selenium
 * Thymeleaf
 * TestNG
+* log4j
