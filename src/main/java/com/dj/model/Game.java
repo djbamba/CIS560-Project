@@ -60,7 +60,7 @@ public class Game {
 	
 	@Override
 	public String toString() {
-		return String.format("id: %l name: %s release: %s",
+		return String.format("id: %d name: %s release: %s",
 		                     id, name, release);
 	}
 }
