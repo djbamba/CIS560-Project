@@ -3,6 +3,7 @@ package com.dj.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,51 +14,22 @@ import javax.persistence.Id;
  */
 
 @Entity
-public class Developer implements Company {
+@DiscriminatorValue(value = "DEV")
+public class Developer extends Company {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JsonProperty("id")
-	private int id; // primary key
-	@JsonProperty("name")
-	private String name;
+	@Column(name = "lead_designer", nullable = false)
 	@JsonProperty("leadDesigner")
 	private String leadDesigner;
 	
 	public Developer() {
-		
+		super();
 	}
 	
 	public Developer(String name, String leadDesigner) {
-		this.id = id;
-		this.name = name;
+		super(name);
 		this.leadDesigner = leadDesigner;
 	}
 	
-	
-	@JsonProperty("id")
-	@Override
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	@JsonProperty("id")
-	@Override
-	public int getId() {
-		return id;
-	}
-	
-	@JsonProperty("name")
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	@JsonProperty("name")
-	@Override
-	public String getName() {
-		return name;
-	}
 	
 	@JsonProperty("leadDesigner")
 	public void setLeadDesigner(String leadDesigner) {
@@ -71,7 +43,7 @@ public class Developer implements Company {
 	
 	@Override
 	public String toString() {
-		return String.format("id: %l name: %s leadDesigner: %s", id, name, leadDesigner);
+		return String.format("Developer[id: %l name: %s leadDesigner: %s]", super.getId(), super.getName(), leadDesigner);
 	}
 	
 }

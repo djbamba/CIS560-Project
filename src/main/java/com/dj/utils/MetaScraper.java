@@ -1,26 +1,28 @@
 package com.dj.utils;
 
 
-import com.dj.repository.GameRepository;
-import com.dj.repository.SystemRepository;
+import com.dj.model.Game;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.response.Response;
 
 import static com.dj.utils.ScraperConstants.*;
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.mockmvc.config.AsyncConfig.withTimeout;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
+import static io.restassured.module.mockmvc.matcher.RestAssuredMockMvcMatchers.*;
 
 /**
  * Created by DJ on 11/10/16.
@@ -32,20 +34,15 @@ public class MetaScraper {
 	
 	private static final Logger LOG = LogManager.getLogger(MetaScraper.class);
 	
-	private static String metaSlug = "browse/games/score/metascore/all/all/filtered";//query string ?sort=desc&page=0
+	private static String metaSlug = "browse/games/score/metascore/all/all/filtered?sort=desc&page=";
 	
-	private static int pageCount = 0;
-	
-	@Autowired
-	GameRepository gameRepository;
-	SystemRepository systemRepository;
 	
 	/**
 	 * Method that checks the extracted text from the response body in getPage method.
 	 * Will be adding all values to Game objects.
 	 */
-	public static void RegexCheck(String checkString) {
-		
+	public static Game RegexCheck(String checkString) {
+		Game game = null;
 		final Pattern regex = Pattern.compile(GAME_REGEX);
 		final Matcher regexMatcher = regex.matcher(checkString);
 		
@@ -57,28 +54,39 @@ public class MetaScraper {
 			         regexMatcher.group(3),
 			         regexMatcher.group(4),
 			         regexMatcher.group(5));
+			
+			game = new Game(regexMatcher.group(2), regexMatcher.group(5));
 		}
+		
+		return game;
 	}
 	
-	@Test
-	public static void getPage() {
-		//Make the request and get the response containing the HTML page.
-		Response response;
+	public static List<Game> getPage(String page) {
+		RestAssuredMockMvc.config = RestAssuredMockMvc.config().asyncConfig(withTimeout(100, TimeUnit.MILLISECONDS));
 		
-		response = given().
-		                   param("sort", "desc", "page", 0).
-		                   baseUri(METACRITIC_URL).
-		                   when().
-		                   get(metaSlug).andReturn();
+		List<Game> allGames = new ArrayList<>();
+		
+		//Make the request and get the response containing the HTML page.
+		Response response = given().
+		                            baseUri(METACRITIC_URL).
+		                            when().
+		                            get("browse/games/score/metascore/all/all/filtered?sort=desc&page={page}",page).andReturn();
+		
 		
 		//Extract the response body from the response object
 		String body = response.getBody().prettyPrint();
 		//Use Jsoup to create a DOM
 		Document doc = Jsoup.parse(body);
-		//Extract game elements from DOM
-		List<Element> games = doc.select("div.product_row.game"); //select with css selector
+		//Extract game elements from DOM with CSS selector
+		List<Element> games = doc.select("div.product_row.game");
 		//Iterate through list and extract the values
-		games.forEach(game -> RegexCheck(game.text().toString()));
+		games.forEach(game -> {
+			
+			allGames.add(RegexCheck(game.text().toString()));
+			
+		});
+		
+		return allGames;
 	}
 	
 }

@@ -2,10 +2,12 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 /**
@@ -13,11 +15,14 @@ import javax.persistence.Id;
  */
 
 @Entity
+@Table(name = "game_genre")
 public class GameGenre {
 	
 	@Id
+	@Column(name = "id", nullable = false)
 	@JsonProperty("gameId")
 	private int gameId; // foreign key for id in Game
+	@Column(name = "genre_id",nullable = false)
 	@JsonProperty("genreId")
 	private int genreId; // foreign key for id in Genre
 	public GameGenre() {

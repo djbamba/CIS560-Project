@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  * Created by DJ on 11/10/16.
@@ -19,6 +20,11 @@ public class GameSystem {
 	private int gameId; // foreign key for id in Game
 	@JsonProperty("systemId")
 	private int systemId; // foreign key for id in System
+	
+//	@ManyToMany
+//	Game game;
+//	System system;
+	
 	
 	public GameSystem() {
 		

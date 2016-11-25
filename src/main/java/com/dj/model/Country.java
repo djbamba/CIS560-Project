@@ -4,18 +4,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Created by DJ on 11/10/16.
  */
 
 @Entity
+@Table(name = "country")
 public class Country {
 	
 	@Id
+	@Column(name = "code", nullable = false)
 	@JsonProperty("code")
 	private String code; // primary key
+	@Column(name = "name", nullable = false)
 	@JsonProperty("name")
 	private String name;
 	

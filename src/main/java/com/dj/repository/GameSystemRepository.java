@@ -2,7 +2,7 @@ package com.dj.repository;
 
 import com.dj.model.GameSystem;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface GameSystemRepository extends CrudRepository<GameSystem,Integer> {
+public interface GameSystemRepository extends JpaRepository<GameSystem,Integer> {
 	
 }

@@ -2,10 +2,13 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  * Created by DJ on 11/10/16.
@@ -17,10 +20,15 @@ public class Website {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
 	@JsonProperty("name")
 	private String name;
+	
 	@JsonProperty("url")
 	private String url;
+	
+//	@ManyToMany(targetEntity = Game.class, mappedBy = "websites")
+//	 private Set<Game> games;
 	
 	public Website() {
 		

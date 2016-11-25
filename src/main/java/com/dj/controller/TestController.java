@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import static javafx.scene.input.KeyCode.T;
 /**
  * Created by DJ on 11/10/16.
  */
-@Controller
+@RestController
 public class TestController {
 	
 	private static final Logger LOG = LogManager.getLogger(TestController.class);
@@ -38,7 +39,7 @@ public class TestController {
 		ObjectMapper mapper = new ObjectMapper();
 		Game game = mapper.readValue(gameFile, Game.class);
 		
-		gameRepository.save(game);
+//		gameRepository.save(game);
 		
 		LOG.info("testDataPath: {}\n gamePath: {}\n game: {}",
 		         testDataPath, gamePath, game);

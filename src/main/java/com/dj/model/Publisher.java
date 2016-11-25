@@ -3,6 +3,7 @@ package com.dj.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,49 +14,21 @@ import javax.persistence.Id;
  */
 
 @Entity
-public class Publisher implements Company {
+@DiscriminatorValue(value = "PUB")
+public class Publisher extends Company {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JsonProperty("id")
-	private int id; // primary key
-	@JsonProperty("name")
-	private String name;
 	@JsonProperty("contentRating")
 	private String contentRating;
 	
 	public Publisher() {
-		
+		super();
 	}
 	
 	public Publisher(String name, String contentRating) {
-		this.name = name;
+		super(name);
 		this.contentRating = contentRating;
 	}
 	
-	@JsonProperty("id")
-	@Override
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	@JsonProperty("id")
-	@Override
-	public int getId() {
-		return id;
-	}
-	
-	@JsonProperty("name")
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	@JsonProperty("name")
-	@Override
-	public String getName() {
-		return name;
-	}
 	
 	@JsonProperty("contentRating")
 	public void setContentRating(String contentRating) {
@@ -69,8 +42,8 @@ public class Publisher implements Company {
 	
 	@Override
 	public String toString() {
-		return String.format("id: %l name: %s contentRating: %s",
-		                     id, name, contentRating);
+		return String.format("Publisher[id: %l name: %s contentRating: %s]",
+		                     super.getId(), super.getName(), contentRating);
 	}
 	
 	
