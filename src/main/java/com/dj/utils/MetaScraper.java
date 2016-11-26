@@ -1,6 +1,5 @@
 package com.dj.utils;
 
-
 import com.dj.model.Game;
 
 import org.apache.logging.log4j.LogManager;
