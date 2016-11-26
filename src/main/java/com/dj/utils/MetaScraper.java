@@ -11,18 +11,13 @@ import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.response.Response;
 
 import static com.dj.utils.ScraperConstants.*;
 import static io.restassured.RestAssured.given;
-import static io.restassured.module.mockmvc.config.AsyncConfig.withTimeout;
-import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
-import static io.restassured.module.mockmvc.matcher.RestAssuredMockMvcMatchers.*;
 
 /**
  * Created by DJ on 11/10/16.
@@ -33,9 +28,6 @@ import static io.restassured.module.mockmvc.matcher.RestAssuredMockMvcMatchers.*
 public class MetaScraper {
 	
 	private static final Logger LOG = LogManager.getLogger(MetaScraper.class);
-	
-	private static String metaSlug = "browse/games/score/metascore/all/all/filtered?sort=desc&page=";
-	
 	
 	/**
 	 * Method that checks the extracted text from the response body in getPage method.
@@ -62,16 +54,12 @@ public class MetaScraper {
 	}
 	
 	public static List<Game> getPage(String page) {
-		RestAssuredMockMvc.config = RestAssuredMockMvc.config().asyncConfig(withTimeout(100, TimeUnit.MILLISECONDS));
-		
 		List<Game> allGames = new ArrayList<>();
-		
 		//Make the request and get the response containing the HTML page.
 		Response response = given().
 		                            baseUri(METACRITIC_URL).
 		                            when().
 		                            get("browse/games/score/metascore/all/all/filtered?sort=desc&page={page}",page).andReturn();
-		
 		
 		//Extract the response body from the response object
 		String body = response.getBody().prettyPrint();
@@ -79,12 +67,8 @@ public class MetaScraper {
 		Document doc = Jsoup.parse(body);
 		//Extract game elements from DOM with CSS selector
 		List<Element> games = doc.select("div.product_row.game");
-		//Iterate through list and extract the values
-		games.forEach(game -> {
-			
-			allGames.add(RegexCheck(game.text().toString()));
-			
-		});
+		//Iterate through list and extract the values and add them to the list
+		games.forEach(game -> allGames.add(RegexCheck(game.text().toString())));
 		
 		return allGames;
 	}
