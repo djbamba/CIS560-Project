@@ -29,9 +29,9 @@ public class Genre {
 	@JsonProperty("genre")
 	private String genre;
 	
-//	/*relations*/
-//	@ManyToMany(mappedBy = "genres")
-//	private Set<Game> games;
+	/*relations*/
+	@ManyToMany(mappedBy = "genres")
+	private Set<Game> games;
 	
 	
 	public Genre() {
@@ -61,14 +61,14 @@ public class Genre {
 	public String getGenre() {
 		return genre;
 	}
-//
-//	public void setGames(Set<Game> games) {
-//		this.games = games;
-//	}
-//
-//	public Set<Game> getGames() {
-//		return games;
-//	}
+
+	public void setGames(Set<Game> games) {
+		this.games = games;
+	}
+
+	public Set<Game> getGames() {
+		return games;
+	}
 	
 	@Override
 	public String toString() {

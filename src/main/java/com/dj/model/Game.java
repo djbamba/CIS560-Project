@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import static com.sun.tools.doclint.Entity.ge;
 
@@ -36,17 +37,21 @@ public class Game {
 	private String release;
 	
 	//relations
-//	@ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL)
-//	@JoinTable(name = "game_genre", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
-//	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
-//	@JsonProperty("genres")
-//	private Set<Genre> genres;
-//
-//	@ManyToMany(targetEntity = Website.class, cascade = CascadeType.ALL)
-//	@JoinTable(name = "game_purchase_site", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
-//	 inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id"))
-//	@JsonProperty("websites")
-//	private Set<Website> websites;
+	@ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL)
+	@JoinTable(name = "game_genre", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
+	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
+	@JsonProperty("genres")
+	private Set<Genre> genres;
+
+	@OneToMany(targetEntity = Website.class, cascade = CascadeType.ALL)
+	@JoinTable(name = "game_purchase_site", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
+	 inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id"))
+	@JsonProperty("websites")
+	private Set<Website> websites;
+	
+	
+	@ManyToMany(targetEntity = System.class,cascade = CascadeType.ALL)
+	private Set<System> systems;
 	
 	public Game() {
 	}
@@ -85,22 +90,22 @@ public class Game {
 	public String getRelease() {
 		return this.release;
 	}
-//
-//	public void setGenres(Set<Genre> genres) {
-//		this.genres = genres;
-//	}
-//
-//	public Set<Genre> getGenres() {
-//		return genres;
-//	}
-//
-//	public void setWebsites(Set<Website> websites) {
-//		this.websites = websites;
-//	}
-//
-//	public Set<Website> getWebsites() {
-//		return websites;
-//	}
+
+	public void setGenres(Set<Genre> genres) {
+		this.genres = genres;
+	}
+
+	public Set<Genre> getGenres() {
+		return genres;
+	}
+
+	public void setWebsites(Set<Website> websites) {
+		this.websites = websites;
+	}
+
+	public Set<Website> getWebsites() {
+		return websites;
+	}
 	
 	@Override
 	public String toString() {

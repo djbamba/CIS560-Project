@@ -2,10 +2,13 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by DJ on 11/10/16.
@@ -18,12 +21,20 @@ public class Score {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("id")
 	private int id; // primary key
-	@JsonProperty("websiteName")
-	private String websiteName;
-	@JsonProperty("gameId")
-	private int gameId; // foreign key to id in Games
+	
+	@ManyToOne
+	@JoinColumn(name = "website_id")
+	@JsonProperty("website")
+	private Website website;
+	
+	@ManyToOne
+	@JoinColumn(name = "game_id")
+	@JsonProperty("game")
+	private Game game; // foreign key to id in Games
+	
 	@JsonProperty("score")
 	private int score;
+	
 	@JsonProperty("scoreType")
 	private char scoreType;
 	
@@ -31,10 +42,9 @@ public class Score {
 		
 	}
 	
-	public Score(String websiteName, int gameId, int score, char scoreType) {
-		this.id = id;
-		this.websiteName = websiteName;
-		this.gameId = gameId;
+	public Score(Website website, Game game, int score, char scoreType) {
+		this.website = website;
+		this.game = game;
 		this.score = score;
 		this.scoreType = scoreType;
 	}
@@ -49,14 +59,14 @@ public class Score {
 		return id;
 	}
 	
-	@JsonProperty("websiteName")
-	public void setWebsiteName(String websiteName) {
-		this.websiteName = websiteName;
+	@JsonProperty("website")
+	public void setWebsite(Website website) {
+		this.website = website;
 	}
 	
-	@JsonProperty("websiteName")
-	public String getWebsiteName() {
-		return websiteName;
+	@JsonProperty("website")
+	public Website getWebsite() {
+		return website;
 	}
 	
 	@JsonProperty("score")
@@ -82,6 +92,6 @@ public class Score {
 	@Override
 	public String toString() {
 		return String.format("id: %l websiteName: %s gameId: %s score: %d scoreType: %c",
-		                     id, websiteName, gameId, score, scoreType);
+		                     id, website.toString(), game.toString(), score, scoreType);
 	}
 }

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -17,12 +18,13 @@ import javax.persistence.Table;
 public class Country {
 	
 	@Id
-	@Column(name = "code", nullable = false)
+	@Column(name = "code", unique = true, nullable = false)
 	@JsonProperty("code")
 	private String code; // primary key
-	@Column(name = "name", nullable = false)
+	@Column(name = "name", unique = true, nullable = false)
 	@JsonProperty("name")
 	private String name;
+	
 	
 	public Country() {
 		
