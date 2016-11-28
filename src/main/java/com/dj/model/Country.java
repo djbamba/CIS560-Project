@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,10 +22,13 @@ public class Country {
 	@Column(name = "code", unique = true, nullable = false)
 	@JsonProperty("code")
 	private String code; // primary key
+	
 	@Column(name = "name", unique = true, nullable = false)
 	@JsonProperty("name")
 	private String name;
 	
+	@OneToOne(mappedBy = "country")
+	private Company company;
 	
 	public Country() {
 		
@@ -39,17 +43,30 @@ public class Country {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	
 	@JsonProperty("code")
 	public String getCode() {
 		return code;
 	}
+	
 	@JsonProperty("name")
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	@JsonProperty("name")
 	public String getName() {
 		return name;
+	}
+	
+	@JsonProperty("company")
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
+	@JsonProperty("company")
+	public Company getCompany() {
+		return company;
 	}
 	
 	@Override

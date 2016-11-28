@@ -1,5 +1,6 @@
 package com.dj.model;
 
+import com.dj.repository.ScoreRepository;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Set;
@@ -33,7 +34,8 @@ public class Game {
 	@JsonProperty("name")
 	private String name;
 	
-	@JsonProperty("release")
+	@Column(name = "release_date")
+	@JsonProperty("release_date")
 	private String release;
 	
 	//relations
@@ -42,15 +44,18 @@ public class Game {
 	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
 	@JsonProperty("genres")
 	private Set<Genre> genres;
-
+	
 	@OneToMany(targetEntity = Website.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "game_purchase_site", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
 	 inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id"))
 	@JsonProperty("websites")
 	private Set<Website> websites;
 	
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+	private Set<Score> scores;
 	
-	@ManyToMany(targetEntity = System.class,cascade = CascadeType.ALL)
+	
+	@ManyToMany(mappedBy = "games")
 	private Set<System> systems;
 	
 	public Game() {
@@ -90,21 +95,29 @@ public class Game {
 	public String getRelease() {
 		return this.release;
 	}
-
+	
 	public void setGenres(Set<Genre> genres) {
 		this.genres = genres;
 	}
-
+	
 	public Set<Genre> getGenres() {
 		return genres;
 	}
-
+	
 	public void setWebsites(Set<Website> websites) {
 		this.websites = websites;
 	}
-
+	
 	public Set<Website> getWebsites() {
 		return websites;
+	}
+	
+	public void setScores(Set<Score> scores) {
+		this.scores = scores;
+	}
+	
+	public Set<Score> getScores() {
+		return scores;
 	}
 	
 	@Override

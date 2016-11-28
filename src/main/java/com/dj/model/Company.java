@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -12,6 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -34,6 +39,10 @@ public class Company implements Serializable{
 	@JsonProperty("name")
 	private String name;
 	
+	@OneToOne(targetEntity = Company.class, cascade = CascadeType.ALL)
+	@JoinTable(name = "company_country", joinColumns = @JoinColumn(name = "company_id",referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "country_id", referencedColumnName = "id"))
+	@JsonProperty("country")
+	private Country country;
 	
 	public Company() {
 		super();
@@ -62,6 +71,16 @@ public class Company implements Serializable{
 	@JsonProperty("name")
 	public String getName() {
 		return name;
+	}
+	
+	@JsonProperty("country")
+	public void setCountry(Country country) {
+		this.country = country;
+	}
+	
+	@JsonProperty("country")
+	public Country getCountry() {
+		return country;
 	}
 	
 }

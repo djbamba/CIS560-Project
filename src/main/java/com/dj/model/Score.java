@@ -23,9 +23,9 @@ public class Score {
 	private int id; // primary key
 	
 	@ManyToOne
-	@JoinColumn(name = "website_id")
+	@JoinColumn(name = "website_name",referencedColumnName = "name")
 	@JsonProperty("website")
-	private Website website;
+	private Website website; // foreign key to id in Website
 	
 	@ManyToOne
 	@JoinColumn(name = "game_id")
@@ -67,6 +67,16 @@ public class Score {
 	@JsonProperty("website")
 	public Website getWebsite() {
 		return website;
+	}
+	
+	@JsonProperty("game")
+	public void setGame(Game game) {
+		this.game = game;
+	}
+	
+	@JsonProperty("game")
+	public Game getGame() {
+		return game;
 	}
 	
 	@JsonProperty("score")

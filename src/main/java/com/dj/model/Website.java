@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  * Created by DJ on 11/10/16.
@@ -27,8 +29,12 @@ public class Website {
 	@JsonProperty("url")
 	private String url;
 	
-//	@ManyToMany(targetEntity = Game.class, mappedBy = "websites")
-//	 private Set<Game> games;
+	@ManyToMany(mappedBy = "websites")
+	@JsonProperty("games")
+	private Set<Game> games;
+	
+	@OneToMany(mappedBy = "website")
+	private Set<Score> scores;
 	
 	public Website() {
 		
@@ -68,6 +74,26 @@ public class Website {
 	@JsonProperty("url")
 	public String getUrl() {
 		return url;
+	}
+	
+	@JsonProperty("games")
+	public void setGames(Set<Game> games) {
+		this.games = games;
+	}
+	
+	@JsonProperty("games")
+	public Set<Game> getGames() {
+		return games;
+	}
+	
+	@JsonProperty("scores")
+	public void setScores(Set<Score> scores) {
+		this.scores = scores;
+	}
+	
+	@JsonProperty("scores")
+	public Set<Score> getScores() {
+		return scores;
 	}
 	
 	@Override
