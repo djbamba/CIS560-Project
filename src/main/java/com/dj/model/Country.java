@@ -2,10 +2,13 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -25,8 +28,8 @@ public class Country {
 	@JsonProperty("name")
 	private String name;
 	
-	@OneToOne(mappedBy = "country")
-	private Company company;
+	@OneToMany(mappedBy = "country")
+	private Set<Company> companies = new HashSet<>();
 	
 	public Country() {
 		
@@ -57,14 +60,14 @@ public class Country {
 		return name;
 	}
 	
-	@JsonProperty("company")
-	public void setCompany(Company company) {
-		this.company = company;
+	@JsonProperty("companies")
+	public void setCompanies(Set<Company> companies) {
+		this.companies = companies;
 	}
 	
-	@JsonProperty("company")
-	public Company getCompany() {
-		return company;
+	@JsonProperty("companies")
+	public Set<Company> getCompanies() {
+		return companies;
 	}
 	
 	@Override

@@ -15,6 +15,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -38,7 +39,7 @@ public class Company implements Serializable {
 	@JsonProperty("name")
 	private String name;
 	
-	@OneToOne(targetEntity = Company.class, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = Company.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "company_country", joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"),
 	 inverseJoinColumns = @JoinColumn(name = "country_id", referencedColumnName = "id"))
 	@JsonProperty("country")
