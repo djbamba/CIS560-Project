@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,11 +26,11 @@ import javax.persistence.Table;
 @Table(name = "company")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type")
-public class Company implements Serializable{
+public class Company implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id",nullable = false, unique = true)
+	@Column(name = "id", nullable = false, unique = true)
 	@JsonProperty("id")
 	private int id;
 	
@@ -40,7 +39,8 @@ public class Company implements Serializable{
 	private String name;
 	
 	@OneToOne(targetEntity = Company.class, cascade = CascadeType.ALL)
-	@JoinTable(name = "company_country", joinColumns = @JoinColumn(name = "company_id",referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "country_id", referencedColumnName = "id"))
+	@JoinTable(name = "company_country", joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"),
+	 inverseJoinColumns = @JoinColumn(name = "country_id", referencedColumnName = "id"))
 	@JsonProperty("country")
 	private Country country;
 	

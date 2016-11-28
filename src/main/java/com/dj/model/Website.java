@@ -2,9 +2,9 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,10 +31,10 @@ public class Website {
 	
 	@ManyToMany(mappedBy = "websites")
 	@JsonProperty("games")
-	private Set<Game> games;
+	private Set<Game> games = new HashSet<>();
 	
 	@OneToMany(mappedBy = "website")
-	private Set<Score> scores;
+	private Set<Score> scores = new HashSet<>();
 	
 	public Website() {
 		

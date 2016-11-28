@@ -26,7 +26,7 @@ public class Genre {
 	@JsonProperty("id")
 	private int id;
 	
-	@Column(name = "genre", nullable = false,unique = true)
+	@Column(name = "genre", nullable = false, unique = true)
 	@JsonProperty("genre")
 	private String genre;
 	
@@ -62,11 +62,13 @@ public class Genre {
 	public String getGenre() {
 		return genre;
 	}
-
+	
+	@JsonProperty("games")
 	public void setGames(Set<Game> games) {
 		this.games = games;
 	}
-
+	
+	@JsonProperty("games")
 	public Set<Game> getGames() {
 		return games;
 	}
