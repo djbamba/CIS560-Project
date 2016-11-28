@@ -17,6 +17,7 @@
         <testng.version>6.9.10</testng.version>
         <restassured.version>3.0.1</restassured.version>
         <jsoup.version>1.10.1</jsoup.version>
+        <selenium.version>2.53.0</selenium.version>
     </properties>
 
     <parent>
@@ -97,15 +98,18 @@
         <!--Automation packages-->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-support</artifactId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-api</artifactId>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-firefox-driver</artifactId>
+            <version>${selenium.version}</version>
         </dependency>
     </dependencies>
 
