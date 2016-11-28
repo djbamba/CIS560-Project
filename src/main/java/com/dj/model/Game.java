@@ -36,6 +36,10 @@ public class Game {
 	@JsonProperty("release_date")
 	private String release;
 	
+	@Column(name = "image_url")
+	@JsonProperty("image_url")
+	private String imageUrl;
+	
 	//relations
 	@ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "game_genre", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
@@ -92,6 +96,16 @@ public class Game {
 	@JsonProperty("release")
 	public String getRelease() {
 		return this.release;
+	}
+	
+	@JsonProperty("image_url")
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	
+	@JsonProperty("image_url")
+	public String getImageUrl() {
+		return imageUrl;
 	}
 	
 	@JsonProperty("genres")
