@@ -9,24 +9,25 @@ import static com.dj.utils.pages.PageConstants.*;
 /**
  * Created by DJ on 11/28/16.
  */
-public class GoogleHomePage extends PageObject {
+
+public class WikiHomePage extends PageObject {
 	
-	@FindBy(id = "lst-ib")
+	@FindBy(id = "searchInput")
 	private WebElement searchBar;
 	
-	public GoogleHomePage(WebDriver driver) {
-		super(driver, GOOGLE_URL);
+	public WikiHomePage(WebDriver driver) {
+		super(driver, WIKI_URL);
 	}
 	
-	public void searchGame(String search) {
+	public void searchGame(String search){
 		searchBar.click();
 		searchBar.clear();
 		searchBar.sendKeys(search);
 	}
 	
-	public GoogleResultsPage getGoogleResultsPage() {
+	public WikiResultsPage getWikiResultsPage() {
 		searchBar.submit();
-		return new GoogleResultsPage(this.driver);
+		return new WikiResultsPage(this.driver);
 	}
 	
 }

@@ -13,12 +13,12 @@ public class GoogleResultsPage extends PageObject {
 	
 	private static final Logger LOG = LogManager.getLogger(GoogleResultsPage.class);
 	
+	@FindBy(id = "rhs")
+	private WebElement infoBlock;
+	
 	public GoogleResultsPage(WebDriver driver) {
 		super(driver, null);
 	}
-	
-	@FindBy(id = "rhs")
-	private WebElement infoBlock;
 	
 	public String shredBlock() {
 		LOG.info(infoBlock.getText());

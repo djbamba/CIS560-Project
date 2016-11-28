@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by DJ on 11/23/16.
  */
-
+//INSERT INTO game SELECT id, name, release from CSVREAD('game.csv');
 @Repository
 public interface GameRepository extends JpaRepository<Game,Integer> {
 	
