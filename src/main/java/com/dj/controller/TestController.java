@@ -2,6 +2,7 @@ package com.dj.controller;
 
 import com.dj.model.Game;
 import com.dj.repository.GameRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static javafx.scene.input.KeyCode.T;
 
@@ -35,15 +37,25 @@ public class TestController {
 	
 	@RequestMapping(value = "/test", produces = "application/json")
 	public @ResponseBody String getGame() throws IOException {
+		List<Game> games = gameRepository.findAll();
+		StringBuilder sb = new StringBuilder();
 		
 		ObjectMapper mapper = new ObjectMapper();
-		Game game = mapper.readValue(gameFile, Game.class);
-		
+//		Game game = mapper.readValue(gameFile, Game.class);
 //		gameRepository.save(game);
+//
+//		LOG.info("testDataPath: {}\n gamePath: {}\n game: {}",
+//		         testDataPath, gamePath, game);
 		
-		LOG.info("testDataPath: {}\n gamePath: {}\n game: {}",
-		         testDataPath, gamePath, game);
+		games.forEach(game -> {
+			
+			try {
+				sb.append(mapper.writeValueAsString(game)+"\n");
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		});
 		
-		return mapper.writeValueAsString(game);
+		return sb.toString();
 	}
 }
