@@ -9,13 +9,17 @@ import static com.dj.utils.pages.PageConstants.*;
 /**
  * Created by DJ on 11/28/16.
  */
-public class GoogleHomePage extends PageObject {
+public class GooglePage extends PageObject {
 	
 	@FindBy(id = "lst-ib")
-	private WebElement searchBar;
+	protected WebElement searchBar;
 	
-	public GoogleHomePage(WebDriver driver) {
+	public GooglePage(WebDriver driver) {
 		super(driver, GOOGLE_URL);
+	}
+	
+	public GooglePage(WebDriver driver, String url) {
+		super(driver, url);
 	}
 	
 	public void searchGame(String search) {

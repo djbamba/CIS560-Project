@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 /**
  * Created by DJ on 11/28/16.
  */
-public class GoogleResultsPage extends PageObject {
+public class GoogleResultsPage extends GooglePage {
 	
 	private static final Logger LOG = LogManager.getLogger(GoogleResultsPage.class);
 	
@@ -17,7 +17,7 @@ public class GoogleResultsPage extends PageObject {
 	private WebElement infoBlock;
 	
 	public GoogleResultsPage(WebDriver driver) {
-		super(driver, null);
+		super(driver,null);
 	}
 	
 	public String shredBlock() {

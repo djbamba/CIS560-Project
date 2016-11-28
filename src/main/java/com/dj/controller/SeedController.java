@@ -3,9 +3,9 @@ package com.dj.controller;
 import com.dj.model.Game;
 import com.dj.repository.GameRepository;
 import com.dj.utils.MetaScraper;
-import com.dj.utils.pages.GoogleHomePage;
+import com.dj.utils.pages.GooglePage;
 import com.dj.utils.pages.GoogleResultsPage;
-import com.dj.utils.pages.WikiHomePage;
+import com.dj.utils.pages.WikiPage;
 import com.dj.utils.pages.WikiResultsPage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -93,9 +93,9 @@ public class SeedController {
 		
 		try {
 			String splitSearch = searchText.replace("_", " ");
-			GoogleHomePage googleHomePage = new GoogleHomePage(driver);
-			googleHomePage.searchGame(splitSearch);
-			GoogleResultsPage resultsPage = googleHomePage.getGoogleResultsPage();
+			GooglePage googlePage = new GooglePage(driver);
+			googlePage.searchGame(splitSearch);
+			GoogleResultsPage resultsPage = googlePage.getGoogleResultsPage();
 			shredded = resultsPage.shredBlock();
 			resultsPage.close();
 		} catch (Exception e) {
@@ -112,9 +112,9 @@ public class SeedController {
 		
 		try {
 			String splitSearch = searchText.replace("_", " ");
-			WikiHomePage wikiHomePage = new WikiHomePage(driver);
-			wikiHomePage.searchGame(splitSearch);
-			WikiResultsPage resultsPage = wikiHomePage.getWikiResultsPage();
+			WikiPage wikiPage = new WikiPage(driver);
+			wikiPage.searchGame(splitSearch);
+			WikiResultsPage resultsPage = wikiPage.getWikiResultsPage();
 			shredded = resultsPage.shredBlock();
 			resultsPage.close();
 		} catch (Exception e) {

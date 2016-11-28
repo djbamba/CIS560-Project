@@ -10,13 +10,18 @@ import static com.dj.utils.pages.PageConstants.*;
  * Created by DJ on 11/28/16.
  */
 
-public class WikiHomePage extends PageObject {
+public class WikiPage extends PageObject {
 	
 	@FindBy(id = "searchInput")
-	private WebElement searchBar;
 	
-	public WikiHomePage(WebDriver driver) {
+	protected WebElement searchBar;
+	
+	public WikiPage(WebDriver driver) {
 		super(driver, WIKI_URL);
+	}
+	
+	public WikiPage(WebDriver driver, String url) {
+		super(driver, url);
 	}
 	
 	public void searchGame(String search){

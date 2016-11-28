@@ -1,5 +1,7 @@
 package com.dj.utils.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,16 +10,19 @@ import org.openqa.selenium.support.FindBy;
 /**
  * Created by DJ on 11/28/16.
  */
-public class WikiResultsPage extends PageObject {
+public class WikiResultsPage extends WikiPage {
+	
+	private static final Logger LOG = LogManager.getLogger(WikiResultsPage.class);
 	
 	@FindBy(css = "table.infobox.hproduct")
 	private WebElement infoBlock;
 	
 	public WikiResultsPage(WebDriver driver) {
-		super(driver);
+		super(driver, null);
 	}
 	
 	public String shredBlock() {
+		LOG.info(infoBlock.getText());
 		return infoBlock.getText();
 	}
 	
