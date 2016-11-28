@@ -1,6 +1,5 @@
 package com.dj.model;
 
-import com.dj.repository.ScoreRepository;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Set;
