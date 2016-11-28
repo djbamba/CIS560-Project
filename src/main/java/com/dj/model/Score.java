@@ -2,7 +2,6 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +22,7 @@ public class Score {
 	private int id; // primary key
 	
 	@ManyToOne
-	@JoinColumn(name = "website_name",referencedColumnName = "name")
+	@JoinColumn(name = "website_name", referencedColumnName = "name")
 	@JsonProperty("website")
 	private Website website; // foreign key to id in Website
 	

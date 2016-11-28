@@ -1,8 +1,8 @@
 package com.dj.model;
 
-import com.dj.repository.ScoreRepository;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,8 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-
-import static com.sun.tools.doclint.Entity.ge;
 
 /**
  * Created by DJ on 11/10/16.
@@ -43,20 +41,20 @@ public class Game {
 	@JoinTable(name = "game_genre", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
 	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
 	@JsonProperty("genres")
-	private Set<Genre> genres;
+	private Set<Genre> genres = new HashSet<>();
 	
 	@OneToMany(targetEntity = Website.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "game_purchase_site", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
 	 inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id"))
 	@JsonProperty("websites")
-	private Set<Website> websites;
+	private Set<Website> websites = new HashSet<>();
 	
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
-	private Set<Score> scores;
+	private Set<Score> scores = new HashSet<>();
 	
 	
 	@ManyToMany(mappedBy = "games")
-	private Set<System> systems;
+	private Set<System> systems = new HashSet<>();
 	
 	public Game() {
 	}
@@ -96,28 +94,44 @@ public class Game {
 		return this.release;
 	}
 	
+	@JsonProperty("genres")
 	public void setGenres(Set<Genre> genres) {
 		this.genres = genres;
 	}
 	
+	@JsonProperty("genres")
 	public Set<Genre> getGenres() {
 		return genres;
 	}
 	
+	@JsonProperty("websites")
 	public void setWebsites(Set<Website> websites) {
 		this.websites = websites;
 	}
 	
+	@JsonProperty("websites")
 	public Set<Website> getWebsites() {
 		return websites;
 	}
 	
+	@JsonProperty("scores")
 	public void setScores(Set<Score> scores) {
 		this.scores = scores;
 	}
 	
+	@JsonProperty("scores")
 	public Set<Score> getScores() {
 		return scores;
+	}
+	
+	@JsonProperty("systems")
+	public void setSystems(Set<System> systems) {
+		this.systems = systems;
+	}
+	
+	@JsonProperty("systems")
+	public Set<System> getSystems() {
+		return systems;
 	}
 	
 	@Override
