@@ -117,6 +117,7 @@
                     <!--Tells devtools to reload static resources-->
                     <addResources>true</addResources>
                     <!--Fixes issue with hot-swapping when making changes-->
+                    <!--http://stackoverflow.com/questions/35895730/spring-boot-devtools-static-content-reloading-does-not-work-in-intellij-->
                     <fork>true</fork>
                 </configuration>
             </plugin>
