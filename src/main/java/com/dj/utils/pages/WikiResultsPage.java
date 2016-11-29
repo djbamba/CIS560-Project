@@ -43,7 +43,7 @@ public class WikiResultsPage extends WikiPage {
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[15]/td//a")
 	private List<WebElement> genres;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[15]/td//a")
+	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[2]/td/a/img")
 	private WebElement image;
 	
 	public WikiResultsPage(WebDriver driver) {
@@ -95,6 +95,10 @@ public class WikiResultsPage extends WikiPage {
 		});
 		
 		return genreList;
+	}
+	
+	public String getImageSource() {
+		return image.getAttribute("src").substring(2);
 	}
 	
 }
