@@ -1,5 +1,6 @@
 package com.dj.utils.pages;
 
+import com.dj.model.Developer;
 import com.dj.model.System;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +34,7 @@ public class WikiResultsPage extends WikiPage {
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[7]/td")
 	private List<WebElement> designers;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[13]//li")
+	@FindBy(xpath = "//span[@class='nowraplinks']/a") //old path //table[@class='infobox hproduct']//tr[13]//li
 	private List<WebElement> platforms;
 	
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[15]/td//a")
@@ -43,12 +44,26 @@ public class WikiResultsPage extends WikiPage {
 		super(driver, null);
 	}
 	
+	/**
+	 * Method to test the information block's contents
+	 *
+	 * @return information block's text contents
+	 */
 	public String shredBlock() {
 		LOG.info(infoBlock.getText());
 		return infoBlock.getText();
 	}
 	
-	
+	public List<Developer> getDevelopers() {
+		List<Developer> devs = new ArrayList<>();
+		
+		developers.forEach(dev -> {
+			LOG.info("Developer: {} Designer: {}", dev.getText(), designers.get(0).getText());
+			devs.add(new Developer(dev.getText(), designers.get(0).getText()));
+		});
+		
+		return devs;
+	}
 	
 	public List<System> getPlatforms() {
 		
@@ -61,4 +76,5 @@ public class WikiResultsPage extends WikiPage {
 		
 		return systems;
 	}
+	
 }
