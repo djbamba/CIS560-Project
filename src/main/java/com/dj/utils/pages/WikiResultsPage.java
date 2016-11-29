@@ -31,10 +31,11 @@ public class WikiResultsPage extends WikiPage {
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[4]/td/a")
 	private List<WebElement> publishers;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[7]/td")
+	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[6]/td")
 	private List<WebElement> designers;
 	
-	@FindBy(xpath = "//span[@class='nowraplinks']/a") //old path //table[@class='infobox hproduct']//tr[13]//li
+	@FindBy(xpath = "//span[@class='nowraplinks']/a")
+	//old path //table[@class='infobox hproduct']//tr[13]//li
 	private List<WebElement> platforms;
 	
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[15]/td//a")
@@ -58,7 +59,7 @@ public class WikiResultsPage extends WikiPage {
 		List<Developer> devs = new ArrayList<>();
 		
 		developers.forEach(dev -> {
-			LOG.info("Developer: {} Designer: {}", dev.getText(), designers.get(0).getText());
+			LOG.info("Developer: {} Designer: {}\n", dev.getText(), designers.get(0).getText());
 			devs.add(new Developer(dev.getText(), designers.get(0).getText()));
 		});
 		
@@ -70,7 +71,7 @@ public class WikiResultsPage extends WikiPage {
 		List<System> systems = new ArrayList<>();
 		
 		platforms.forEach(platforms -> {
-			LOG.info("Platform: {}",platforms.getText());
+			LOG.info("Platform: {}", platforms.getText());
 			systems.add(new System(platforms.getText()));
 		});
 		

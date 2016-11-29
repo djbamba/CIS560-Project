@@ -1,5 +1,6 @@
 package com.dj.controller;
 
+import com.dj.model.Developer;
 import com.dj.model.Game;
 import com.dj.repository.GameRepository;
 import com.dj.utils.MetaScraper;
@@ -10,8 +11,8 @@ import com.dj.utils.pages.WikiResultsPage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -69,7 +70,6 @@ public class SeedController {
 				LOG.error("Exception Thrown", e);
 				continue;
 			}
-			
 		}
 		
 		games = gameRepository.findAll();
@@ -81,10 +81,7 @@ public class SeedController {
 				LOG.error("Json Processing Exception", e);
 			}
 		});
-
-
-//		mapper.writeValueAsString(games);
-//		games.stream().forEach(game -> System.out.println(game.toString()));
+		
 		return sb.toString();
 	}
 	
@@ -103,15 +100,15 @@ public class SeedController {
 		} catch (Exception e) {
 			LOG.error("Exception in Google pages", e);
 		}
-		
 		return shredded;
 	}
 	
 	@RequestMapping(value = "/wiki/{searchGame}", produces = "text/html")
 	public String searchWiki(@PathVariable(value = "searchGame") String searchText) {
 		config();
-		sb.delete(0,sb.length());
+		sb.delete(0, sb.length());
 		List<com.dj.model.System> systems;
+		List<Developer> developers;
 		
 		try {
 			String splitSearch = searchText.replace("_", " ");
@@ -119,10 +116,15 @@ public class SeedController {
 			wikiPage.searchGame(splitSearch);
 			WikiResultsPage resultsPage = wikiPage.getWikiResultsPage();
 			sb.append(resultsPage.shredBlock() + "\n");
-			systems = resultsPage.getPlatforms();
 			
+			systems = resultsPage.getPlatforms();
 			systems.forEach(system -> {
 				sb.append(system.toString() + "\n");
+			});
+			
+			developers = resultsPage.getDevelopers();
+			developers.forEach(developer -> {
+				LOG.info(developer.toString());
 			});
 			
 			resultsPage.close();
