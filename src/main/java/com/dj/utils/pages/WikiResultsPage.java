@@ -47,6 +47,8 @@ public class WikiResultsPage extends WikiPage {
 	private WebElement image;
 	
 	// TODO: 11/28/16 add field and method for scores
+	// TODO: 11/28/16 add image baseurl to PageConstants
+	
 	
 	public WikiResultsPage(WebDriver driver) {
 		super(driver, null);
