@@ -40,6 +40,7 @@ public class SeedController {
 	private StringBuilder sb = new StringBuilder();
 	
 	public void config() {
+		// pointing selenium's firefox driver to an older version of firefox since the newer versions aren't supported anymore.
 		System.setProperty("webdriver.firefox.bin", "/Applications/Firefox-2.app/Contents/MacOS/firefox-bin");
 		driver = new FirefoxDriver();
 	}
@@ -48,9 +49,8 @@ public class SeedController {
 	private GameRepository gameRepository;
 	
 	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
-	public
 	@ResponseBody
-	String populateGames(@PathVariable(value = "pageNumber") String pageNumber) {
+	public String populateGames(@PathVariable(value = "pageNumber") String pageNumber) {
 		ObjectMapper mapper = new ObjectMapper();
 		List<Game> games = MetaScraper.getPage(pageNumber);
 		StringBuilder sb = new StringBuilder();
@@ -126,6 +126,8 @@ public class SeedController {
 			developers.forEach(developer -> {
 				LOG.info(developer.toString());
 			});
+			
+			LOG.info("Image src: {}", resultsPage.getImageSource());
 			
 			resultsPage.close();
 		} catch (Exception e) {
