@@ -46,6 +46,8 @@ public class WikiResultsPage extends WikiPage {
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[2]/td/a/img")
 	private WebElement image;
 	
+	// TODO: 11/28/16 add field and method for scores
+	
 	public WikiResultsPage(WebDriver driver) {
 		super(driver, null);
 	}
