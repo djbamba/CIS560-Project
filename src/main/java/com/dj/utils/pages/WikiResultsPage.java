@@ -1,6 +1,8 @@
 package com.dj.utils.pages;
 
 import com.dj.model.Developer;
+import com.dj.model.Genre;
+import com.dj.model.Publisher;
 import com.dj.model.System;
 
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +31,7 @@ public class WikiResultsPage extends WikiPage {
 	private List<WebElement> developers;
 	
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[4]/td/a")
-	private List<WebElement> publishers;
+	private WebElement publisher;
 	
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[6]/td")
 	private List<WebElement> designers;
@@ -40,6 +42,9 @@ public class WikiResultsPage extends WikiPage {
 	
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[15]/td//a")
 	private List<WebElement> genres;
+	
+	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[15]/td//a")
+	private WebElement image;
 	
 	public WikiResultsPage(WebDriver driver) {
 		super(driver, null);
@@ -53,6 +58,10 @@ public class WikiResultsPage extends WikiPage {
 	public String shredBlock() {
 		LOG.info(infoBlock.getText());
 		return infoBlock.getText();
+	}
+	
+	public Publisher getPublisher() {
+		return new Publisher(publisher.getText(), "M");
 	}
 	
 	public List<Developer> getDevelopers() {
@@ -76,6 +85,16 @@ public class WikiResultsPage extends WikiPage {
 		});
 		
 		return systems;
+	}
+	
+	public List<Genre> getGenres() {
+		List<Genre> genreList = new ArrayList<>();
+		
+		genres.forEach(genre -> {
+			genreList.add(new Genre(genre.getText()));
+		});
+		
+		return genreList;
 	}
 	
 }
