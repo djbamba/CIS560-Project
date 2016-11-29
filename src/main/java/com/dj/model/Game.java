@@ -102,7 +102,7 @@ public class Game {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-	
+
 	@JsonProperty("image_url")
 	public String getImageUrl() {
 		return imageUrl;
