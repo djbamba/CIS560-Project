@@ -150,7 +150,7 @@ public class Game {
 	
 	@Override
 	public String toString() {
-		return String.format("id: %d name: %s release: %s",
+		return String.format("Game[id: %d name: %s release: %s]",
 		                     id, name, release);
 	}
 }

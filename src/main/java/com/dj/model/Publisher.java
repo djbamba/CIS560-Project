@@ -38,7 +38,7 @@ public class Publisher extends Company {
 	
 	@Override
 	public String toString() {
-		return String.format("Publisher[id: %l name: %s contentRating: %s]",
+		return String.format("Publisher[id: %d name: %s contentRating: %s]",
 		                     super.getId(), super.getName(), contentRating);
 	}
 	

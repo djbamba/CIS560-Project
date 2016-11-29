@@ -100,7 +100,7 @@ public class Score {
 	
 	@Override
 	public String toString() {
-		return String.format("id: %l websiteName: %s gameId: %s score: %d scoreType: %c",
+		return String.format("Score[id: %d websiteName: %s gameId: %s score: %d scoreType: %c]",
 		                     id, website.toString(), game.toString(), score, scoreType);
 	}
 }

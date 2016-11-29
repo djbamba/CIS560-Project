@@ -76,7 +76,7 @@ public class System {
 	
 	@Override
 	public String toString() {
-		return String.format("id: %l name: %s", id, name);
+		return String.format("System[id: %d name: %s]", id, name);
 	}
 	
 }

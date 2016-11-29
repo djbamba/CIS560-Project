@@ -72,6 +72,6 @@ public class Country {
 	
 	@Override
 	public String toString() {
-		return String.format("code: %s name: %s", code, name);
+		return String.format("Country[code: %s name: %s]", code, name);
 	}
 }

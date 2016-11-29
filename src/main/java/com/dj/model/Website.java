@@ -98,7 +98,7 @@ public class Website {
 	
 	@Override
 	public String toString() {
-		return String.format("name: %s url: %s", name, url);
+		return String.format("Website[id: %d name: %s url: %s]",id, name, url);
 	}
 }
 

@@ -36,6 +36,8 @@ public class SeedController {
 	
 	private WebDriver driver;
 	
+	private StringBuilder sb = new StringBuilder();
+	
 	public void config() {
 		System.setProperty("webdriver.firefox.bin", "/Applications/Firefox-2.app/Contents/MacOS/firefox-bin");
 		driver = new FirefoxDriver();
@@ -108,20 +110,27 @@ public class SeedController {
 	@RequestMapping(value = "/wiki/{searchGame}", produces = "text/html")
 	public String searchWiki(@PathVariable(value = "searchGame") String searchText) {
 		config();
-		String shredded = null;
+		sb.delete(0,sb.length());
+		List<com.dj.model.System> systems;
 		
 		try {
 			String splitSearch = searchText.replace("_", " ");
 			WikiPage wikiPage = new WikiPage(driver);
 			wikiPage.searchGame(splitSearch);
 			WikiResultsPage resultsPage = wikiPage.getWikiResultsPage();
-			shredded = resultsPage.shredBlock();
+			sb.append(resultsPage.shredBlock() + "\n");
+			systems = resultsPage.getPlatforms();
+			
+			systems.forEach(system -> {
+				sb.append(system.toString() + "\n");
+			});
+			
 			resultsPage.close();
 		} catch (Exception e) {
 			LOG.error("Exception in Wiki pages", e);
 		}
 		
-		return shredded;
+		return sb.toString();
 	}
 	
 	
