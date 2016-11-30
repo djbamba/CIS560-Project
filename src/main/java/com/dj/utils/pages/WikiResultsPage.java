@@ -11,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +49,8 @@ public class WikiResultsPage extends WikiPage {
 	private WebElement image;
 	
 	// TODO: 11/28/16 add field and method for scores
-	// TODO: 11/28/16 add image baseurl to PageConstants
-	
+	@FindBy(xpath = "")
+	private List<WebElement> scores;
 	
 	public WikiResultsPage(WebDriver driver) {
 		super(driver, null);
@@ -102,7 +104,13 @@ public class WikiResultsPage extends WikiPage {
 	}
 	
 	public String getImageSource() {
-		return image.getAttribute("src").substring(2);
+		String src = "";
+		try {
+			src = URLDecoder.decode(image.getAttribute("srcset").substring(2, image.getAttribute("srcset").lastIndexOf("g") + 1), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			LOG.error("Unsupported Encoding Exception in WikiResultsPage getImageSource", e);
+		}
+		return "https://" + src;
 	}
 	
 }
