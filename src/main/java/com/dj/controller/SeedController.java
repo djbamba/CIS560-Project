@@ -3,6 +3,7 @@ package com.dj.controller;
 import com.dj.model.Developer;
 import com.dj.model.Game;
 import com.dj.repository.GameRepository;
+import com.dj.repository.SystemRepository;
 import com.dj.utils.MetaScraper;
 import com.dj.utils.pages.GooglePage;
 import com.dj.utils.pages.GoogleResultsPage;
@@ -47,6 +48,9 @@ public class SeedController {
 	
 	@Autowired
 	private GameRepository gameRepository;
+	
+	@Autowired
+	private SystemRepository systemRepository;
 	
 	
 	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
@@ -137,6 +141,8 @@ public class SeedController {
 		
 		return sb.toString();
 	}
+	
+	// TODO: 11/29/16 populate Game entities
 	
 	
 }
