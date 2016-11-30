@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 /**
  * Created by DJ on 11/23/16.
  */
@@ -14,5 +15,9 @@ import java.util.List;
 @Repository
 public interface GameRepository extends JpaRepository<Game,Integer> {
 	
+	Game findByName(String name);
 	
+	List<Game> findByNameLike(String name);
+	
+	List<Game> findByNameOrderByRelease(String name);
 }
