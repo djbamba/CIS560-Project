@@ -1,7 +1,5 @@
 package com.dj.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -13,7 +11,6 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "PUB")
 public class Publisher extends Company {
 	
-	@JsonProperty("contentRating")
 	private String contentRating;
 	
 	public Publisher() {
@@ -25,13 +22,10 @@ public class Publisher extends Company {
 		this.contentRating = contentRating;
 	}
 	
-	
-	@JsonProperty("contentRating")
 	public void setContentRating(String contentRating) {
 		this.contentRating = contentRating;
 	}
 	
-	@JsonProperty("contentRating")
 	public String getContentRating() {
 		return contentRating;
 	}
@@ -39,7 +33,7 @@ public class Publisher extends Company {
 	@Override
 	public String toString() {
 		return String.format("Publisher[id: %d name: %s contentRating: %s]",
-		                     super.getId(), super.getName(), contentRating);
+		                     id, name, contentRating);
 	}
 	
 	
