@@ -47,6 +47,7 @@ public class SeedController {
 	@Autowired
 	private GameRepository gameRepository;
 	
+	
 	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
 	public
 	@ResponseBody
