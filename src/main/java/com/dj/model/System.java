@@ -1,7 +1,5 @@
 package com.dj.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,11 +21,9 @@ public class System {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JsonProperty("id")
 	private int id; // primary key
 	
 	@Column(unique = true)
-	@JsonProperty("name")
 	private String name;
 	
 	@ManyToMany(targetEntity = Game.class, cascade = CascadeType.ALL)
@@ -43,32 +39,26 @@ public class System {
 		this.name = name;
 	}
 	
-	@JsonProperty("id")
 	public void setId(int id) {
 		this.id = id;
 	}
 	
-	@JsonProperty("id")
 	public int getId() {
 		return id;
 	}
 	
-	@JsonProperty("name")
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	@JsonProperty("name")
 	public String getName() {
 		return name;
 	}
 	
-	@JsonProperty("games")
 	public void setGames(List<Game> games) {
 		this.games = games;
 	}
 	
-	@JsonProperty("games")
 	public List<Game> getGames() {
 		return games;
 	}

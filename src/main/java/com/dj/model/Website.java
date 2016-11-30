@@ -1,7 +1,5 @@
 package com.dj.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -22,14 +20,11 @@ public class Website {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@JsonProperty("name")
 	private String name;
 	
-	@JsonProperty("url")
 	private String url;
 	
 	@ManyToMany(mappedBy = "websites")
-	@JsonProperty("games")
 	private List<Game> games;
 	
 	@OneToMany(mappedBy = "website")
@@ -45,52 +40,42 @@ public class Website {
 		this.url = url;
 	}
 	
-	@JsonProperty("id")
 	public void setId(int id) {
 		this.id = id;
 	}
 	
-	@JsonProperty("id")
 	public int getId() {
 		return id;
 	}
 	
-	@JsonProperty("name")
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	@JsonProperty("name")
 	public String getName() {
 		return name;
 	}
 	
-	@JsonProperty("url")
 	public void setUrl(String url) {
 		this.url = url;
 	}
 	
-	@JsonProperty("url")
 	public String getUrl() {
 		return url;
 	}
 	
-	@JsonProperty("games")
 	public void setGames(List<Game> games) {
 		this.games = games;
 	}
 	
-	@JsonProperty("games")
 	public List<Game> getGames() {
 		return games;
 	}
 	
-	@JsonProperty("scores")
 	public void setScores(List<Score> scores) {
 		this.scores = scores;
 	}
 	
-	@JsonProperty("scores")
 	public List<Score> getScores() {
 		return scores;
 	}

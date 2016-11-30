@@ -1,7 +1,5 @@
 package com.dj.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 import javax.persistence.Column;
@@ -20,11 +18,9 @@ public class Country {
 	
 	@Id
 	@Column(name = "code", unique = true, nullable = false)
-	@JsonProperty("code")
 	private String code; // primary key
 	
 	@Column(name = "name", unique = true, nullable = false)
-	@JsonProperty("name")
 	private String name;
 	
 	@OneToMany(mappedBy = "country")
@@ -39,32 +35,26 @@ public class Country {
 		this.name = name;
 	}
 	
-	@JsonProperty("code")
 	public void setCode(String code) {
 		this.code = code;
 	}
 	
-	@JsonProperty("code")
 	public String getCode() {
 		return code;
 	}
 	
-	@JsonProperty("name")
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	@JsonProperty("name")
 	public String getName() {
 		return name;
 	}
 	
-	@JsonProperty("companies")
 	public void setCompanies(List<Company> companies) {
 		this.companies = companies;
 	}
 	
-	@JsonProperty("companies")
 	public List<Company> getCompanies() {
 		return companies;
 	}
