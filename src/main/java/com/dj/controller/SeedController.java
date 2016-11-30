@@ -151,7 +151,6 @@ public class SeedController {
 		return sb.toString();
 	}
 	
-	// TODO: 11/29/16 populate Game entities
 	@RequestMapping("/populate")
 	public void populate() {
 		
@@ -169,16 +168,15 @@ public class SeedController {
 			for (Game game : allGames) {
 				resultsPage = wikiPage.searchGame(game.getName()).getWikiResultsPage();
 				game.setImageUrl(resultsPage.getImageSource());
+				// TODO: 11/30/16 get ready to handle multiple exceptions when locating these elements...
 //				game.setGenres(resultsPage.getGenres());
 //				game.setSystems(resultsPage.getPlatforms());
 				gameRepository.save(game);
 			}
 			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 	}
 	
