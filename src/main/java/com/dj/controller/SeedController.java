@@ -2,7 +2,9 @@ package com.dj.controller;
 
 import com.dj.model.Developer;
 import com.dj.model.Game;
+import com.dj.model.System;
 import com.dj.repository.GameRepository;
+import com.dj.repository.GenreRepository;
 import com.dj.repository.SystemRepository;
 import com.dj.utils.MetaScraper;
 import com.dj.utils.pages.GooglePage;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +45,7 @@ public class SeedController {
 	
 	public void config() {
 		// pointing selenium's firefox driver to an older version of firefox since the newer versions aren't supported anymore.
-		System.setProperty("webdriver.firefox.bin", "/Applications/Firefox-2.app/Contents/MacOS/firefox-bin");
+		java.lang.System.setProperty("webdriver.firefox.bin", "/Applications/Firefox-2.app/Contents/MacOS/firefox-bin");
 		driver = new FirefoxDriver();
 	}
 	
@@ -52,10 +55,13 @@ public class SeedController {
 	@Autowired
 	private SystemRepository systemRepository;
 	
+	@Autowired
+	private GenreRepository genreRepository;
 	
 	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
 	@ResponseBody
 	public String populateGames(@PathVariable(value = "pageNumber") String pageNumber) {
+		
 		ObjectMapper mapper = new ObjectMapper();
 		List<Game> games = MetaScraper.getPage(pageNumber);
 		StringBuilder sb = new StringBuilder();
@@ -92,6 +98,7 @@ public class SeedController {
 	
 	@RequestMapping(value = "/google/{searchGame}", produces = "text/html")
 	public String searchGoogle(@PathVariable(value = "searchGame") String searchText) {
+		
 		config();
 		String shredded = null;
 		
@@ -110,12 +117,14 @@ public class SeedController {
 	
 	@RequestMapping(value = "/wiki/{searchGame}", produces = "text/html")
 	public String searchWiki(@PathVariable(value = "searchGame") String searchText) {
+		
 		config();
 		sb.delete(0, sb.length());
-		List<com.dj.model.System> systems;
+		List<System> systems;
 		List<Developer> developers;
 		
 		try {
+			
 			String splitSearch = searchText.replace("_", " ");
 			WikiPage wikiPage = new WikiPage(driver);
 			wikiPage.searchGame(splitSearch);
@@ -143,6 +152,34 @@ public class SeedController {
 	}
 	
 	// TODO: 11/29/16 populate Game entities
-	
+	@RequestMapping("/populate")
+	public void populate() {
+		
+		config();
+		WikiPage wikiPage = new WikiPage(driver);
+		WikiResultsPage resultsPage;
+		
+		List<Developer> devs = new ArrayList<>();
+		List<System> systems = new ArrayList<>();
+		List<Game> allGames = gameRepository.findAll();
+		List<Game> updatedGames;
+		
+		try {
+			
+			for (Game game : allGames) {
+				resultsPage = wikiPage.searchGame(game.getName()).getWikiResultsPage();
+				game.setImageUrl(resultsPage.getImageSource());
+//				game.setGenres(resultsPage.getGenres());
+//				game.setSystems(resultsPage.getPlatforms());
+				gameRepository.save(game);
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
 }
