@@ -9,7 +9,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
@@ -115,7 +114,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!--Tells devtools to reload static resources-->
-                    <addResources>true</addResources>
+                    <!--<addResources>true</addResources>-->
                     <!--Fixes issue with hot-swapping when making changes-->
                     <fork>true</fork>
                 </configuration>

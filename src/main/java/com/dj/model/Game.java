@@ -56,7 +56,6 @@ public class Game {
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private Set<Score> scores = new HashSet<>();
 	
-	
 	@ManyToMany(mappedBy = "games")
 	private Set<System> systems = new HashSet<>();
 	

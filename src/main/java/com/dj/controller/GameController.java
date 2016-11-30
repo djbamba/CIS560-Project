@@ -26,7 +26,7 @@ public class GameController {
 	public List<Game> getGames() {
 		return gameRepository.findAll();
 	}
-	
+	 
 //	@RequestMapping(value = "{gameID}", method = RequestMethod.GET)
 //	public Game getGameById(@PathVariable(value = "gameID") String gameID){
 //		return gameRepository.findOne(Integer.parseInt(gameID));
@@ -35,7 +35,9 @@ public class GameController {
 	@RequestMapping(value = "{gameTitle}", method = RequestMethod.GET)
 	public String getGameByTitle(@PathVariable(value = "gameTitle") String title, Model model) {
 		String name = title.replace("_", " ");
-		model.addAttribute("game",gameRepository.findByName(name));
+		Game test = gameRepository.findByName(name);
+		System.out.println(test.toString());
+		model.addAttribute("game",test);
 		
 		return "games/game";
 	}

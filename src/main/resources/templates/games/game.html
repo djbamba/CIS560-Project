@@ -2,19 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="content-Type" content="text/html; charset= UTF-8"/>
-    <title>th:text= "${game.getName()}" </title>
+    <title th:text= "${game.name}"/>
 </head>
 <body>
 <table>
     <tr>
         <th>Title</th>
         <th>ID</th>
-        <th>URL</th>
+        <th>RELEASE</th>
     </tr>
     <tr>
-        <td>th:text= "${game.getName()}"</td>
-        <td>th:text= "${game.getId()}"</td>
-        <td>th:text= "${game.getUrl()}"</td>
+        <td> <span th:text= "${game.name}"/> </td>
+        <td> <span th:text= "${game.id}"/> </td>
+        <td> <span th:text= "${game.release}"/> </td>
     </tr>
 
 </table>
