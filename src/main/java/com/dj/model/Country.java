@@ -2,8 +2,7 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +28,7 @@ public class Country {
 	private String name;
 	
 	@OneToMany(mappedBy = "country")
-	private Set<Company> companies = new HashSet<>();
+	private List<Company> companies;
 	
 	public Country() {
 		
@@ -61,12 +60,12 @@ public class Country {
 	}
 	
 	@JsonProperty("companies")
-	public void setCompanies(Set<Company> companies) {
+	public void setCompanies(List<Company> companies) {
 		this.companies = companies;
 	}
 	
 	@JsonProperty("companies")
-	public Set<Company> getCompanies() {
+	public List<Company> getCompanies() {
 		return companies;
 	}
 	

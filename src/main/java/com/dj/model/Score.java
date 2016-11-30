@@ -24,7 +24,7 @@ public class Score {
 	@ManyToOne
 	@JoinColumn(name = "website_name", referencedColumnName = "name")
 	@JsonProperty("website")
-	private Website website; // foreign key to id in Website
+	private Website website; // foreign key to name in Website
 	
 	@ManyToOne
 	@JoinColumn(name = "game_id")

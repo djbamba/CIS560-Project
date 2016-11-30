@@ -2,8 +2,7 @@ package com.dj.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,7 +33,7 @@ public class System {
 	@ManyToMany(targetEntity = Game.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "game_system", joinColumns = @JoinColumn(name = "system_id", referencedColumnName = "id"),
 	 inverseJoinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"))
-	private Set<Game> games = new HashSet<>();
+	private List<Game> games;
 	
 	public System() {
 		
@@ -65,12 +64,12 @@ public class System {
 	}
 	
 	@JsonProperty("games")
-	public void setGames(Set<Game> games) {
+	public void setGames(List<Game> games) {
 		this.games = games;
 	}
 	
 	@JsonProperty("games")
-	public Set<Game> getGames() {
+	public List<Game> getGames() {
 		return games;
 	}
 	

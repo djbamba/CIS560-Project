@@ -40,7 +40,7 @@ public class Developer extends Company {
 	
 	@Override
 	public String toString() {
-		return String.format("Developer[id: %d name: %s leadDesigner: %s]", super.getId(), super.getName(), leadDesigner);
+		return String.format("Developer[id: %d name: %s leadDesigner: %s]", id, name, leadDesigner);
 	}
 	
 }
