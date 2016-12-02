@@ -39,7 +39,7 @@ public class WikiResultsPage extends WikiPage {
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[6]/td")
 	private List<WebElement> designers;
 	
-	@FindBy(xpath = "//span[@class='nowraplinks']/a")
+	@FindBy(xpath = "//span[@class='nowraplinks']/*")
 	//old path //table[@class='infobox hproduct']//tr[13]//li
 	private List<WebElement> platforms;
 	
@@ -91,7 +91,9 @@ public class WikiResultsPage extends WikiPage {
 		List<System> systems = new ArrayList<>();
 		
 		platforms.forEach(platforms -> {
+			
 			LOG.info("Platform: {}", platforms.getText());
+			
 			systems.add(new System(platforms.getText()));
 		});
 		
