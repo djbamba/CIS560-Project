@@ -6,19 +6,25 @@ import com.dj.utils.pages.WikiResultsPage;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import junitparams.FileParameters;
+import junitparams.JUnitParamsRunner;
+import junitparams.mappers.CsvWithHeaderMapper;
 
 /**
  * Created by DJ on 11/9/16.
  */
 
+@RunWith(JUnitParamsRunner.class)
 public class Test {
 	
 	private static final Logger LOG = LogManager.getLogger(Test.class);
@@ -29,6 +35,7 @@ public class Test {
 	
 	private static WikiResultsPage wikiResults;
 	
+	@BeforeClass
 	public static void setup() {
 		java.lang.System.setProperty("webdriver.firefox.bin", "/Applications/Firefox-2.app/Contents/MacOS/firefox-bin");
 		driver = new FirefoxDriver();
@@ -37,10 +44,12 @@ public class Test {
 		wikiPage = new WikiPage(driver);
 	}
 	
+	@AfterClass
 	public static void tearDown() {
 		driver.close();
 	}
 	
+	@org.junit.Test
 	public static void testSystemExtraction() {
 		wikiResults = wikiPage.searchGame("Far Cry Primal").getWikiResultsPage();
 		List<System> systems = wikiResults.getPlatforms();
@@ -57,11 +66,13 @@ public class Test {
 		
 	}
 	
-	public static void systemTest(int id, String name, String released, String url) {
+	@org.junit.Test
+	@FileParameters(value = "src/main/resources/data/games.csv", mapper = CsvWithHeaderMapper.class)
+	public static void systemTest(String id, String name, String moday,String year, String url) {
 		List<System> systems;
 		
 		try {
-			
+			LOG.info("id: {} name: {} mmm-dd: {} year: {} url: {}", id, name, moday,year, url);
 		} catch (Exception e) {
 			LOG.error("Exception in systemTest", e);
 		}
