@@ -3,35 +3,45 @@
 <head>
     <meta http-equiv="content-Type" content="text/html; charset= UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" href="/static/css/index.css" th:href="@{css/index.css}"/>
-    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css" th:href="@{css/index.css}"/>
+    <title>GameScraper</title>
 </head>
 <body>
-    <header class="text-center">
-        <h1>Header Stuff</h1>
-        <h6>Everything is going to change on this page</h6>
+    <header class="text-left">
+        <h1 class="title">GameScraper</h1>
+        <div class="form-group">
+            <label for="searchBar">Search by Game, Author, or Release Date.</label>
+            <input type="text" class="form-control search" id="searchBar" placeholder="Search">
+        </div>
+        <h6 style="margin-left: 70px;">Reviews scraped from the web.</h6>
+
     </header>
     <div class="text-center">
-        <p><a href="/games">All Games</a></p>
+        <p><a href="/games"></a></p>
     </div>
-    <div class="text-center">
+    <div style="margin-top:10%;"class="text-left">
         <section>
-            <h5 class="ul-header">Games By Genre</h5>
-            <ul id="genre-ul">
-                <li><a href="/games/genre/action"><b>A</b>ction</a></li>
-                <li><a href="/games/genre/sports"><b>S</b>ports</a></li>
-                <li><a href="/games/genre/shooting"><b>S</b>hooting</a></li>
-                <li><a href="/games/genre/fighting"><b>F</b>ighting</a></li>
-                <li><a href="/games/genre/adventure"><b>A</b>dventure</a></li>
-                <li><a href="/games/genre/trivia"><b>T</b>rivia</a></li>
+            <h3 class="ul-header">Games By Genre</h3>
+            <ul style="margin-top: 1%;"id="genre-ul">
+                <ul style="padding: 0;"><button class="btn btn-default genre-button" type="submit">Action</button></ul>
+                <ul style="padding: 0;"><button class="btn btn-default genre-button" type="submit">Sports</button></ul>
+                <ul style="padding: 0;"><button class="btn btn-default genre-button" type="submit">Shooting</button></ul>
+                <ul style="padding: 0;"><button class="btn btn-default genre-button" type="submit">Fighting</button></ul>
+                <ul style="padding: 0;"><button class="btn btn-default genre-button" type="submit">Adventure</button></ul>
+                <ul style="padding: 0;"><button class="btn btn-default genre-button" type="submit">Trivia</button></ul>
             </ul>
         </section>
     </div>
-    <div class="text-center">
-        <p>Third Div</p>
+    <div style="margin-top:5%;"class="text-left">
+        <section>
+            <h3 class="ul-header">Games by System</h3>
+            <ul style="margin-top: 1%;"id="genre-ul">
+                <ul style="padding: 0;"><button class="btn btn-default genre-button" type="submit">PC</button></ul>
+                <ul style="padding: 0;"><button class="btn btn-default genre-button" type="submit">Playstation 4</button></ul>
+                <ul style="padding: 0;"><button class="btn btn-default genre-button" type="submit">Xbox One</button></ul>
+                <ul style="padding: 0;"><button class="btn btn-default genre-button" type="submit">Handhelds</button></ul>
+            </ul>
+        </section>
     </div>
-    <footer class="text-center">
-        <h1 class="text-center">Footer Stuff</h1>
-    </footer>
 </body>
 </html>
