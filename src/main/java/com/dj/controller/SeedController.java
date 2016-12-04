@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -34,31 +36,31 @@ import java.util.List;
 public class SeedController {
 	
 	private static final Logger LOG = LogManager.getLogger(SeedController.class);
-	
+
 	private WebDriver driver;
-	
+
 	private StringBuilder sb = new StringBuilder();
-	
+
 	public void config() {
 		// pointing selenium's firefox driver to an older version of firefox since the newer versions aren't supported anymore.
 		System.setProperty("webdriver.firefox.bin", "/Applications/Firefox-2.app/Contents/MacOS/firefox-bin");
 		driver = new FirefoxDriver();
 	}
-	
+
 	@Autowired
 	private GameRepository gameRepository;
-	
-	
+
+
 	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
 	@ResponseBody
 	public String populateGames(@PathVariable(value = "pageNumber") String pageNumber) {
 		ObjectMapper mapper = new ObjectMapper();
 		List<Game> games = MetaScraper.getPage(pageNumber);
 		StringBuilder sb = new StringBuilder();
-		
-		
+
+
 		for (Game game : games) {
-			
+
 			try {
 				gameRepository.save(game);
 			} catch (ConstraintViolationException cve) {
@@ -72,9 +74,9 @@ public class SeedController {
 				continue;
 			}
 		}
-		
+
 		games = gameRepository.findAll();
-		
+
 		games.forEach(gameConsumer -> {
 			try {
 				sb.append(mapper.writeValueAsString(gameConsumer) + "\n");
@@ -82,15 +84,15 @@ public class SeedController {
 				LOG.error("Json Processing Exception", e);
 			}
 		});
-		
+
 		return sb.toString();
 	}
-	
+
 	@RequestMapping(value = "/google/{searchGame}", produces = "text/html")
 	public String searchGoogle(@PathVariable(value = "searchGame") String searchText) {
 		config();
 		String shredded = null;
-		
+
 		try {
 			String splitSearch = searchText.replace("_", " ");
 			GooglePage googlePage = new GooglePage(driver);
@@ -103,40 +105,51 @@ public class SeedController {
 		}
 		return shredded;
 	}
-	
+
 	@RequestMapping(value = "/wiki/{searchGame}", produces = "text/html")
 	public String searchWiki(@PathVariable(value = "searchGame") String searchText) {
 		config();
 		sb.delete(0, sb.length());
 		List<com.dj.model.System> systems;
 		List<Developer> developers;
-		
+
 		try {
 			String splitSearch = searchText.replace("_", " ");
 			WikiPage wikiPage = new WikiPage(driver);
 			wikiPage.searchGame(splitSearch);
 			WikiResultsPage resultsPage = wikiPage.getWikiResultsPage();
 			sb.append(resultsPage.shredBlock() + "\n");
-			
+
 			systems = resultsPage.getPlatforms();
 			systems.forEach(system -> {
 				sb.append(system.toString() + "\n");
 			});
-			
+
 			developers = resultsPage.getDevelopers();
 			developers.forEach(developer -> {
 				LOG.info(developer.toString());
 			});
-			
+
 			LOG.info("Image src: {}", resultsPage.getImageSource());
-			
+
 			resultsPage.close();
 		} catch (Exception e) {
 			LOG.error("Exception in Wiki pages", e);
 		}
-		
+
 		return sb.toString();
 	}
-	
-	
+
+	@RequestMapping("/populateCountries")
+	public void populateCountries() {
+
+		BufferedReader br;
+
+		try {
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+	}
 }

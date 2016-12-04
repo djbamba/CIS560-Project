@@ -18,7 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("game/")
 public class GameController {
-	
+
 	@Autowired
 	private GameRepository gameRepository;
 	
@@ -26,7 +26,7 @@ public class GameController {
 	public List<Game> getGames() {
 		return gameRepository.findAll();
 	}
-	 
+
 //	@RequestMapping(value = "{gameID}", method = RequestMethod.GET)
 //	public Game getGameById(@PathVariable(value = "gameID") String gameID){
 //		return gameRepository.findOne(Integer.parseInt(gameID));
