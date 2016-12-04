@@ -7,7 +7,9 @@ import com.dj.model.System;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -15,7 +17,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Created by DJ on 11/28/16.
@@ -38,7 +39,7 @@ public class WikiResultsPage extends WikiPage {
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[6]/td")
 	private List<WebElement> designers;
 	
-	@FindBy(xpath = "//span[@class='nowraplinks']/a")
+	@FindBy(xpath = "//span[@class='nowraplinks']/*")
 	//old path //table[@class='infobox hproduct']//tr[13]//li
 	private List<WebElement> platforms;
 	
@@ -53,6 +54,7 @@ public class WikiResultsPage extends WikiPage {
 	private List<WebElement> scores;
 	
 	public WikiResultsPage(WebDriver driver) {
+		
 		super(driver, null);
 	}
 	
@@ -62,15 +64,18 @@ public class WikiResultsPage extends WikiPage {
 	 * @return information block's text contents
 	 */
 	public String shredBlock() {
+		
 		LOG.info(infoBlock.getText());
 		return infoBlock.getText();
 	}
 	
 	public Publisher getPublisher() {
+		
 		return new Publisher(publisher.getText(), "M");
 	}
 	
 	public List<Developer> getDevelopers() {
+		
 		List<Developer> devs = new ArrayList<>();
 		
 		developers.forEach(dev -> {
@@ -86,7 +91,9 @@ public class WikiResultsPage extends WikiPage {
 		List<System> systems = new ArrayList<>();
 		
 		platforms.forEach(platforms -> {
+			
 			LOG.info("Platform: {}", platforms.getText());
+			
 			systems.add(new System(platforms.getText()));
 		});
 		
@@ -94,6 +101,7 @@ public class WikiResultsPage extends WikiPage {
 	}
 	
 	public List<Genre> getGenres() {
+		
 		List<Genre> genreList = new ArrayList<>();
 		
 		genres.forEach(genre -> {
@@ -104,11 +112,18 @@ public class WikiResultsPage extends WikiPage {
 	}
 	
 	public String getImageSource() {
+		
 		String src = "";
 		try {
 			src = URLDecoder.decode(image.getAttribute("srcset").substring(2, image.getAttribute("srcset").lastIndexOf("g") + 1), "UTF-8");
+		} catch (StringIndexOutOfBoundsException e) {
+			src = image.getAttribute("src").substring(2);
 		} catch (UnsupportedEncodingException e) {
 			LOG.error("Unsupported Encoding Exception in WikiResultsPage getImageSource", e);
+		} catch (NoSuchElementException e) {
+			return "N/A";
+		} catch (WebDriverException e) {
+			return "N/A";
 		}
 		return "https://" + src;
 	}

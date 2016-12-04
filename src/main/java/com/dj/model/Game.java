@@ -39,7 +39,7 @@ public class Game {
 	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
 	private List<Genre> genres;
 	
-	@OneToMany(targetEntity = Website.class, cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = Website.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "game_purchase_site", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
 	 inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id"))
 	private List<Website> websites;

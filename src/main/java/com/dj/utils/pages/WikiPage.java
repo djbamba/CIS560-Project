@@ -24,10 +24,12 @@ public class WikiPage extends PageObject {
 		super(driver, url);
 	}
 	
-	public void searchGame(String search){
+	public WikiPage searchGame(String search){
 		searchBar.click();
 		searchBar.clear();
 		searchBar.sendKeys(search);
+		
+		return this;
 	}
 	
 	public WikiResultsPage getWikiResultsPage() {
