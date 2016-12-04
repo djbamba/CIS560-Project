@@ -3,21 +3,50 @@ html {
 }
 
 body {
-    border: 1px solid green;
-    padding: 2px;
+
 }
 
 div {
-    border: 1px solid red;
+
 }
 
 #genre-ul {
     text-align:left;
-    list-style-type:circle;
+		margin: 0;
+    padding: 0;
 }
 
 .ul-header {
     margin-bottom:0;
-    margin-left: auto;
+    margin-left: 2%;
     margin-right: auto;
+}
+
+.genre-button{
+	left: 0%;
+	width: 94%;
+	margin-left: 3%;
+  list-style-type: none;
+}
+ .search{
+	 position: absolute;
+	 margin-top: 0%;
+	 right: 0;
+	 margin-right: 10px;
+	 width: 300px;
+ }
+ label{
+	 right: 0;
+	 position: absolute;
+	 margin-top: -30px;
+	 margin-right: 26px;
+}
+
+.title{
+	margin-left: 50px;
+}
+
+.results{
+	margin-top: 1%;
+	margin-left: 5%;
 }
