@@ -9,10 +9,7 @@ import com.dj.repository.GameRepository;
 import com.dj.repository.GenreRepository;
 import com.dj.repository.SystemRepository;
 import com.dj.utils.MetaScraper;
-import com.dj.utils.pages.GooglePage;
-import com.dj.utils.pages.GoogleResultsPage;
-import com.dj.utils.pages.WikiPage;
-import com.dj.utils.pages.WikiResultsPage;
+import com.dj.utils.pages.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -215,5 +212,10 @@ public class SeedController {
 			ex.printStackTrace();
 		}
 	}
-	
+
+	@RequestMapping("/populateCompanies")
+	public void populateCompanies() {
+		config();
+		WikiPage wikiPage = new WikiPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
+	}
 }
