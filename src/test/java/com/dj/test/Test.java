@@ -1,5 +1,8 @@
 package com.dj.test;
 
+import com.dj.model.Developer;
+import com.dj.model.Genre;
+import com.dj.model.Publisher;
 import com.dj.model.System;
 import com.dj.utils.pages.WikiPage;
 import com.dj.utils.pages.WikiResultsPage;
@@ -11,7 +14,6 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +34,8 @@ public class Test {
 	private static WebDriver driver;
 	
 	private static WikiPage wikiPage;
-	
-	private static WikiResultsPage wikiResults;
+
+//	private static WikiResultsPage wikiResults;
 	
 	@BeforeClass
 	public static void setup() {
@@ -49,36 +51,82 @@ public class Test {
 		driver.close();
 	}
 	
-	@org.junit.Test
-	public static void testSystemExtraction() {
-		wikiResults = wikiPage.searchGame("Far Cry Primal").getWikiResultsPage();
-		List<System> systems = wikiResults.getPlatforms();
-		
+	public static void systemExtraction(WikiResultsPage wikiResults) {
 		try {
+			List<System> systems = wikiResults.getPlatforms();
 			
-			systems.stream().forEach(system -> {
+			systems.forEach(system -> {
 				LOG.info(system.toString());
 			});
 			
 		} catch (Exception e) {
-			LOG.error("testSystemExtraction: {}", e);
+			LOG.error("systemExtraction: {}", e);
 		}
 		
+	}
+	
+	public static void developerExtraction(WikiResultsPage wikiResults) {
+		try {
+			List<Developer> developers = wikiResults.getDevelopers();
+			
+			developers.forEach(developer -> {
+				LOG.info("Developer: {}", developer.toString());
+			});
+			
+		} catch (Exception e) {
+			LOG.error("developerExtraction: {}", e);
+		}
+	}
+	
+	public static void genreExtraction(WikiResultsPage wikiResults) {
+		try {
+			List<Genre> genres = wikiResults.getGenres();
+			
+			genres.forEach(genre -> {
+				LOG.info("Genre: {}", genre.toString());
+			});
+			
+		} catch (Exception e) {
+			LOG.error("genreExtraction: {}", e);
+		}
+	}
+	
+	public static void urlExtraction(WikiResultsPage wikiResults) {
+		try {
+			String url = wikiResults.getImageSource();
+			LOG.info("URL: {}", url);
+		} catch (Exception e) {
+			LOG.error("urlExtraction: {}", e);
+		}
+	}
+	
+	public static void publisherExtraction(WikiResultsPage wikiResults) {
+		try {
+			Publisher publisher = wikiResults.getPublisher();
+			LOG.info("Publisher: {}", publisher.toString());
+			
+		} catch (Exception e) {
+			LOG.error("publisherExtraction: {}", e);
+		}
 	}
 	
 	@org.junit.Test
 	@FileParameters(value = "src/main/resources/data/games.csv", mapper = CsvWithHeaderMapper.class)
 	public static void gameInfoExtractionTest(String id, String name, String date, String url) {
-		List<System> systems;
 		
 		try {
 			LOG.info("id: {} name: {} date: {} url: {}", id, name, date, url);
-			wikiResults = wikiPage.searchGame(name).getWikiResultsPage();
-			systems = wikiResults.getPlatforms();
-			
-			systems.forEach(system -> LOG.info(system.toString()));
-			
-			
+			WikiResultsPage wikiResults = wikiPage.searchGame(name).getWikiResultsPage();
+			// test systems extraction
+			systemExtraction(wikiResults);
+			// test developer extraction
+			developerExtraction(wikiResults);
+			// test genre extraction
+			genreExtraction(wikiResults);
+			// test url extraction
+			urlExtraction(wikiResults);
+			// test publisher extraction
+			publisherExtraction(wikiResults);
 		} catch (Exception e) {
 			LOG.error("Exception in gameInfoExtractionTest", e);
 		}
