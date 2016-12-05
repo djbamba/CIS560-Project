@@ -37,7 +37,16 @@ public class WikiResultsPage extends WikiPage {
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[contains(.,'Publisher(s)')]/td/*[not(self::a[contains(.,'‹See Tfd›')])][1]")
 	private List<WebElement> publisher;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[6]/td")
+	/**
+	 * tony hawk: id('mw-content-text')/x:table[2]/x:tbody/x:tr[5]/x:td
+	 * tony hawk ps3: id('mw-content-text')/x:table/x:tbody/x:tr[5]/x:td/text()
+	 * tekken 3: id('mw-content-text')/x:table[1]/x:tbody/x:tr[7]/x:td
+	 * perfect dark: id('mw-content-text')/x:table[1]/x:tbody/x:tr[6]/x:td
+	 *
+	 * attempt: //table[@class='infobox hproduct']//tbody//tr[contains(.,'Designer(s)')]/td
+	 * ok: //div[@id='mw-content-text']/table/tbody/x:tr[contains(.,'Designer(s)')]/td//text()[not(contains(.,'('))]
+	 */
+	@FindBy(xpath = "//div[@id='mw-content-text']/table/tbody/x:tr[contains(.,'Designer(s)')]/td//text()[not(contains(.,'('))]")
 	private List<WebElement> designer;
 	
 	@FindBy(xpath = "//span[@class='nowraplinks']/*[not(self::small)]")
@@ -68,13 +77,11 @@ public class WikiResultsPage extends WikiPage {
 	 * @return information block's text contents
 	 */
 	public String shredBlock() {
-
-//		LOG.info(infoBlock.getText());
+		
 		return infoBlock.getText();
 	}
 	
 	public Publisher getPublisher() {
-//		LOG.info("Publisher: {}", publisher.getText());
 		try {
 			
 			return new Publisher(publisher.get(0).getText(), "M");
@@ -94,24 +101,26 @@ public class WikiResultsPage extends WikiPage {
 		}
 	}
 	
-
-	
 	public Developer getDeveloper() {
+		String designerS;
+		if (designer.isEmpty())
+			designerS = "N/A";
+		else designerS = designer.get(0).getText();
 		
 		try {
-			return new Developer(developer.get(0).getText(), designer.get(0).getText());
+			return new Developer(developer.get(0).getText(), designerS);
+			
 		} catch (NoSuchElementException e1) {
 			
 			try {
-				stubbornElement = driver.findElement(By.xpath("//table[@class='infobox hproduct']//tr[3]/td"));
-				return new Developer(stubbornElement.getText(), designer.get(0).getText());
+				stubbornElements = driver.findElements(By.xpath("//table[@class='infobox hproduct']//tr[3]/td"));
+				return new Developer(stubbornElement.getText(), designerS);
+				
 			} catch (NoSuchElementException e2) {
 				
-				stubbornElement = driver.findElement(By.xpath("//table[@class='infobox infobox vevent']//tr[contains(.,'Developers')]/td"));
-				return new Developer(stubbornElement.getText(), designer.get(0).getText());
+				stubbornElements = driver.findElements(By.xpath("//table[@class='infobox infobox vevent']//tr[contains(.,'Developers')]/td"));
+				return new Developer(stubbornElement.getText(), designerS);
 			}
-		} catch (IndexOutOfBoundsException e3) {
-			return new Developer(developer.get(0).getText(), "N/A");
 		}
 	}
 	
@@ -122,7 +131,6 @@ public class WikiResultsPage extends WikiPage {
 		try {
 			platforms.forEach(platform -> {
 				
-				//			LOG.info("Platform: {}", platform.getText());
 				if (!platform.getText().equals("") && !platform.getText().equals(" "))
 					systems.add(new System(platform.getText()));
 			});
@@ -139,7 +147,6 @@ public class WikiResultsPage extends WikiPage {
 		List<Genre> genreList = new ArrayList<>();
 		
 		genres.forEach(genre -> {
-//			LOG.info("Genre: {}", genre.getText());
 			if (!genre.getText().equals("") && !genre.getText().equals(" "))
 				genreList.add(new Genre(genre.getText()));
 		});
@@ -161,7 +168,6 @@ public class WikiResultsPage extends WikiPage {
 		} catch (WebDriverException e) {
 			return "N/A";
 		}
-//		LOG.info("URL: {}",src);
 		return "https://" + src;
 	}
 	

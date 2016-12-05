@@ -69,7 +69,7 @@ public class Test {
 		try {
 			Developer developer = wikiResults.getDeveloper();
 			
-				LOG.info("Developer: {}", developer.toString());
+				LOG.info( developer.toString());
 			
 		} catch (Exception e) {
 			LOG.error("Error in developerExtraction:", e);
@@ -81,7 +81,7 @@ public class Test {
 			List<Genre> genres = wikiResults.getGenres();
 			
 			genres.forEach(genre -> {
-				LOG.info("Genre: {}", genre.toString());
+				LOG.info(genre.toString());
 			});
 			
 		} catch (Exception e) {
@@ -92,7 +92,7 @@ public class Test {
 	public static void urlExtraction(WikiResultsPage wikiResults) {
 		try {
 			String url = wikiResults.getImageSource();
-			LOG.info("URL: {}", url);
+			LOG.info("URL: {}",url);
 		} catch (Exception e) {
 			LOG.error("Error in urlExtraction:", e);
 		}
@@ -101,7 +101,7 @@ public class Test {
 	public static void publisherExtraction(WikiResultsPage wikiResults) {
 		try {
 			Publisher publisher = wikiResults.getPublisher();
-			LOG.info("Publisher: {}", publisher.toString());
+			LOG.info(publisher.toString());
 			
 		} catch (Exception e) {
 			LOG.error("Error in publisherExtraction:", e);
