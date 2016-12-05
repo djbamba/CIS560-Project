@@ -5,6 +5,7 @@ import com.dj.model.Game;
 import com.dj.model.System;
 import com.dj.repository.GameRepository;
 import com.dj.repository.GenreRepository;
+import com.dj.repository.ScoreRepository;
 import com.dj.repository.SystemRepository;
 import com.dj.utils.MetaScraper;
 import com.dj.utils.pages.GooglePage;
@@ -57,6 +58,9 @@ public class SeedController {
 	
 	@Autowired
 	private GenreRepository genreRepository;
+	
+	@Autowired
+	private ScoreRepository scoreRepository;
 	
 	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
 	@ResponseBody

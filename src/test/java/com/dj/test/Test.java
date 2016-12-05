@@ -68,11 +68,11 @@ public class Test {
 	
 	@org.junit.Test
 	@FileParameters(value = "src/main/resources/data/games.csv", mapper = CsvWithHeaderMapper.class)
-	public static void systemTest(String id, String name, String moday,String year, String url) {
+	public static void gameTest(String id, String name, String date, String url) {
 		List<System> systems;
 		
 		try {
-			LOG.info("id: {} name: {} mmm-dd: {} year: {} url: {}", id, name, moday,year, url);
+			LOG.info("id: {} name: {} date: {} url: {}", id, name, date, url);
 		} catch (Exception e) {
 			LOG.error("Exception in systemTest", e);
 		}
