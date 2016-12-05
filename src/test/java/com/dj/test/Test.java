@@ -68,7 +68,7 @@ public class Test {
 	
 	@org.junit.Test
 	@FileParameters(value = "src/main/resources/data/games.csv", mapper = CsvWithHeaderMapper.class)
-	public static void systemTest(String id, String name, String date, String url) {
+	public static void gameInfoExtractionTest(String id, String name, String date, String url) {
 		List<System> systems;
 		
 		try {
@@ -80,7 +80,7 @@ public class Test {
 			
 			
 		} catch (Exception e) {
-			LOG.error("Exception in systemTest", e);
+			LOG.error("Exception in gameInfoExtractionTest", e);
 		}
 	}
 	
