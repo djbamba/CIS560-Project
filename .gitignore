@@ -1,4 +1,4 @@
-rc/main/resources/data/games.trace.db
+src/main/resources/data/games.trace.db
 
 # Created by https://www.gitignore.io/api/java,intellij,maven
 
