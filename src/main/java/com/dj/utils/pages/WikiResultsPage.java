@@ -70,7 +70,7 @@ public class WikiResultsPage extends WikiPage {
 	}
 	
 	public Publisher getPublisher() {
-		
+		LOG.info("Publisher: {}", publisher.getText());
 		return new Publisher(publisher.getText(), "M");
 	}
 	
@@ -90,11 +90,11 @@ public class WikiResultsPage extends WikiPage {
 		
 		List<System> systems = new ArrayList<>();
 		
-		platforms.forEach(platforms -> {
+		platforms.forEach(platform -> {
 			
-			LOG.info("Platform: {}", platforms.getText());
-			if(!platforms.getText().equals("") && !platforms.getText().equals(" "))
-			systems.add(new System(platforms.getText()));
+			LOG.info("Platform: {}", platform.getText());
+			if(!platform.getText().equals("") && !platform.getText().equals(" "))
+			systems.add(new System(platform.getText()));
 		});
 		
 		return systems;
@@ -105,6 +105,8 @@ public class WikiResultsPage extends WikiPage {
 		List<Genre> genreList = new ArrayList<>();
 		
 		genres.forEach(genre -> {
+			LOG.info("Genre: {}", genre.getText());
+			if(!genre.getText().equals("") && !genre.getText().equals(" "))
 			genreList.add(new Genre(genre.getText()));
 		});
 		
@@ -125,6 +127,7 @@ public class WikiResultsPage extends WikiPage {
 		} catch (WebDriverException e) {
 			return "N/A";
 		}
+		LOG.info("URL: {}",src);
 		return "https://" + src;
 	}
 	
