@@ -73,6 +73,13 @@ public class Test {
 		
 		try {
 			LOG.info("id: {} name: {} date: {} url: {}", id, name, date, url);
+			wikiResults = wikiPage.searchGame(name).getWikiResultsPage();
+			systems = wikiResults.getPlatforms();
+			
+			systems.forEach(system -> {
+				LOG.info(system.toString());
+			});
+			
 		} catch (Exception e) {
 			LOG.error("Exception in systemTest", e);
 		}
