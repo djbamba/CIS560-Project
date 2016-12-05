@@ -1,0 +1,3 @@
+2016-12-04 18:57:24 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "DELETE *[*] FROM COUNTRY"; expected "identifier"; SQL statement:
+DELETE * FROM COUNTRY [42001-192]

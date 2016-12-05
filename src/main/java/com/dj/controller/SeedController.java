@@ -1,8 +1,10 @@
 package com.dj.controller;
 
+import com.dj.model.Country;
 import com.dj.model.Developer;
 import com.dj.model.Game;
 import com.dj.model.System;
+import com.dj.repository.CountryRepository;
 import com.dj.repository.GameRepository;
 import com.dj.repository.GenreRepository;
 import com.dj.repository.SystemRepository;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +60,9 @@ public class SeedController {
 	
 	@Autowired
 	private GenreRepository genreRepository;
+
+	@Autowired
+	private CountryRepository countryRepository;
 	
 	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
 	@ResponseBody
@@ -178,6 +184,36 @@ public class SeedController {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@RequestMapping("/populateCountries")
+	public void populateCountries() {
+		File file = new File("src/main/resources/data/countries.csv");
+		BufferedReader br;
+		FileInputStream fis;
+		InputStreamReader isr;
+
+		String line;
+		try {
+			fis = new FileInputStream(file);
+			isr = new InputStreamReader(fis);
+			br = new BufferedReader(isr);
+
+			while ((line = br.readLine()) != null) {
+				String[] split = line.split(",");
+				// 0 = name, 1 = code
+				Country country = new Country(split[1], split[0]);
+				countryRepository.save(country);
+			}
+
+			List<Country> countries = countryRepository.findAll();
+			for (Country country : countries) {
+				LOG.debug("Country: " + country.toString());
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 }
