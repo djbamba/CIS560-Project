@@ -76,9 +76,7 @@ public class Test {
 			wikiResults = wikiPage.searchGame(name).getWikiResultsPage();
 			systems = wikiResults.getPlatforms();
 			
-			systems.forEach(system -> {
-				LOG.info(system.toString());
-			});
+			systems.forEach(system -> LOG.info(system.toString()));
 			
 			
 		} catch (Exception e) {

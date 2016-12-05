@@ -93,7 +93,7 @@ public class WikiResultsPage extends WikiPage {
 		platforms.forEach(platforms -> {
 			
 			LOG.info("Platform: {}", platforms.getText());
-			if(!platforms.getText().equals(""))
+			if(!platforms.getText().equals("") && !platforms.getText().equals(" "))
 			systems.add(new System(platforms.getText()));
 		});
 		
