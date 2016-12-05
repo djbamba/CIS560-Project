@@ -65,12 +65,12 @@ public class WikiResultsPage extends WikiPage {
 	 */
 	public String shredBlock() {
 		
-		LOG.info(infoBlock.getText());
+//		LOG.info(infoBlock.getText());
 		return infoBlock.getText();
 	}
 	
 	public Publisher getPublisher() {
-		LOG.info("Publisher: {}", publisher.getText());
+//		LOG.info("Publisher: {}", publisher.getText());
 		return new Publisher(publisher.getText(), "M");
 	}
 	
@@ -79,7 +79,7 @@ public class WikiResultsPage extends WikiPage {
 		List<Developer> devs = new ArrayList<>();
 		
 		developers.forEach(dev -> {
-			LOG.info("Developer: {} Designer: {}\n", dev.getText(), designers.get(0).getText());
+//			LOG.info("Developer: {} Designer: {}\n", dev.getText(), designers.get(0).getText());
 			devs.add(new Developer(dev.getText(), designers.get(0).getText()));
 		});
 		
@@ -92,7 +92,7 @@ public class WikiResultsPage extends WikiPage {
 		
 		platforms.forEach(platform -> {
 			
-			LOG.info("Platform: {}", platform.getText());
+//			LOG.info("Platform: {}", platform.getText());
 			if(!platform.getText().equals("") && !platform.getText().equals(" "))
 			systems.add(new System(platform.getText()));
 		});
@@ -105,7 +105,7 @@ public class WikiResultsPage extends WikiPage {
 		List<Genre> genreList = new ArrayList<>();
 		
 		genres.forEach(genre -> {
-			LOG.info("Genre: {}", genre.getText());
+//			LOG.info("Genre: {}", genre.getText());
 			if(!genre.getText().equals("") && !genre.getText().equals(" "))
 			genreList.add(new Genre(genre.getText()));
 		});
@@ -127,8 +127,11 @@ public class WikiResultsPage extends WikiPage {
 		} catch (WebDriverException e) {
 			return "N/A";
 		}
-		LOG.info("URL: {}",src);
+//		LOG.info("URL: {}",src);
 		return "https://" + src;
 	}
+	
+	// TODO: 12/5/16 Handle wiki pages that show "related" links.
+	// TODO: 12/5/16 Handle org.openqa.selenium.NoSuchElementException for each method.
 	
 }

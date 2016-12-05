@@ -60,7 +60,7 @@ public class Test {
 			});
 			
 		} catch (Exception e) {
-			LOG.error("systemExtraction: {}", e);
+			LOG.error("Error in systemExtraction:", e);
 		}
 		
 	}
@@ -74,7 +74,7 @@ public class Test {
 			});
 			
 		} catch (Exception e) {
-			LOG.error("developerExtraction: {}", e);
+			LOG.error("Error in developerExtraction:", e);
 		}
 	}
 	
@@ -87,7 +87,7 @@ public class Test {
 			});
 			
 		} catch (Exception e) {
-			LOG.error("genreExtraction: {}", e);
+			LOG.error("Error in genreExtraction:", e);
 		}
 	}
 	
@@ -96,7 +96,7 @@ public class Test {
 			String url = wikiResults.getImageSource();
 			LOG.info("URL: {}", url);
 		} catch (Exception e) {
-			LOG.error("urlExtraction: {}", e);
+			LOG.error("Error in urlExtraction:", e);
 		}
 	}
 	
@@ -106,7 +106,7 @@ public class Test {
 			LOG.info("Publisher: {}", publisher.toString());
 			
 		} catch (Exception e) {
-			LOG.error("publisherExtraction: {}", e);
+			LOG.error("Error in publisherExtraction:", e);
 		}
 	}
 	
@@ -131,5 +131,5 @@ public class Test {
 			LOG.error("Exception in gameInfoExtractionTest", e);
 		}
 	}
-	
+	// check Grand Theft Auto IV genres, BioShock, The Elder Scrolls V: Skyrim
 }
