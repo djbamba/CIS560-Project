@@ -55,7 +55,6 @@ public class TestController {
 	
 	@RequestMapping(value = "/searched", produces = "text/html")
 	public String getSearched() {
-		
 		return "pages/searched";
 	}
 }
