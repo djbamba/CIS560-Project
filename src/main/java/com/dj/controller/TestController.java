@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,8 @@ import java.util.List;
 /**
  * Created by DJ on 11/10/16.
  */
-@RestController
+@Controller
+@RequestMapping("/test")
 public class TestController {
 	
 	private static final Logger LOG = LogManager.getLogger(TestController.class);
@@ -32,27 +34,28 @@ public class TestController {
 	@Autowired
 	GameRepository gameRepository;
 	
-	@RequestMapping(value = "/test", produces = "application/json")
+	@RequestMapping(value = "/games", produces = "application/json")
 	public @ResponseBody String getGame() throws IOException {
 		List<Game> games = gameRepository.findAll();
 		StringBuilder sb = new StringBuilder();
-		
+		//allows us to convert our objects to JSON
 		ObjectMapper mapper = new ObjectMapper();
-//		Game game = mapper.readValue(gameFile, Game.class);
-//		gameRepository.save(game);
-//
-//		LOG.info("testDataPath: {}\n gamePath: {}\n game: {}",
-//		         testDataPath, gamePath, game);
 		
 		games.forEach(game -> {
 			
 			try {
 				sb.append(mapper.writeValueAsString(game)+"\n");
 			} catch (JsonProcessingException e) {
-				e.printStackTrace();
+				LOG.error("test controller error: ", e);
 			}
 		});
 		
 		return sb.toString();
+	}
+	
+	@RequestMapping(value = "/searched", produces = "text/html")
+	public String getSearched() {
+		
+		return "pages/searched";
 	}
 }
