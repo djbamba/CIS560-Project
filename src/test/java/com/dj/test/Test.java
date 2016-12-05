@@ -73,6 +73,8 @@ public class Test {
 		
 		try {
 			LOG.info("id: {} name: {} mmm-dd: {} year: {} url: {}", id, name, moday,year, url);
+			
+			
 		} catch (Exception e) {
 			LOG.error("Exception in systemTest", e);
 		}
