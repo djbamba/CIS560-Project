@@ -121,7 +121,7 @@ public class SeedController {
 		config();
 		sb.delete(0, sb.length());
 		List<System> systems;
-		List<Developer> developers;
+		Developer developer;
 		
 		try {
 			
@@ -136,10 +136,8 @@ public class SeedController {
 				sb.append(system.toString() + "\n");
 			});
 			
-			developers = resultsPage.getDevelopers();
-			developers.forEach(developer -> {
+			developer = resultsPage.getDeveloper();
 				LOG.info(developer.toString());
-			});
 			
 			LOG.info("Image src: {}", resultsPage.getImageSource());
 			

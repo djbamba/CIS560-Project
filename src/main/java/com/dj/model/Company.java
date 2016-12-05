@@ -22,8 +22,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "company")
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "type")
 public class Company implements Serializable {
 	
 	@Id

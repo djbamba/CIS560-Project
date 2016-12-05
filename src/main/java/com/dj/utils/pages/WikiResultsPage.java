@@ -7,6 +7,7 @@ import com.dj.model.System;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -30,20 +31,28 @@ public class WikiResultsPage extends WikiPage {
 	@FindBy(xpath = "//table[@class='infobox hproduct']")
 	private WebElement infoBlock;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[3]/td/a")
-	private List<WebElement> developers;
+	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[3]/td/a[1]")
+	private List<WebElement> developer;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[4]/td/a")
-	private WebElement publisher;
+	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[contains(.,'Publisher(s)')]/td/*[not(self::a[contains(.,'‹See Tfd›')])][1]")
+	private List<WebElement> publisher;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[6]/td")
-	private List<WebElement> designers;
+	/**
+	 * tony hawk: id('mw-content-text')/x:table[2]/x:tbody/x:tr[5]/x:td
+	 * tony hawk ps3: id('mw-content-text')/x:table/x:tbody/x:tr[5]/x:td/text()
+	 * tekken 3: id('mw-content-text')/x:table[1]/x:tbody/x:tr[7]/x:td
+	 * perfect dark: id('mw-content-text')/x:table[1]/x:tbody/x:tr[6]/x:td
+	 *
+	 * attempt: //table[@class='infobox hproduct']//tbody//tr[contains(.,'Designer(s)')]/td
+	 * ok: //div[@id='mw-content-text']/table/tbody/x:tr[contains(.,'Designer(s)')]/td//text()[not(contains(.,'('))]
+	 */
+	@FindBy(xpath = "//div[@id='mw-content-text']/table/tbody/x:tr[contains(.,'Designer(s)')]/td//text()[not(contains(.,'('))]")
+	private List<WebElement> designer;
 	
-	@FindBy(xpath = "//span[@class='nowraplinks']/*")
-	//old path //table[@class='infobox hproduct']//tr[13]//li
+	@FindBy(xpath = "//span[@class='nowraplinks']/*[not(self::small)]")
 	private List<WebElement> platforms;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[15]/td//a")
+	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[contains(.,'Genre(s)')]/td/a")
 	private List<WebElement> genres;
 	
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[2]/td/a/img")
@@ -52,6 +61,10 @@ public class WikiResultsPage extends WikiPage {
 	// TODO: 11/28/16 add field and method for scores
 	@FindBy(xpath = "")
 	private List<WebElement> scores;
+	
+	private WebElement stubbornElement;
+	
+	private List<WebElement> stubbornElements;
 	
 	public WikiResultsPage(WebDriver driver) {
 		
@@ -65,37 +78,66 @@ public class WikiResultsPage extends WikiPage {
 	 */
 	public String shredBlock() {
 		
-		LOG.info(infoBlock.getText());
 		return infoBlock.getText();
 	}
 	
 	public Publisher getPublisher() {
-		
-		return new Publisher(publisher.getText(), "M");
+		try {
+			
+			return new Publisher(publisher.get(0).getText(), "M");
+			
+		} catch (IndexOutOfBoundsException e3) {
+			try {
+				
+				stubbornElement = driver.findElement(By.xpath("//table[@class='infobox hproduct']//tr[contains(.,'Publisher(s)')]/td"));
+				return new Publisher(stubbornElement.getText(), "M");
+				
+			} catch (NoSuchElementException e2) {
+				
+				stubbornElement = driver.findElement(By.xpath("//table[@class='infobox infobox vevent']//tr[contains(.,'Publishers')]/td"));
+				return new Publisher(stubbornElement.getText(), "M");
+				
+			}
+		}
 	}
 	
-	public List<Developer> getDevelopers() {
+	public Developer getDeveloper() {
+		String designerS;
+		if (designer.isEmpty())
+			designerS = "N/A";
+		else designerS = designer.get(0).getText();
 		
-		List<Developer> devs = new ArrayList<>();
-		
-		developers.forEach(dev -> {
-			LOG.info("Developer: {} Designer: {}\n", dev.getText(), designers.get(0).getText());
-			devs.add(new Developer(dev.getText(), designers.get(0).getText()));
-		});
-		
-		return devs;
+		try {
+			return new Developer(developer.get(0).getText(), designerS);
+			
+		} catch (NoSuchElementException e1) {
+			
+			try {
+				stubbornElements = driver.findElements(By.xpath("//table[@class='infobox hproduct']//tr[3]/td"));
+				return new Developer(stubbornElement.getText(), designerS);
+				
+			} catch (NoSuchElementException e2) {
+				
+				stubbornElements = driver.findElements(By.xpath("//table[@class='infobox infobox vevent']//tr[contains(.,'Developers')]/td"));
+				return new Developer(stubbornElement.getText(), designerS);
+			}
+		}
 	}
 	
 	public List<System> getPlatforms() {
 		
 		List<System> systems = new ArrayList<>();
 		
-		platforms.forEach(platforms -> {
+		try {
+			platforms.forEach(platform -> {
+				
+				if (!platform.getText().equals("") && !platform.getText().equals(" "))
+					systems.add(new System(platform.getText()));
+			});
+		} catch (NoSuchElementException e) {
+			stubbornElements = driver.findElements(By.xpath("//table[@class='infobox infobox vevent']//tr[contains(.,'Developers')]/td"));
 			
-			LOG.info("Platform: {}", platforms.getText());
-			
-			systems.add(new System(platforms.getText()));
-		});
+		}
 		
 		return systems;
 	}
@@ -105,7 +147,8 @@ public class WikiResultsPage extends WikiPage {
 		List<Genre> genreList = new ArrayList<>();
 		
 		genres.forEach(genre -> {
-			genreList.add(new Genre(genre.getText()));
+			if (!genre.getText().equals("") && !genre.getText().equals(" "))
+				genreList.add(new Genre(genre.getText()));
 		});
 		
 		return genreList;
@@ -127,5 +170,8 @@ public class WikiResultsPage extends WikiPage {
 		}
 		return "https://" + src;
 	}
+	
+	// TODO: 12/5/16 Handle wiki pages that show "related" links.
+	// TODO: 12/5/16 Handle org.openqa.selenium.NoSuchElementException for each method.
 	
 }
