@@ -41,7 +41,7 @@ public class Test {
 	public static void setup() {
 		java.lang.System.setProperty("webdriver.firefox.bin", "/Applications/Firefox-2.app/Contents/MacOS/firefox-bin");
 		driver = new FirefoxDriver();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		wikiPage = new WikiPage(driver);
 	}
@@ -67,11 +67,9 @@ public class Test {
 	
 	public static void developerExtraction(WikiResultsPage wikiResults) {
 		try {
-			List<Developer> developers = wikiResults.getDevelopers();
+			Developer developer = wikiResults.getDeveloper();
 			
-			developers.forEach(developer -> {
 				LOG.info("Developer: {}", developer.toString());
-			});
 			
 		} catch (Exception e) {
 			LOG.error("Error in developerExtraction:", e);
