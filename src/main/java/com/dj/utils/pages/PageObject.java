@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class PageObject {
 	
-	protected WebDriver driver;
+	static protected WebDriver driver;
 	
 	public PageObject(WebDriver driver) {
 		this(driver,null);

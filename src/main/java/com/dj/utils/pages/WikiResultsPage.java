@@ -25,25 +25,29 @@ import java.util.List;
 public class WikiResultsPage extends WikiPage {
 	
 	private static final Logger LOG = LogManager.getLogger(WikiResultsPage.class);
-	
-	private StringBuilder sb = new StringBuilder();
+
+//	".//table[@class='infobox hproduct']/tbody//th[contains(.,'Developer(s)')]"
 	
 	@FindBy(xpath = "//table[@class='infobox hproduct']")
 	private WebElement infoBlock;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[3]/td/a[1]")
+	@FindBy(xpath = ".//table[@class='infobox hproduct']/tbody//th[contains(.,'Developer(s)')]")
 	private WebElement developer;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[contains(.,'Publisher(s)')]/td/*[not(self::a[contains(.,'‹See Tfd›')])][1]")
+	//	/td/*[not(self::a[contains(.,'‹See Tfd›')])][1]
+	@FindBy(xpath = ".//table[@class='infobox hproduct']/tbody//th[contains(.,'Publisher(s)')]")
 	private WebElement publisher;
 	
-	@FindBy(xpath = "//div[@id='mw-content-text']/table/tbody/x:tr[contains(.,'Designer(s)')]/td//text()[not(contains(.,'('))]")
+	//	/td//text()[not(contains(.,'('))]
+	@FindBy(xpath = ".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designer(s)')]")
 	private WebElement designer;
 	
-	@FindBy(xpath = "//span[@class='nowraplinks']/*[not(self::small)]")
+	//	//span[@class='nowraplinks']/*[not(self::small)]
+	@FindBy(xpath = ".//table[@class='infobox hproduct']/tbody//th[contains(.,'Platform(s)')]")
 	private WebElement platforms;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[contains(.,'Genre(s)')]/td/a")
+	//	//table[@class='infobox hproduct']//tr[contains(.,'Genre(s)')]/td/a
+	@FindBy(xpath = ".//table[@class='infobox hproduct']/tbody//th[contains(.,'Genre(s)')]")
 	private WebElement genres;
 	
 	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[2]/td/a/img")
@@ -58,11 +62,9 @@ public class WikiResultsPage extends WikiPage {
 	private List<WebElement> stubbornElements;
 	
 	public WikiResultsPage(WebDriver driver) {
-		
 		super(driver, null);
 	}
 	
-
 	public String shredBlock() {
 		
 		return infoBlock.getText();
@@ -169,6 +171,26 @@ public class WikiResultsPage extends WikiPage {
 			return "N/A";
 		}
 		return "https://" + src;
+	}
+	
+	static boolean elementExists(WebElement element) {
+		try {
+			element.getText();
+			return true;
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	static boolean elementExists(By findBy) {
+		try {
+			driver.findElement(findBy);
+			return true;
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	// TODO: 12/5/16 Sit in the corner and cry.
