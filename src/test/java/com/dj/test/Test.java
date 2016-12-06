@@ -41,7 +41,7 @@ public class Test {
 	public static void setup() {
 		java.lang.System.setProperty("webdriver.firefox.bin", "/Applications/Firefox-2.app/Contents/MacOS/firefox-bin");
 		driver = new FirefoxDriver();
-		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		wikiPage = new WikiPage(driver);
 	}
@@ -120,7 +120,7 @@ public class Test {
 			// test developer extraction
 			developerExtraction(wikiResults);
 			// test genre extraction
-			genreExtraction(wikiResults);
+//			genreExtraction(wikiResults);
 			// test url extraction
 			urlExtraction(wikiResults);
 			// test publisher extraction
