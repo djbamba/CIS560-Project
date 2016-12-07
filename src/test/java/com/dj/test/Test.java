@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -48,7 +49,8 @@ public class Test {
 	public static void tearDown() {
 		driver.close();
 	}
-	
+
+	@Ignore
 	@org.junit.Test
 	public static void testSystemExtraction() {
 		wikiResults = wikiPage.searchGame("Far Cry Primal").getWikiResultsPage();
@@ -65,7 +67,8 @@ public class Test {
 		}
 		
 	}
-	
+
+	@Ignore
 	@org.junit.Test
 	@FileParameters(value = "src/main/resources/data/games.csv", mapper = CsvWithHeaderMapper.class)
 	public static void systemTest(String id, String name, String moday,String year, String url) {

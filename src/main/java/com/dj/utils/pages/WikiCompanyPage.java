@@ -22,9 +22,9 @@ public class WikiCompanyPage extends WikiPage {
     @FindBy(xpath = "//table[@class='infobox vcard']//tr[8]/td/span[@class='country-name']")
     private WebElement headquarters;
 
-    private By publisherRow = new By.ByXPath("//table[@class='wikitable sortable jquery-tablesorter']/tbody/tr/td[2]/a");
+//    private By publisherRowLink = new By.ByXPath("//table[@class='wikitable sortable jquery-tablesorter']/tbody/tr/td[2]/a");
 
-
+    private By publisherRow = new By.ByXPath("//table[@class='wikitable sortable jquery-tablesorter']/tbody/tr/td[1]/a");
 
     public WikiCompanyPage(WebDriver driver) {
         super(driver);
