@@ -4,11 +4,11 @@ import com.dj.model.Developer;
 import com.dj.model.Genre;
 import com.dj.model.Publisher;
 import com.dj.model.System;
-import com.thoughtworks.selenium.condition.Text;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -74,52 +74,58 @@ public class WikiResultsPage extends WikiPage {
 	public Developer getDeveloper() {
 		By xp1 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Developer(s)')]/following-sibling::td/*[1]");
 		By xp2 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Developers')]/following-sibling::td/*[1]");
+		By xp3 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Developer(s)')]/following-sibling::td");
 		
 		if (elementExists(developer)) {
 			temp = driver.findElement(xp1);
-			return new Developer(temp.getText(), getDesigner());
+			return new Developer(temp.getText(), "Test" /* getDesigner()*/);
 		} else if (elementExists(xp2)) {
 			temp = driver.findElement(xp2);
-			return new Developer(temp.getText(), getDesigner());
+			return new Developer(temp.getText(), "Test" /*getDesigner()*/);
 		} else {
-			return new Developer("N/A", getDesigner());
+			return new Developer("N/A", "Test" /*getDesigner()*/);
 		}
 	}
 	
 	public Publisher getPublisher() {
 		By xp1 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Publisher(s)')]/following-sibling::td/*[1]");
-		By xp2 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Publishers')]/following-sibling::td/*[1]");
+		By xp2 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Publisher(s)')]/following-sibling::td");
+		By xp3 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Publishers')]/following-sibling::td/*[1]");
+		By xp4 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Publishers')]/following-siblin::td");
 		
 		if (elementExists(publisher)) {
-			temp = driver.findElement(xp1);
+			temp = driver.findElement(getPresentElement(xp1, xp2));
 			return new Publisher(temp.getText(), "M");
-		} else if (elementExists(xp2)) {
-			temp = driver.findElement(xp2);
+		} else if (elementExists(xp3)) {
+			temp = driver.findElement(getPresentElement(xp3, xp4));
 			return new Publisher(temp.getText(), "M");
 		} else {
-			return null;
+			return new Publisher("N/A","N/A");
 		}
+		
 	}
 	
 	public String getDesigner() {
-		By xp1 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designer(s)')]/following-sibling::td//text()[1]");
-		By xp2 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designer(s)')]/following-sibling::td//a[1]");
+//		.//table[@class='infobox hproduct']/tbody//th[contains(.,'Designer(s)')]/following-sibling::td/text()[1]
+		By xp1 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designer(s)')]/following-sibling::td/*[1]");
+		By xp2 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designer(s)')]/following-sibling::td");
+		By xp3 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designers')]/following-sibling::td//a[1]");
+		By xp4 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designers')]/following-sibling::td//a[1]");
 		
 		if (elementExists(designer)) {
-			// TODO: 12/6/16 handle object text or webelement 
-			if (driver.findElement(xp1) instanceof Text);
+			// TODO: 12/6/16 handle object text or webelement
+//			return extractText(xp1);
+			return extractText(getPresentElement(xp1, xp2));
+		} else if (elementExists(xp2)) {
+			return extractText(xp2);
 		}
-		if (elementExists(xp2)) {
-			return driver.findElement(xp2).toString();
-		} else {
-			return "N/A";
-		}
+		return "N/A";
 	}
 	
 	public List<System> getPlatforms() {
 		By xp1 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Platform(s)')]/following-sibling::td//a");
 		By xp2 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Platforms')]/following-sibling::td//a");
-		List<System> systems;
+		List<System> systems = new ArrayList<>();
 		
 		if (elementExists(platforms)) {
 			temps = driver.findElements(xp1);
@@ -129,7 +135,7 @@ public class WikiResultsPage extends WikiPage {
 			               .map(element -> new System(element.getText()))
 			               .collect(Collectors.toList());
 			
-			systems.stream().forEach(system -> LOG.info(system.toString()));
+//			 systems.stream().forEach(system -> LOG.info(system.toString()));
 			
 			return systems;
 		}
@@ -140,38 +146,47 @@ public class WikiResultsPage extends WikiPage {
 			               .filter(element -> (!element.getText().equals("") && !element.getText().equals(" ")))
 			               .map(element -> new System(element.getText()))
 			               .collect(Collectors.toList());
-			systems.stream().forEach(system -> LOG.info(system.toString()));
+			
+//			systems.stream().forEach(system -> LOG.info(system.toString()));
 			
 			return systems;
 		}
-		
-		return null;
+		return systems;
 	}
 	
 	// TODO: 12/6/16 Finish Genres
 	public List<Genre> getGenres() {
 		By xp1 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Platform(s)')]/following-sibling::td//a");
-		By xp2 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Genres')]/following-sibling::td/a");
-		/*
+		By xp2 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Genres')]/following-sibling::td//a");
+		
 		List<Genre> genreList = new ArrayList<>();
 		
-		genres.forEach(genre -> {
-			if (!genre.getText().equals("") && !genre.getText().equals(" "))
-				genreList.add(new Genre(genre.getText()));
-		});
+		if (elementExists(genres)) {
+			
+			temps = driver.findElements(xp1);
+			genreList = temps.stream()
+			                 .map(genre -> new Genre(genre.getText()))
+			                 .collect(Collectors.toList());
+//			genreList.forEach(genre -> LOG.info(genre.toString()));
+			
+		} else if (elementExists(xp2)) {
+			
+			temps = driver.findElements(xp2);
+			genreList = temps.stream()
+			                 .map(genre -> new Genre(genre.getText()))
+			                 .collect(Collectors.toList());
+//			genreList.forEach(genre -> LOG.info(genre.toString()));
+		}
 		
 		return genreList;
-		*/
-		return null;
 	}
 	
 	public String getImageSource() {
-		
 		String src = "";
 		try {
 			src = URLDecoder.decode(image.getAttribute("srcset").substring(2, image.getAttribute("srcset").lastIndexOf("g") + 1), "UTF-8");
 		} catch (StringIndexOutOfBoundsException e) {
-			src = image.getAttribute("src").substring(2);
+			src = image.getAttribute("src");
 		} catch (UnsupportedEncodingException e) {
 			LOG.error("Unsupported Encoding Exception in WikiResultsPage getImageSource", e);
 		} catch (NoSuchElementException e) {
@@ -182,12 +197,29 @@ public class WikiResultsPage extends WikiPage {
 		return "https://" + src;
 	}
 	
+	/**
+	 * Method to return whichever By exists. Intended for decreasing code duplication
+	 * when checking if each xpath by elementExists.
+	 */
+	static By getPresentElement(By first, By second) {
+		if (elementExists(first))
+			return first;
+		return second;
+	}
+	
+	static String extractText(By iffyElement) {
+		try {
+			return driver.findElement(iffyElement).getText();
+		} catch (InvalidSelectorException e) {
+			return driver.findElement(iffyElement).toString();
+		}
+	}
+	
 	static boolean elementExists(WebElement element) {
 		try {
 			element.getText();
 			return true;
 		} catch (NoSuchElementException e) {
-//			e.printStackTrace();
 			return false;
 		}
 	}
@@ -197,7 +229,6 @@ public class WikiResultsPage extends WikiPage {
 			driver.findElement(findBy);
 			return true;
 		} catch (NoSuchElementException e) {
-//			e.printStackTrace();
 			return false;
 		}
 	}
