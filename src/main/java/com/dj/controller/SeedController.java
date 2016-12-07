@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -216,6 +217,14 @@ public class SeedController {
 	@RequestMapping("/populateCompanies")
 	public void populateCompanies() {
 		config();
-		WikiPage wikiPage = new WikiPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
+		// Grab the list of publishers
+		WikiCompanyPage wikiPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
+		List<WebElement> publisherList = driver.findElements(wikiPage.getPublisherRow());
+
+		// Taiwan, South Korea, Netherlands, US, USA, UK
+		for (WebElement webElement : publisherList) {
+			LOG.info(webElement.getText());
+		}
+
 	}
 }
