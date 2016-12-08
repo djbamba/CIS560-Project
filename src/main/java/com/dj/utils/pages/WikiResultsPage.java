@@ -7,6 +7,8 @@ import com.dj.model.System;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -16,7 +18,11 @@ import org.openqa.selenium.support.FindBy;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.dj.utils.pages.PageConstants.*;
 
 /**
  * Created by DJ on 11/28/16.
@@ -24,100 +30,145 @@ import java.util.List;
 public class WikiResultsPage extends WikiPage {
 	
 	private static final Logger LOG = LogManager.getLogger(WikiResultsPage.class);
+
+	@FindBy(xpath = INFO_BOX)
+	private WebElement infoBox;
 	
-	private StringBuilder sb = new StringBuilder();
+	@FindBy(xpath = DEV_1)
+	private WebElement developer;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']")
-	private WebElement infoBlock;
-	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[3]/td/a")
-	private List<WebElement> developers;
-	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[4]/td/a")
+	@FindBy(xpath = PUB_1)
 	private WebElement publisher;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[6]/td")
-	private List<WebElement> designers;
+	@FindBy(xpath = DES_1)
+	private WebElement designer;
 	
-	@FindBy(xpath = "//span[@class='nowraplinks']/*")
-	//old path //table[@class='infobox hproduct']//tr[13]//li
-	private List<WebElement> platforms;
+	@FindBy(xpath = PLAT_1)
+	private WebElement platforms;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[15]/td//a")
-	private List<WebElement> genres;
+	@FindBy(xpath = GEN_1)
+	private WebElement genres;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[2]/td/a/img")
+	@FindBy(xpath = IMAGE_PATH)
 	private WebElement image;
 	
 	// TODO: 11/28/16 add field and method for scores
 	@FindBy(xpath = "")
 	private List<WebElement> scores;
 	
+	private WebElement tempE;
+	
+	private List<WebElement> tempsE;
+	
 	public WikiResultsPage(WebDriver driver) {
-		
 		super(driver, null);
 	}
 	
-	/**
-	 * Method to test the information block's contents
-	 *
-	 * @return information block's text contents
-	 */
 	public String shredBlock() {
+		return infoBox.getText();
+	}
+	
+	public Developer getDeveloper() {
+		By xp1 = By.xpath("(" + DEV_1 + "/following-sibling::td//a)[1]");
+		By xp2 = By.xpath(DEV_1 + "/following-sibling::td");
+		By xp3 = By.xpath("(" + DEV_2 + "/following-sibling::td//a)[1]");
 		
-		LOG.info(infoBlock.getText());
-		return infoBlock.getText();
+		if (elementExists(developer)) {
+			tempE = driver.findElement(getPresentElement(xp1, xp2));
+			return new Developer(tempE.getText(), getDesigner());
+		} else if (elementExists(DEV_2)) {
+			tempE = driver.findElement(xp3);
+			return new Developer(tempE.getText(), getDesigner());
+		} else {
+			return new Developer("N/A", getDesigner());
+		}
 	}
 	
 	public Publisher getPublisher() {
+		By xp1 = By.xpath("(" + PUB_1 + "/following-sibling::td//a)[1]");
+		By xp2 = By.xpath(PUB_1 + "/following-sibling::td");
+		By xp3 = By.xpath("(" + PUB_2 + "/following-sibling::td//a)[1]");
+		By xp4 = By.xpath(PUB_2 + "/following-sibling::td");
 		
-		return new Publisher(publisher.getText(), "M");
+		if (elementExists(publisher)) {
+			tempE = driver.findElement(getPresentElement(xp1, xp2));
+			return new Publisher(tempE.getText(), "M");
+		} else if (elementExists(PUB_2)) {
+			tempE = driver.findElement(getPresentElement(xp3, xp4));
+			return new Publisher(tempE.getText(), "M");
+		} else {
+			return new Publisher("N/A", "N/A");
+		}
+		
 	}
 	
-	public List<Developer> getDevelopers() {
+	public String getDesigner() {
+		By xp1 = By.xpath("(" + DES_1 + "/following-sibling::td/text()[1][not(self::small)])");
+		By xp2 = By.xpath(DES_1 + "/following-sibling::td");
+		By xp3 = By.xpath("(" + DES_2 + "/following-sibling::td//text()[1][not(self::small)])");
+		By xp4 = By.xpath(DES_2 + "/following-sibling::td");
 		
-		List<Developer> devs = new ArrayList<>();
-		
-		developers.forEach(dev -> {
-			LOG.info("Developer: {} Designer: {}\n", dev.getText(), designers.get(0).getText());
-			devs.add(new Developer(dev.getText(), designers.get(0).getText()));
-		});
-		
-		return devs;
+		if (elementExists(designer)) {
+			return extractText(getPresentElement(xp1, xp2));
+		} else if (elementExists(DES_2)) {
+			return extractText(getPresentElement(xp3, xp4));
+		}
+		return "N/A";
 	}
 	
 	public List<System> getPlatforms() {
-		
+		By xp1 = By.xpath(PLAT_1 + "/following-sibling::td//span/a");
+		By xp2 = By.xpath(PLAT_2 + "/following-sibling::td//span/a");
 		List<System> systems = new ArrayList<>();
 		
-		platforms.forEach(platforms -> {
+		if (elementExists(platforms)) {
+			tempsE = driver.findElements(xp1);
 			
-			LOG.info("Platform: {}", platforms.getText());
+			systems = tempsE.stream()
+			                .filter(element -> (!element.getText().equals("") && !element.getText().equals(" ")))
+			                .map(element -> new System(element.getText()))
+			                .collect(Collectors.toList());
+			return systems;
+		} else if (elementExists(PLAT_2)) {
+			tempsE = driver.findElements(xp2);
 			
-			systems.add(new System(platforms.getText()));
-		});
-		
+			systems = tempsE.stream()
+			                .filter(element -> (!element.getText().equals("") && !element.getText().equals(" ")))
+			                .map(element -> new System(element.getText()))
+			                .collect(Collectors.toList());
+			return systems;
+		}
 		return systems;
 	}
 	
 	public List<Genre> getGenres() {
+		By xp1 = By.xpath(GEN_1 + "/following-sibling::td//a[not(self::small)]");
+		By xp2 = By.xpath(GEN_2 + "/following-sibling::td//a[not(self::small)]");
 		
 		List<Genre> genreList = new ArrayList<>();
 		
-		genres.forEach(genre -> {
-			genreList.add(new Genre(genre.getText()));
-		});
-		
+		if (elementExists(genres)) {
+			
+			tempsE = driver.findElements(xp1);
+			genreList = tempsE.stream()
+			                  .map(genre -> new Genre(genre.getText().toUpperCase()))
+			                  .collect(Collectors.toList());
+		} else if (elementExists(GEN_2)) {
+			
+			tempsE = driver.findElements(xp2);
+			genreList = tempsE.stream()
+			                  .map(genre -> new Genre(genre.getText().toUpperCase()))
+			                  .collect(Collectors.toList());
+		}
 		return genreList;
 	}
 	
 	public String getImageSource() {
-		
 		String src = "";
 		try {
 			src = URLDecoder.decode(image.getAttribute("srcset").substring(2, image.getAttribute("srcset").lastIndexOf("g") + 1), "UTF-8");
 		} catch (StringIndexOutOfBoundsException e) {
-			src = image.getAttribute("src").substring(2);
+			src = image.getAttribute("src");
 		} catch (UnsupportedEncodingException e) {
 			LOG.error("Unsupported Encoding Exception in WikiResultsPage getImageSource", e);
 		} catch (NoSuchElementException e) {
@@ -126,6 +177,33 @@ public class WikiResultsPage extends WikiPage {
 			return "N/A";
 		}
 		return "https://" + src;
+	}
+	
+	/**
+	 * Method to return whichever By exists. Intended for decreasing code duplication
+	 * when checking if each xpath by elementExists.
+	 */
+	static By getPresentElement(By first, By second) {
+		if (elementExists(first))
+			return first;
+		return second;
+	}
+	
+	static String extractText(By iffyElement) {
+		try {
+			List<String> allText =
+			 Arrays.asList(
+			  driver.findElement(iffyElement)
+			        .getText()
+			        .split("[\n()]", 2)
+			 );
+			if (allText.size() >= 1)
+				return allText.get(0);
+			else
+				return "N/A";
+		} catch (InvalidSelectorException e) {
+			return "N/A";
+		}
 	}
 	
 }

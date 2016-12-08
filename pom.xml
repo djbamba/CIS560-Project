@@ -27,16 +27,16 @@
 
     <dependencies>
         <!--Spring packages-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
-        <!--<exclusions>-->
-        <!--<exclusion>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-logging</artifactId>-->
-        <!--</exclusion>-->
-        <!--</exclusions>-->
-        <!--</dependency>-->
+        <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        <exclusions>
+        <exclusion>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+        </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -137,7 +137,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!--Tells devtools to reload static resources-->
-                    <!--<addResources>true</addResources>-->
+                    <addResources>true</addResources>
                     <!--Fixes issue with hot-swapping when making changes-->
                     <!--http://stackoverflow.com/questions/35895730/spring-boot-devtools-static-content-reloading-does-not-work-in-intellij-->
                     <fork>true</fork>

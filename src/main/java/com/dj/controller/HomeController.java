@@ -18,4 +18,5 @@ public class HomeController {
         LOG.info("Index requested");
         return "index";
     }
+    
 }
