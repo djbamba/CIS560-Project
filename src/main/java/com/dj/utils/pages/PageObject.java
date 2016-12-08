@@ -1,6 +1,9 @@
 package com.dj.utils.pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.concurrent.TimeUnit;
@@ -40,5 +43,30 @@ public class PageObject {
 		driver.quit();
 	}
 	
+	static boolean elementExists(WebElement element) {
+		try {
+			element.getText();
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
 	
+	static boolean elementExists(By findBy) {
+		try {
+			driver.findElement(findBy);
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+	
+	static boolean elementExists(String find) {
+		try {
+			driver.findElement(By.xpath(find)).getText();
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
 }
