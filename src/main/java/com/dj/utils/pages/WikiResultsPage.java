@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.dj.utils.pages.PageConstants.*;
+
 /**
  * Created by DJ on 11/28/16.
  */
@@ -30,29 +32,29 @@ public class WikiResultsPage extends WikiPage {
 
 //	".//table[@class='infobox hproduct']/tbody//th[contains(.,'linkText')]"
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']")
-	private WebElement infoBlock;
+	@FindBy(xpath = INFO_BOX)
+	private WebElement infoBox;
 	
-	@FindBy(xpath = ".//table[@class='infobox hproduct']/tbody//th[contains(.,'Developer(s)')]")
+	@FindBy(xpath = DEV_1)
 	private WebElement developer;
 	
 	//	/td/*[not(self::a[contains(.,'‹See Tfd›')])][1]
-	@FindBy(xpath = ".//table[@class='infobox hproduct']/tbody//th[contains(.,'Publisher(s)')]")
+	@FindBy(xpath = PUB_1)
 	private WebElement publisher;
 	
 	//	/td//text()[not(contains(.,'('))]
-	@FindBy(xpath = ".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designer(s)')]")
+	@FindBy(xpath = DES_1)
 	private WebElement designer;
 	
 	//	//span[@class='nowraplinks']/*[not(self::small)]
-	@FindBy(xpath = ".//table[@class='infobox hproduct']/tbody//th[contains(.,'Platform(s)')]")
+	@FindBy(xpath = PLAT_1)
 	private WebElement platforms;
 	
 	//	//table[@class='infobox hproduct']//tr[contains(.,'Genre(s)')]/td/a
-	@FindBy(xpath = ".//table[@class='infobox hproduct']/tbody//th[contains(.,'Genre(s)')]")
+	@FindBy(xpath = GEN_1)
 	private WebElement genres;
 	
-	@FindBy(xpath = "//table[@class='infobox hproduct']//tr[2]/td/a/img")
+	@FindBy(xpath = IMAGE_PATH)
 	private WebElement image;
 	
 	// TODO: 11/28/16 add field and method for scores
@@ -68,7 +70,7 @@ public class WikiResultsPage extends WikiPage {
 	}
 	
 	public String shredBlock() {
-		return infoBlock.getText();
+		return infoBox.getText();
 	}
 	
 	public Developer getDeveloper() {
