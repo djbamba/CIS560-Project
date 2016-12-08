@@ -61,9 +61,9 @@ public class WikiResultsPage extends WikiPage {
 	@FindBy(xpath = "")
 	private List<WebElement> scores;
 	
-	private WebElement temp;
+	private WebElement tempE;
 	
-	private List<WebElement> temps;
+	private List<WebElement> tempsE;
 	
 	public WikiResultsPage(WebDriver driver) {
 		super(driver, null);
@@ -74,83 +74,78 @@ public class WikiResultsPage extends WikiPage {
 	}
 	
 	public Developer getDeveloper() {
-		By xp1 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Developer(s)')]/following-sibling::td/*[1]");
-		By xp2 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Developers')]/following-sibling::td/*[1]");
-		By xp3 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Developer(s)')]/following-sibling::td");
+		// TODO: 12/7/16 handle multiple developers
+		By xp1 = By.xpath(DEV_1 + "/following-sibling::td/*[1]");
+		By xp2 = By.xpath(DEV_1 + "/following-sibling::td");
+		By xp3 = By.xpath(DEV_2 + "/following-sibling::td/*[1]");
 		
-		if (elementExists(developer)) {
-			temp = driver.findElement(xp1);
-			return new Developer(temp.getText(), "Test" /* getDesigner()*/);
-		} else if (elementExists(xp2)) {
-			temp = driver.findElement(xp2);
-			return new Developer(temp.getText(), "Test" /*getDesigner()*/);
+		if (elementExists(DEV_1)) {
+			tempE = driver.findElement(getPresentElement(xp1, xp2));
+			return new Developer(tempE.getText(), "Test" /* getDesigner()*/);
+		} else if (elementExists(DEV_2)) {
+			tempE = driver.findElement(xp3);
+			return new Developer(tempE.getText(), "Test" /*getDesigner()*/);
 		} else {
 			return new Developer("N/A", "Test" /*getDesigner()*/);
 		}
 	}
 	
 	public Publisher getPublisher() {
-		By xp1 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Publisher(s)')]/following-sibling::td/*[1]");
-		By xp2 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Publisher(s)')]/following-sibling::td");
-		By xp3 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Publishers')]/following-sibling::td/*[1]");
-		By xp4 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Publishers')]/following-siblin::td");
+		// TODO: 12/7/16 handle multiple publishers
+		By xp1 = By.xpath(PUB_1 + "/following-sibling::td/*[1]");
+		By xp2 = By.xpath(PUB_1 + "/following-sibling::td");
+		By xp3 = By.xpath(PUB_2 + "/following-sibling::td/*[1]");
+		By xp4 = By.xpath(PUB_2 + "/following-sibling::td");
 		
-		if (elementExists(publisher)) {
-			temp = driver.findElement(getPresentElement(xp1, xp2));
-			return new Publisher(temp.getText(), "M");
-		} else if (elementExists(xp3)) {
-			temp = driver.findElement(getPresentElement(xp3, xp4));
-			return new Publisher(temp.getText(), "M");
+		if (elementExists(PUB_1)) {
+			tempE = driver.findElement(getPresentElement(xp1, xp2));
+			return new Publisher(tempE.getText(), "M");
+		} else if (elementExists(PUB_2)) {
+			tempE = driver.findElement(getPresentElement(xp3, xp4));
+			return new Publisher(tempE.getText(), "M");
 		} else {
-			return new Publisher("N/A","N/A");
+			return new Publisher("N/A", "N/A");
 		}
 		
 	}
 	
 	public String getDesigner() {
 //		.//table[@class='infobox hproduct']/tbody//th[contains(.,'Designer(s)')]/following-sibling::td/text()[1]
-		By xp1 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designer(s)')]/following-sibling::td/*[1]");
-		By xp2 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designer(s)')]/following-sibling::td");
-		By xp3 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designers')]/following-sibling::td//a[1]");
-		By xp4 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Designers')]/following-sibling::td//a[1]");
+		// TODO: 12/7/16 handle multiple designers and ignore things in parens
 		
-		if (elementExists(designer)) {
-			// TODO: 12/6/16 handle object text or webelement
-//			return extractText(xp1);
+		By xp1 = By.xpath("(" + DES_1 + "/following-sibling::td//text()[not(contains(.,'(' or ')'))][1])[1]");
+		By xp2 = By.xpath(DES_1 + "/following-sibling::td");
+		By xp3 = By.xpath("(" + DES_2 + "/following-sibling::td//text()[not(contains(.,'(' or ')'))][1])[1]");
+		By xp4 = By.xpath(DES_2 + "/following-sibling::td");
+		
+		if (elementExists(DES_1)) {
 			return extractText(getPresentElement(xp1, xp2));
-		} else if (elementExists(xp2)) {
-			return extractText(xp2);
+		} else if (elementExists(DES_2)) {
+			return extractText(getPresentElement(xp3, xp4));
 		}
 		return "N/A";
 	}
 	
 	public List<System> getPlatforms() {
-		By xp1 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Platform(s)')]/following-sibling::td//a");
-		By xp2 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Platforms')]/following-sibling::td//a");
+		By xp1 = By.xpath(PLAT_1 + "/following-sibling::td//a");
+		By xp2 = By.xpath(PLAT_2 + "/following-sibling::td//a");
 		List<System> systems = new ArrayList<>();
 		
-		if (elementExists(platforms)) {
-			temps = driver.findElements(xp1);
+		if (elementExists(PLAT_1)) {
+			tempsE = driver.findElements(xp1);
 			
-			systems = temps.stream()
-			               .filter(element -> (!element.getText().equals("") && !element.getText().equals(" ")))
-			               .map(element -> new System(element.getText()))
-			               .collect(Collectors.toList());
-			
-//			 systems.stream().forEach(system -> LOG.info(system.toString()));
-			
+			systems = tempsE.stream()
+			                .filter(element -> (!element.getText().equals("") && !element.getText().equals(" ")))
+			                .map(element -> new System(element.getText()))
+			                .collect(Collectors.toList());
 			return systems;
-		}
-		if (elementExists(xp2)) {
-			temps = driver.findElements(xp2);
+		} else if (elementExists(PLAT_2)) {
+			tempsE = driver.findElements(xp2);
 			
-			systems = temps.stream()
-			               .filter(element -> (!element.getText().equals("") && !element.getText().equals(" ")))
-			               .map(element -> new System(element.getText()))
-			               .collect(Collectors.toList());
-			
-//			systems.stream().forEach(system -> LOG.info(system.toString()));
-			
+			systems = tempsE.stream()
+			                .filter(element -> (!element.getText().equals("") && !element.getText().equals(" ")))
+			                .map(element -> new System(element.getText()))
+			                .collect(Collectors.toList());
 			return systems;
 		}
 		return systems;
@@ -158,28 +153,24 @@ public class WikiResultsPage extends WikiPage {
 	
 	// TODO: 12/6/16 Finish Genres
 	public List<Genre> getGenres() {
-		By xp1 = By.xpath(".//table[@class='infobox hproduct']/tbody//th[contains(.,'Platform(s)')]/following-sibling::td//a");
-		By xp2 = By.xpath(".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Genres')]/following-sibling::td//a");
+		By xp1 = By.xpath(GEN_1 + "/following-sibling::td//a");
+		By xp2 = By.xpath(GEN_2 + "/following-sibling::td//a");
 		
 		List<Genre> genreList = new ArrayList<>();
 		
-		if (elementExists(genres)) {
+		if (elementExists(GEN_1)) {
 			
-			temps = driver.findElements(xp1);
-			genreList = temps.stream()
-			                 .map(genre -> new Genre(genre.getText()))
-			                 .collect(Collectors.toList());
-//			genreList.forEach(genre -> LOG.info(genre.toString()));
+			tempsE = driver.findElements(xp1);
+			genreList = tempsE.stream()
+			                  .map(genre -> new Genre(genre.getText().toUpperCase()))
+			                  .collect(Collectors.toList());
+		} else if (elementExists(GEN_2)) {
 			
-		} else if (elementExists(xp2)) {
-			
-			temps = driver.findElements(xp2);
-			genreList = temps.stream()
-			                 .map(genre -> new Genre(genre.getText()))
-			                 .collect(Collectors.toList());
-//			genreList.forEach(genre -> LOG.info(genre.toString()));
+			tempsE = driver.findElements(xp2);
+			genreList = tempsE.stream()
+			                  .map(genre -> new Genre(genre.getText().toUpperCase()))
+			                  .collect(Collectors.toList());
 		}
-		
 		return genreList;
 	}
 	
@@ -235,6 +226,13 @@ public class WikiResultsPage extends WikiPage {
 		}
 	}
 	
-	// TODO: 12/5/16 Sit in the corner and cry.
+	static boolean elementExists(String find) {
+		try {
+			driver.findElement(By.xpath(find)).getText();
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
 	
 }
