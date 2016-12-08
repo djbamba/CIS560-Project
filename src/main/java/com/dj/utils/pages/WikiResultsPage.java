@@ -18,6 +18,7 @@ import org.openqa.selenium.support.FindBy;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,7 +93,7 @@ public class WikiResultsPage extends WikiPage {
 	
 	public Publisher getPublisher() {
 		// TODO: 12/7/16 handle multiple publishers
-		By xp1 = By.xpath(PUB_1 + "/following-sibling::td/*[1]");
+		By xp1 = By.xpath(PUB_1 + "/following-sibling::td");
 		By xp2 = By.xpath(PUB_1 + "/following-sibling::td");
 		By xp3 = By.xpath(PUB_2 + "/following-sibling::td/*[1]");
 		By xp4 = By.xpath(PUB_2 + "/following-sibling::td");
@@ -113,9 +114,9 @@ public class WikiResultsPage extends WikiPage {
 //		.//table[@class='infobox hproduct']/tbody//th[contains(.,'Designer(s)')]/following-sibling::td/text()[1]
 		// TODO: 12/7/16 handle multiple designers and ignore things in parens
 		
-		By xp1 = By.xpath("(" + DES_1 + "/following-sibling::td//text()[not(contains(.,'(' or ')'))][1])[1]");
+		By xp1 = By.xpath("(" + DES_1 + "/following-sibling::td/text()[1][not(self::small)])");
 		By xp2 = By.xpath(DES_1 + "/following-sibling::td");
-		By xp3 = By.xpath("(" + DES_2 + "/following-sibling::td//text()[not(contains(.,'(' or ')'))][1])[1]");
+		By xp3 = By.xpath("(" + DES_2 + "/following-sibling::td//text()[1][not(self::small)])");
 		By xp4 = By.xpath(DES_2 + "/following-sibling::td");
 		
 		if (elementExists(DES_1)) {
@@ -202,9 +203,12 @@ public class WikiResultsPage extends WikiPage {
 	
 	static String extractText(By iffyElement) {
 		try {
-			return driver.findElement(iffyElement).getText();
+			List<String> allText = Arrays.asList(driver.findElement(iffyElement)
+			                                           .getText()
+			                                           .split(" ", 3));
+			return allText.get(0) + allText.get(1);
 		} catch (InvalidSelectorException e) {
-			return driver.findElement(iffyElement).toString();
+			return "N/A";
 		}
 	}
 	
