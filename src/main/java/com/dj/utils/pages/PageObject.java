@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class PageObject {
 	
-	protected WebDriver driver;
+	static protected WebDriver driver;
 	
 	public PageObject(WebDriver driver) {
 		this(driver,null);
@@ -18,7 +18,7 @@ public class PageObject {
 	
 	public void config() {
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		//driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 	}
 	
 	public PageObject(WebDriver driver, String url) {

@@ -41,7 +41,7 @@ public class Test {
 	public static void setup() {
 		java.lang.System.setProperty("webdriver.firefox.bin", "/Applications/Firefox-2.app/Contents/MacOS/firefox-bin");
 		driver = new FirefoxDriver();
-		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		wikiPage = new WikiPage(driver);
 	}
@@ -62,17 +62,24 @@ public class Test {
 		} catch (Exception e) {
 			LOG.error("Error in systemExtraction:", e);
 		}
-		
 	}
 	
 	public static void developerExtraction(WikiResultsPage wikiResults) {
 		try {
 			Developer developer = wikiResults.getDeveloper();
-			
-				LOG.info( developer.toString());
+			LOG.info(developer.toString());
 			
 		} catch (Exception e) {
 			LOG.error("Error in developerExtraction:", e);
+		}
+	}
+	
+	public static void designerExtraction(WikiResultsPage wikiResultsPage) {
+		try {
+			String designer = wikiResultsPage.getDesigner();
+			LOG.info("Designer: {}", designer);
+		} catch (Exception e) {
+			LOG.error("Error in designerExtraction:", e);
 		}
 	}
 	
@@ -92,7 +99,7 @@ public class Test {
 	public static void urlExtraction(WikiResultsPage wikiResults) {
 		try {
 			String url = wikiResults.getImageSource();
-			LOG.info("URL: {}",url);
+			LOG.info("URL: {}", url);
 		} catch (Exception e) {
 			LOG.error("Error in urlExtraction:", e);
 		}
@@ -119,6 +126,8 @@ public class Test {
 			systemExtraction(wikiResults);
 			// test developer extraction
 			developerExtraction(wikiResults);
+			//test designer extraction
+			designerExtraction(wikiResults);
 			// test genre extraction
 			genreExtraction(wikiResults);
 			// test url extraction
