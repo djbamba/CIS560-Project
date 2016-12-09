@@ -7,6 +7,7 @@ import com.dj.model.System;
 import com.dj.repository.CountryRepository;
 import com.dj.repository.GameRepository;
 import com.dj.repository.GenreRepository;
+import com.dj.repository.ScoreRepository;
 import com.dj.repository.SystemRepository;
 import com.dj.utils.MetaScraper;
 import com.dj.utils.pages.*;
@@ -61,6 +62,9 @@ public class SeedController {
 
 	@Autowired
 	private CountryRepository countryRepository;
+	
+	@Autowired
+	private ScoreRepository scoreRepository;
 	
 	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
 	@ResponseBody
