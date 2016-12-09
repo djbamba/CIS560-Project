@@ -27,6 +27,6 @@ public interface PageConstants {
 	
 	String IMAGE_PATH = ".//table[@class='infobox hproduct']//tr/td/a/img";
 	
-	String SCORE_ROWS = ".//table[@class='infobox wikitable']//tr[contains(.,'Publication')]/following-sibling::*";
+	String SCORE_ROWS = ".//table[@class='infobox wikitable']//tr[contains(.,'Score')][2]/following-sibling::tr";
 	
 }
