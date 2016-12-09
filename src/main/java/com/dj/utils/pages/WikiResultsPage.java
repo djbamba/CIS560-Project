@@ -183,12 +183,6 @@ public class WikiResultsPage extends WikiPage {
 	public void /*List<String[]>*/ getScores() {
 		List<String[]> scoreList = new ArrayList<>();
 		try {
-//			scores.forEach(tr -> {
-//				String siteName = tr.findElement(By.xpath("./td[1]/a")).getText();
-//				String url = tr.findElement(By.xpath("./td[1]/a")).getAttribute("");
-//				scoreList.add(new String[]{"",""});
-//			});
-//			return null;
 			scores.forEach(score -> {
 				LOG.info("<tr>:");
 				LOG.info("\t <td>[1]: {}", score.findElement(By.xpath("./td[1]")).getText());
