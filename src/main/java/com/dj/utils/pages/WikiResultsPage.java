@@ -50,7 +50,7 @@ public class WikiResultsPage extends WikiPage {
 
 	@FindBy(xpath = GEN_1)
 	private WebElement genres;*/
-
+	
 	@FindBy(xpath = IMAGE_PATH)
 	private WebElement image;
 	
@@ -189,28 +189,47 @@ public class WikiResultsPage extends WikiPage {
 //				scoreList.add(new String[]{"",""});
 //			});
 //			return null;
-			scores.forEach(score -> LOG.info("<tr>: {}", score.getText()));
+			scores.forEach(score -> {
+				LOG.info("<tr>:");
+				LOG.info("\t <td>[1]: {}", score.findElement(By.xpath("./td[1]")).getText());
+				LOG.info("\t <td>[2]: {}", score.findElement(By.xpath("./td[2]")).getText());
+			});
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	static String extractText(By iffyElement) {
-		try {
-			List<String> allText =
-			 Arrays.asList(
-			  driver.findElement(iffyElement)
-			        .getText()
-			        .split("[\n()]", 2)
-			              );
-			if (allText.size() >= 1)
-				return allText.get(0);
-			else
-				return "N/A";
-		} catch (InvalidSelectorException e) {
-			return "N/A";
+	private String processScore(WebElement row) {
+		String siteName, score, href, citationID;
+		siteName = row.findElement(By.xpath("./td[1]")).getText();
+		score = row.findElement(By.xpath("./td[2]")).getText();
+		if (score.indexOf(0) == '[') {
+			//handles the star scoring type
+			score = row.findElement(By.xpath("./td[2]/span")).getAttribute("title");
 		}
+		citationID = row.findElement(By.xpath("./td[2]/sup/a")).getAttribute("href");
+		return null;
 	}
 	
+	private String processCitation(String id) {
+		return null;
+	}
+	
+	private String processScore(WebElement row) {
+		String siteName, score, href, citationID;
+		siteName = row.findElement(By.xpath("./td[1]")).getText();
+		score = row.findElement(By.xpath("./td[2]")).getText();
+		if (score.indexOf(0) == '[') {
+			//handles the star scoring type
+			score = row.findElement(By.xpath("./td[2]/span")).getAttribute("title");
+		}
+		citationID = row.findElement(By.xpath("./td[2]/sup/a")).getAttribute("href");
+		return null;
+	}
+	
+	private String processCitation(String id) {
+		return null;
+	}
 }
+	
