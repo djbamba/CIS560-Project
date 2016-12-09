@@ -26,19 +26,16 @@ public class Score {
 	@JoinColumn(name = "game_id")
 	private Game game; // foreign key to id in Games
 	
-	private int score;
-	
-	private char scoreType;
+	private String score;
 	
 	public Score() {
 		
 	}
 	
-	public Score(Website website, Game game, int score, char scoreType) {
+	public Score(Website website, Game game, String score) {
 		this.website = website;
 		this.game = game;
 		this.score = score;
-		this.scoreType = scoreType;
 	}
 	
 	public void setId(int id) {
@@ -65,25 +62,17 @@ public class Score {
 		return game;
 	}
 	
-	public void setScore(int score) {
+	public void setScore(String score) {
 		this.score = score;
 	}
 	
-	public int getScore() {
+	public String getScore() {
 		return score;
-	}
-	
-	public void setScoreType(char scoreType) {
-		this.scoreType = scoreType;
-	}
-	
-	public char getScoreType() {
-		return scoreType;
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("Score[id: %d websiteName: %s gameId: %s score: %d scoreType: %c]",
-		                     id, website.toString(), game.toString(), score, scoreType);
+		return String.format("Score[id: %d websiteName: %s gameId: %s score: %s ]",
+		                     id, website.toString(), game.toString(), score);
 	}
 }
