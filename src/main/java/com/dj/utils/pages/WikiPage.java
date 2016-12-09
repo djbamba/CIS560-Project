@@ -36,5 +36,5 @@ public class WikiPage extends PageObject {
 		searchBar.submit();
 		return new WikiResultsPage(this.driver);
 	}
-	
+
 }

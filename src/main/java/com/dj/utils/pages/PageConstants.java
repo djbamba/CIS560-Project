@@ -26,6 +26,8 @@ public interface PageConstants {
 	String GEN_2 = ".//table[@class='infobox infobox vevent']/tbody//th[contains(.,'Genres')]";
 	
 	String IMAGE_PATH = ".//table[@class='infobox hproduct']//tr/td/a/img";
+
+	String WIKI_COMPANY_PUBLISHER = "https://en.wikipedia.org/wiki/List_of_video_game_publishers";
 	
 	String SCORE_ROWS = ".//table[@class='infobox wikitable']//tr[contains(.,'Score')][2]/following-sibling::tr";
 	
