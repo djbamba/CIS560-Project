@@ -115,6 +115,15 @@ public class Test {
 		}
 	}
 	
+	public static void scoreExtraction(WikiResultsPage wikiResults) {
+		try {
+			wikiResults.getScores();
+			
+		} catch (Exception e) {
+			LOG.error("Error in scoreExtraction:", e);
+		}
+	}
+	
 	@org.junit.Test
 	@FileParameters(value = "src/main/resources/data/games.csv", mapper = CsvWithHeaderMapper.class)
 	public static void gameInfoExtractionTest(String id, String name, String date, String url) {
@@ -122,18 +131,20 @@ public class Test {
 		try {
 			LOG.info("id: {} name: {} date: {} url: {}", id, name, date, url);
 			WikiResultsPage wikiResults = wikiPage.searchGame(name).getWikiResultsPage();
-			// test systems extraction
-			systemExtraction(wikiResults);
-			// test developer extraction
-			developerExtraction(wikiResults);
-			//test designer extraction
-			designerExtraction(wikiResults);
-			// test genre extraction
-			genreExtraction(wikiResults);
-			// test url extraction
-			urlExtraction(wikiResults);
-			// test publisher extraction
-			publisherExtraction(wikiResults);
+//			// test systems extraction
+//			systemExtraction(wikiResults);
+//			// test developer extraction
+//			developerExtraction(wikiResults);
+//			//test designer extraction
+//			designerExtraction(wikiResults);
+//			// test genre extraction
+//			genreExtraction(wikiResults);
+//			// test url extraction
+//			urlExtraction(wikiResults);
+//			// test publisher extraction
+//			publisherExtraction(wikiResults);
+//			test score extraction
+			scoreExtraction(wikiResults);
 		} catch (Exception e) {
 			LOG.error("Exception in gameInfoExtractionTest", e);
 		}

@@ -69,4 +69,14 @@ public class PageObject {
 			return false;
 		}
 	}
+	
+	/**
+	 * Method to return whichever By exists. Intended for decreasing code duplication
+	 * when checking if each xpath By elementExists.
+	 */
+	static By getPresentElement(By first, By second) {
+		if (elementExists(first))
+			return first;
+		return second;
+	}
 }

@@ -1,8 +1,10 @@
 package com.dj.utils.pages;
 
 import com.dj.model.Developer;
+import com.dj.model.Game;
 import com.dj.model.Genre;
 import com.dj.model.Publisher;
+import com.dj.model.Score;
 import com.dj.model.System;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,30 +32,29 @@ import static com.dj.utils.pages.PageConstants.*;
 public class WikiResultsPage extends WikiPage {
 	
 	private static final Logger LOG = LogManager.getLogger(WikiResultsPage.class);
-
+	
 	@FindBy(xpath = INFO_BOX)
 	private WebElement infoBox;
 	
-	@FindBy(xpath = DEV_1)
+/*	@FindBy(xpath = DEV_1)
 	private WebElement developer;
-	
+
 	@FindBy(xpath = PUB_1)
 	private WebElement publisher;
-	
+
 	@FindBy(xpath = DES_1)
 	private WebElement designer;
-	
+
 	@FindBy(xpath = PLAT_1)
 	private WebElement platforms;
-	
+
 	@FindBy(xpath = GEN_1)
-	private WebElement genres;
-	
+	private WebElement genres;*/
+
 	@FindBy(xpath = IMAGE_PATH)
 	private WebElement image;
 	
-	// TODO: 11/28/16 add field and method for scores
-	@FindBy(xpath = "")
+	@FindBy(xpath = SCORE_ROWS)
 	private List<WebElement> scores;
 	
 	private WebElement tempE;
@@ -73,7 +74,7 @@ public class WikiResultsPage extends WikiPage {
 		By xp2 = By.xpath(DEV_1 + "/following-sibling::td");
 		By xp3 = By.xpath("(" + DEV_2 + "/following-sibling::td//a)[1]");
 		
-		if (elementExists(developer)) {
+		if (elementExists(DEV_1)) {
 			tempE = driver.findElement(getPresentElement(xp1, xp2));
 			return new Developer(tempE.getText(), getDesigner());
 		} else if (elementExists(DEV_2)) {
@@ -90,7 +91,7 @@ public class WikiResultsPage extends WikiPage {
 		By xp3 = By.xpath("(" + PUB_2 + "/following-sibling::td//a)[1]");
 		By xp4 = By.xpath(PUB_2 + "/following-sibling::td");
 		
-		if (elementExists(publisher)) {
+		if (elementExists(PUB_1)) {
 			tempE = driver.findElement(getPresentElement(xp1, xp2));
 			return new Publisher(tempE.getText(), "M");
 		} else if (elementExists(PUB_2)) {
@@ -108,7 +109,7 @@ public class WikiResultsPage extends WikiPage {
 		By xp3 = By.xpath("(" + DES_2 + "/following-sibling::td//text()[1][not(self::small)])");
 		By xp4 = By.xpath(DES_2 + "/following-sibling::td");
 		
-		if (elementExists(designer)) {
+		if (elementExists(DES_1)) {
 			return extractText(getPresentElement(xp1, xp2));
 		} else if (elementExists(DES_2)) {
 			return extractText(getPresentElement(xp3, xp4));
@@ -121,7 +122,7 @@ public class WikiResultsPage extends WikiPage {
 		By xp2 = By.xpath(PLAT_2 + "/following-sibling::td//span/a");
 		List<System> systems = new ArrayList<>();
 		
-		if (elementExists(platforms)) {
+		if (elementExists(PLAT_1)) {
 			tempsE = driver.findElements(xp1);
 			
 			systems = tempsE.stream()
@@ -147,7 +148,7 @@ public class WikiResultsPage extends WikiPage {
 		
 		List<Genre> genreList = new ArrayList<>();
 		
-		if (elementExists(genres)) {
+		if (elementExists(GEN_1)) {
 			
 			tempsE = driver.findElements(xp1);
 			genreList = tempsE.stream()
@@ -179,14 +180,20 @@ public class WikiResultsPage extends WikiPage {
 		return "https://" + src;
 	}
 	
-	/**
-	 * Method to return whichever By exists. Intended for decreasing code duplication
-	 * when checking if each xpath by elementExists.
-	 */
-	static By getPresentElement(By first, By second) {
-		if (elementExists(first))
-			return first;
-		return second;
+	public void /*List<String[]>*/ getScores() {
+		List<String[]> scoreList = new ArrayList<>();
+		try {
+//			scores.forEach(tr -> {
+//				String siteName = tr.findElement(By.xpath("./td[1]/a")).getText();
+//				String url = tr.findElement(By.xpath("./td[1]/a")).getAttribute("");
+//				scoreList.add(new String[]{"",""});
+//			});
+//			return null;
+			scores.forEach(score -> LOG.info("<tr>: {}", score.getText()));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	static String extractText(By iffyElement) {
@@ -196,7 +203,7 @@ public class WikiResultsPage extends WikiPage {
 			  driver.findElement(iffyElement)
 			        .getText()
 			        .split("[\n()]", 2)
-			 );
+			              );
 			if (allText.size() >= 1)
 				return allText.get(0);
 			else
