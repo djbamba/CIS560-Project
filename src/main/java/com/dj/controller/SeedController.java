@@ -1,16 +1,15 @@
 package com.dj.controller;
 
+import com.dj.model.Country;
 import com.dj.model.Developer;
 import com.dj.model.Game;
 import com.dj.model.System;
+import com.dj.repository.CountryRepository;
 import com.dj.repository.GameRepository;
 import com.dj.repository.GenreRepository;
 import com.dj.repository.SystemRepository;
 import com.dj.utils.MetaScraper;
-import com.dj.utils.pages.GooglePage;
-import com.dj.utils.pages.GoogleResultsPage;
-import com.dj.utils.pages.WikiPage;
-import com.dj.utils.pages.WikiResultsPage;
+import com.dj.utils.pages.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,9 @@ public class SeedController {
 	
 	@Autowired
 	private GenreRepository genreRepository;
+
+	@Autowired
+	private CountryRepository countryRepository;
 	
 	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
 	@ResponseBody
@@ -177,5 +181,57 @@ public class SeedController {
 		}
 		
 	}
-	
+
+	@RequestMapping("/populateCountries")
+	public void populateCountries() {
+		File file = new File("src/main/resources/data/countries.csv");
+		BufferedReader br;
+		FileInputStream fis;
+		InputStreamReader isr;
+
+		String line;
+		try {
+			fis = new FileInputStream(file);
+			isr = new InputStreamReader(fis);
+			br = new BufferedReader(isr);
+
+			while ((line = br.readLine()) != null) {
+				String[] split = line.split(",");
+				// 0 = name, 1 = code
+				Country country = new Country(split[1], split[0]);
+				countryRepository.save(country);
+			}
+
+			List<Country> countries = countryRepository.findAll();
+			for (Country country : countries) {
+				LOG.debug("Country: " + country.toString());
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	@RequestMapping("/populateCompanies")
+	public void populateCompanies() throws InterruptedException {
+		config();
+
+		// Grab the list of publishers
+		WikiCompanyPage wikiPublisherListPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
+//		List<WebElement> publisherList = driver.findElements(wikiPublisherPage.getPublishers());
+		List<String> publisherList = wikiPublisherListPage.getPublisherInfoLinks();
+
+		for (String link : publisherList) {
+			LOG.info(link);
+		}
+
+		// Taiwan, South Korea, Netherlands, US, USA, UK
+		for (String link : publisherList) {
+			WikiCompanyPage publisherInfo = new WikiCompanyPage(driver, link);
+			String publisherName = publisherInfo.getCompanyName().getText();
+			String countryName = publisherInfo.getHeadquarters().getText();
+			LOG.info("Publisher: " + publisherName + ", Country: " + countryName);
+		}
+
+	}
 }
