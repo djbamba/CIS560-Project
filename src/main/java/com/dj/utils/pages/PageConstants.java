@@ -29,4 +29,6 @@ public interface PageConstants {
 
 	String WIKI_COMPANY_PUBLISHER = "https://en.wikipedia.org/wiki/List_of_video_game_publishers";
 	
+	String SCORE_ROWS = ".//table[@class='infobox wikitable']//tr[contains(.,'Score')][2]/following-sibling::tr";
+	
 }

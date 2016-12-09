@@ -1,11 +1,14 @@
 package com.dj.utils.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -67,6 +70,33 @@ public class PageObject {
 			return true;
 		} catch (NoSuchElementException e) {
 			return false;
+		}
+	}
+	
+	/**
+	 * Method to return whichever By exists. Intended for decreasing code duplication
+	 * when checking if each xpath By elementExists.
+	 */
+	static By getPresentElement(By first, By second) {
+		if (elementExists(first))
+			return first;
+		return second;
+	}
+	
+	static String extractText(By iffyElement) {
+		try {
+			List<String> allText =
+			 Arrays.asList(
+			  driver.findElement(iffyElement)
+			        .getText()
+			        .split("[\n()]", 2)
+			              );
+			if (allText.size() >= 1)
+				return allText.get(0);
+			else
+				return "N/A";
+		} catch (InvalidSelectorException e) {
+			return "N/A";
 		}
 	}
 }
