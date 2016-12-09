@@ -216,20 +216,5 @@ public class WikiResultsPage extends WikiPage {
 		return null;
 	}
 	
-	private String processScore(WebElement row) {
-		String siteName, score, href, citationID;
-		siteName = row.findElement(By.xpath("./td[1]")).getText();
-		score = row.findElement(By.xpath("./td[2]")).getText();
-		if (score.indexOf(0) == '[') {
-			//handles the star scoring type
-			score = row.findElement(By.xpath("./td[2]/span")).getAttribute("title");
-		}
-		citationID = row.findElement(By.xpath("./td[2]/sup/a")).getAttribute("href");
-		return null;
-	}
-	
-	private String processCitation(String id) {
-		return null;
-	}
 }
 	
