@@ -2,11 +2,12 @@ package com.dj.utils.pages;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class WikiCompanyPage extends WikiPage {
@@ -19,12 +20,11 @@ public class WikiCompanyPage extends WikiPage {
     @FindBy(xpath = "//table[@class='infobox vcard']//caption")
     private WebElement companyName;
 
-    @FindBy(xpath = "//table[@class='infobox vcard']//tr[8]/td/span[@class='country-name']")
+    @FindBy(xpath = "//table[@class='infobox vcard']//tr/td/span[@class='country-name']")
     private WebElement headquarters;
 
-//    private By publisherRowLink = new By.ByXPath("//table[@class='wikitable sortable jquery-tablesorter']/tbody/tr/td[2]/a");
-
-    private By publisherRow = new By.ByXPath("//table[@class='wikitable sortable jquery-tablesorter']/tbody/tr/td[1]/a");
+    @FindBy(xpath = "//table[@class='wikitable sortable jquery-tablesorter']/tbody/tr/td[1]/a")
+    private List<WebElement> publishers;
 
     public WikiCompanyPage(WebDriver driver) {
         super(driver);
@@ -46,17 +46,15 @@ public class WikiCompanyPage extends WikiPage {
         return headquarters;
     }
 
-    public By getPublisherRow() {
-        return publisherRow;
+    public List<WebElement> getPublishers() {
+        return publishers;
     }
 
-    public boolean checkIfElementExists(WebElement webElement) {
-        boolean exists = false;
-        Optional<WebElement> webElementOptional = Optional.of(webElement);
+    public List<String> getPublisherInfoLinks() {
+        List<String> links = new ArrayList<>();
 
-        if (webElementOptional.isPresent()) {
-            exists = true;
-        }
-        return exists;
+        publishers.forEach((WebElement element) -> links.add(element.getAttribute("href")));
+
+        return links;
     }
 }

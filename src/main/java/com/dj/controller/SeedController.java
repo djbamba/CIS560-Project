@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by DJ on 11/24/16.
@@ -219,27 +217,22 @@ public class SeedController {
 	@RequestMapping("/populateCompanies")
 	public void populateCompanies() throws InterruptedException {
 		config();
-//		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
 		// Grab the list of publishers
-		WikiCompanyPage wikiPublisherPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
-		List<WebElement> publisherList = driver.findElements(wikiPublisherPage.getPublisherRow());
+		WikiCompanyPage wikiPublisherListPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
+//		List<WebElement> publisherList = driver.findElements(wikiPublisherPage.getPublishers());
+		List<String> publisherList = wikiPublisherListPage.getPublisherInfoLinks();
+
+		for (String link : publisherList) {
+			LOG.info(link);
+		}
 
 		// Taiwan, South Korea, Netherlands, US, USA, UK
-		for (WebElement webElement : publisherList) {
-			String companyName = webElement.getText();
-
-			LOG.info(companyName + ", " + webElement.getAttribute("href"));
-
-//			webElement.click();
-//			WebElement country = driver.findElement(By.className("country-name"));
-//			LOG.info(companyName + ", " + country.getText());
-//			driver.navigate().back();
-
-//			try {
-//				driver.wait();
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
+		for (String link : publisherList) {
+			WikiCompanyPage publisherInfo = new WikiCompanyPage(driver, link);
+			String publisherName = publisherInfo.getCompanyName().getText();
+			String countryName = publisherInfo.getHeadquarters().getText();
+			LOG.info("Publisher: " + publisherName + ", Country: " + countryName);
 		}
 
 	}
