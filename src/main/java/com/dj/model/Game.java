@@ -39,10 +39,10 @@ public class Game {
 	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
 	private List<Genre> genres;
 	
-	@ManyToMany(targetEntity = Website.class, cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = ScoreWebsite.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "game_purchase_site", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
 	 inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id"))
-	private List<Website> websites;
+	private List<ScoreWebsite> scoreWebsites;
 	
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private List<Score> scores;
@@ -98,12 +98,12 @@ public class Game {
 		return genres;
 	}
 	
-	public void setWebsites(List<Website> websites) {
-		this.websites = websites;
+	public void setScoreWebsites(List<ScoreWebsite> scoreWebsites) {
+		this.scoreWebsites = scoreWebsites;
 	}
 	
-	public List<Website> getWebsites() {
-		return websites;
+	public List<ScoreWebsite> getScoreWebsites() {
+		return scoreWebsites;
 	}
 	
 	public void setScores(List<Score> scores) {

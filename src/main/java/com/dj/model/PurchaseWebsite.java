@@ -8,39 +8,38 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 /**
- * Created by DJ on 11/10/16.
+ * Created by DJ on 12/10/16.
  */
 
 @Entity
-public class Website {
+public class PurchaseWebsite {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Column(name = "name", unique = true, nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@Column(name = "url", unique = true, nullable = false)
+	@Column(name = "url", nullable = false)
 	private String url;
 	
-	@ManyToMany(mappedBy = "websites")
+	@Column(name = "price", nullable = false)
+	private String price;
+	
+	@ManyToMany(mappedBy = "purchaseSites")
 	private List<Game> games;
 	
-	@OneToMany(mappedBy = "website")
-	private List<Score> scores;
-	
-	public Website() {
+	public PurchaseWebsite() {
 		
 	}
 	
-	public Website(String name, String url) {
-		this.id = id;
+	public PurchaseWebsite(String name, String url, String price) {
 		this.name = name;
 		this.url = url;
+		this.price = price;
 	}
 	
 	public void setId(int id) {
@@ -75,17 +74,8 @@ public class Website {
 		return games;
 	}
 	
-	public void setScores(List<Score> scores) {
-		this.scores = scores;
-	}
-	
-	public List<Score> getScores() {
-		return scores;
-	}
-	
 	@Override
 	public String toString() {
-		return String.format("Website[id: %d name: %s url: %s]",id, name, url);
+		return String.format("PurchaseWebsite[id: %d name: %s url: %s]",id, name, url);
 	}
 }
-
