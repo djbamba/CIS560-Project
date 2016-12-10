@@ -10,7 +10,6 @@ import com.dj.model.System;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -35,21 +34,6 @@ public class WikiResultsPage extends WikiPage {
 	
 	@FindBy(xpath = INFO_BOX)
 	private WebElement infoBox;
-	
-/*	@FindBy(xpath = DEV_1)
-	private WebElement developer;
-
-	@FindBy(xpath = PUB_1)
-	private WebElement publisher;
-
-	@FindBy(xpath = DES_1)
-	private WebElement designer;
-
-	@FindBy(xpath = PLAT_1)
-	private WebElement platforms;
-
-	@FindBy(xpath = GEN_1)
-	private WebElement genres;*/
 	
 	@FindBy(xpath = IMAGE_PATH)
 	private WebElement image;
@@ -100,7 +84,6 @@ public class WikiResultsPage extends WikiPage {
 		} else {
 			return new Publisher("N/A", "N/A");
 		}
-		
 	}
 	
 	public String getDesigner() {
@@ -187,27 +170,31 @@ public class WikiResultsPage extends WikiPage {
 				LOG.info("<tr>:");
 				LOG.info("\t <td>[1]: {}", score.findElement(By.xpath("./td[1]")).getText());
 				LOG.info("\t <td>[2]: {}", score.findElement(By.xpath("./td[2]")).getText());
+				LOG.info("Extracted info: {}", processScore(score));
 			});
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Error in getScores:", e);
 		}
 	}
 	
 	private String processScore(WebElement row) {
 		String siteName, score, href, citationID;
-		siteName = row.findElement(By.xpath("./td[1]")).getText();
-		score = row.findElement(By.xpath("./td[2]")).getText();
-		if (score.indexOf(0) == '[') {
-			//handles the star scoring type
-			score = row.findElement(By.xpath("./td[2]/span")).getAttribute("title");
+		siteName = row.findElement(By.xpath("./td[1]")).getText().trim();
+		score = row.findElement(By.xpath("./td[2]")).getText().trim();
+		if (score.charAt(0) == '[') {
+//			handles the star scoring
+			score = row.findElement(By.xpath("./td[2]/span")).getAttribute("title").trim();
 		}
-		citationID = row.findElement(By.xpath("./td[2]/sup/a")).getAttribute("href");
-		return null;
+		try {
+			citationID = row.findElement(By.xpath("./td[2]/sup/a")).getAttribute("href");
+			href = processCitation(citationID);
+		} catch (NoSuchElementException e) {
+			href = "N/A";
+		}
+		
+		return String.format("site: %s\tscore: %s\turl: %s", siteName, score, href);
 	}
 	
-	private String processCitation(String id) {
-		return null;
-	}
 }
 	
