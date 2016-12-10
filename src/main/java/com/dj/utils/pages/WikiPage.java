@@ -1,5 +1,6 @@
 package com.dj.utils.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -24,7 +25,7 @@ public class WikiPage extends PageObject {
 		super(driver, url);
 	}
 	
-	public WikiPage searchGame(String search){
+	public WikiPage searchGame(String search) {
 		searchBar.click();
 		searchBar.clear();
 		searchBar.sendKeys(search);
@@ -36,5 +37,10 @@ public class WikiPage extends PageObject {
 		searchBar.submit();
 		return new WikiResultsPage(this.driver);
 	}
-
+	
+	protected String processCitation(String id) {
+		WebElement citation = driver.findElement(By.id(id.substring(id.indexOf('#') + 1)));
+		return citation.findElement(By.xpath(".//cite[1]/a[1]")).getAttribute("href");
+	}
+	
 }
