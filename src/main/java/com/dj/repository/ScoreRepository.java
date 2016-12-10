@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface ScoreRepository extends JpaRepository<Score,Integer> {
+public interface ScoreRepository extends JpaRepository<Score, Integer> {
 	
 }

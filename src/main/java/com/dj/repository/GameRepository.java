@@ -7,13 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 /**
  * Created by DJ on 11/23/16.
  */
 //INSERT INTO game SELECT id, name, release_date, image_url from CSVREAD('./src/main/resources/data/games.csv');
 @Repository
-public interface GameRepository extends JpaRepository<Game,Integer> {
+public interface GameRepository extends JpaRepository<Game, Integer> {
 	
 	Game findByName(String name);
 	
