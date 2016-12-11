@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface SystemRepository extends JpaRepository<System,Integer> {
+public interface SystemRepository extends JpaRepository<System, Integer> {
 	
 }

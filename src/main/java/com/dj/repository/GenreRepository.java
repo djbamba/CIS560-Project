@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface GenreRepository extends JpaRepository<Genre,Integer> {
+public interface GenreRepository extends JpaRepository<Genre, Integer> {
 	
 }

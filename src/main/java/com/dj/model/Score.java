@@ -20,7 +20,7 @@ public class Score {
 	
 	@ManyToOne
 	@JoinColumn(name = "website_name", referencedColumnName = "name")
-	private Website website; // foreign key to name in Website
+	private ScoreWebsite scoreWebsite; // foreign key to name in ScoreWebsite
 	
 	@ManyToOne
 	@JoinColumn(name = "game_id")
@@ -32,8 +32,8 @@ public class Score {
 		
 	}
 	
-	public Score(Website website, Game game, String score) {
-		this.website = website;
+	public Score(ScoreWebsite scoreWebsite, Game game, String score) {
+		this.scoreWebsite = scoreWebsite;
 		this.game = game;
 		this.score = score;
 	}
@@ -46,12 +46,12 @@ public class Score {
 		return id;
 	}
 	
-	public void setWebsite(Website website) {
-		this.website = website;
+	public void setScoreWebsite(ScoreWebsite scoreWebsite) {
+		this.scoreWebsite = scoreWebsite;
 	}
 	
-	public Website getWebsite() {
-		return website;
+	public ScoreWebsite getScoreWebsite() {
+		return scoreWebsite;
 	}
 	
 	public void setGame(Game game) {
@@ -73,6 +73,6 @@ public class Score {
 	@Override
 	public String toString() {
 		return String.format("Score[id: %d websiteName: %s gameId: %s score: %s ]",
-		                     id, website.toString(), game.toString(), score);
+		                     id, scoreWebsite.toString(), game.toString(), score);
 	}
 }

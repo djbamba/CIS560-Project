@@ -21,20 +21,18 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "company")
+@Table
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Company implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", nullable = false, unique = true)
 	protected int id;
 	
 	@Column(name = "name", nullable = false, unique = true)
 	protected String name;
 	
 	@ManyToOne(targetEntity = Company.class, cascade = CascadeType.ALL)
-	@JoinTable(name = "company_country", joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"),
-	 inverseJoinColumns = @JoinColumn(name = "country_id", referencedColumnName = "id"))
 	protected Country country;
 	
 	public Company() {

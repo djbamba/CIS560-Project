@@ -9,35 +9,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * Created by DJ on 11/10/16.
  */
 
 @Entity
-public class System {
+public class ScoreWebsite extends Website {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id; // primary key
-	
-	@Column(unique = true)
-	private String name;
-	
-	@ManyToMany(targetEntity = Game.class, cascade = CascadeType.ALL)
-	@JoinTable(name = "game_system", joinColumns = @JoinColumn(name = "system_id", referencedColumnName = "id"),
-	 inverseJoinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"))
+	@ManyToMany(mappedBy = "scoreWebsites")
 	private List<Game> games = new ArrayList<>();
 	
-	public System() {
-		
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Score> scores = new ArrayList<>();
+	
+	public ScoreWebsite() {
+		super();
 	}
 	
-	public System(String name) {
-		this.name = name;
+	public ScoreWebsite(String name, String url) {
+		super(name,url);
 	}
 	
 	public void setId(int id) {
@@ -56,6 +51,14 @@ public class System {
 		return name;
 	}
 	
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	public String getUrl() {
+		return url;
+	}
+	
 	public void addGame(Game game) {
 		games.add(game);
 	}
@@ -68,9 +71,21 @@ public class System {
 		return games;
 	}
 	
-	@Override
-	public String toString() {
-		return String.format("System[id: %d name: %s]", id, name);
+	public void addScore(Score score) {
+		scores.add(score);
 	}
 	
+	public void setScore(List<Score> scores) {
+		this.scores = scores;
+	}
+	
+	public List<Score> getScores() {
+		return scores;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("ScoreWebsite[id: %d name: %s url: %s]", id, name, url);
+	}
 }
+

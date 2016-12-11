@@ -6,7 +6,7 @@ A Spring web application that displays information on video games. The applicati
 
 #### Backend Description:
  * Each video game has:
-    * A list of websites where you can buy the game.
+    * A list of scoreWebsites where you can buy the game.
     * A score/rating.
     * A list of platforms the game is supported on.
     * A list of genres the game belongs to.

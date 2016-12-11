@@ -1,44 +1,38 @@
 package com.dj.model;
 
-import java.util.List;
+import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 /**
- * Created by DJ on 11/10/16.
+ * Created by DJ on 12/10/16.
  */
 
 @Entity
-public class Website {
+@Table
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class Website implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	protected int id;
 	
-	@Column(name = "name", unique = true, nullable = false)
-	private String name;
+	protected String name;
 	
-	@Column(name = "url", unique = true, nullable = false)
-	private String url;
-	
-	@ManyToMany(mappedBy = "websites")
-	private List<Game> games;
-	
-	@OneToMany(mappedBy = "website")
-	private List<Score> scores;
+	protected String url;
 	
 	public Website() {
-		
+		super();
 	}
 	
 	public Website(String name, String url) {
-		this.id = id;
+		super();
 		this.name = name;
 		this.url = url;
 	}
@@ -66,26 +60,4 @@ public class Website {
 	public String getUrl() {
 		return url;
 	}
-	
-	public void setGames(List<Game> games) {
-		this.games = games;
-	}
-	
-	public List<Game> getGames() {
-		return games;
-	}
-	
-	public void setScores(List<Score> scores) {
-		this.scores = scores;
-	}
-	
-	public List<Score> getScores() {
-		return scores;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("Website[id: %d name: %s url: %s]",id, name, url);
-	}
 }
-
