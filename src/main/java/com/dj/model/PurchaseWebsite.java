@@ -1,5 +1,6 @@
 package com.dj.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -30,7 +31,7 @@ public class PurchaseWebsite {
 	private String price;
 	
 	@ManyToMany(mappedBy = "purchaseSites")
-	private List<Game> games;
+	private List<Game> games = new ArrayList<>();
 	
 	public PurchaseWebsite() {
 		

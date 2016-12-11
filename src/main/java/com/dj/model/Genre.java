@@ -1,5 +1,6 @@
 package com.dj.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ public class Genre {
 	
 	/*relations*/
 	@ManyToMany(mappedBy = "genres")
-	private List<Game> games;
+	private List<Game> games = new ArrayList<>();
 	
 	public Genre() {
 		
@@ -51,6 +52,10 @@ public class Genre {
 	
 	public String getGenre() {
 		return genre;
+	}
+	
+	public void addGame(Game game) {
+		games.add(game);
 	}
 	
 	public void setGames(List<Game> games) {

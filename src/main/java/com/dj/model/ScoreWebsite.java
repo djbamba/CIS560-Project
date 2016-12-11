@@ -1,5 +1,6 @@
 package com.dj.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -27,11 +28,11 @@ public class ScoreWebsite {
 	@Column(name = "url", nullable = false)
 	private String url;
 	
-	@ManyToMany(mappedBy = "websites")
-	private List<Game> games;
+	@ManyToMany(mappedBy = "scoreWebsites")
+	private List<Game> games = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "website")
-	private List<Score> scores;
+	@OneToMany(mappedBy = "scoreWebsite")
+	private List<Score> scores = new ArrayList<>();
 	
 	public ScoreWebsite() {
 		
@@ -66,12 +67,20 @@ public class ScoreWebsite {
 		return url;
 	}
 	
+	public void addGame(Game game) {
+		games.add(game);
+	}
+	
 	public void setGames(List<Game> games) {
 		this.games = games;
 	}
 	
 	public List<Game> getGames() {
 		return games;
+	}
+	
+	public void addScore(Score score) {
+		scores.add(score);
 	}
 	
 	public void setScores(List<Score> scores) {
@@ -84,7 +93,7 @@ public class ScoreWebsite {
 	
 	@Override
 	public String toString() {
-		return String.format("ScoreWebsite[id: %d name: %s url: %s]",id, name, url);
+		return String.format("ScoreWebsite[id: %d name: %s url: %s]", id, name, url);
 	}
 }
 

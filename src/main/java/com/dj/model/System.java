@@ -1,5 +1,6 @@
 package com.dj.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -29,7 +30,7 @@ public class System {
 	@ManyToMany(targetEntity = Game.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "game_system", joinColumns = @JoinColumn(name = "system_id", referencedColumnName = "id"),
 	 inverseJoinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"))
-	private List<Game> games;
+	private List<Game> games = new ArrayList<>();
 	
 	public System() {
 		
@@ -53,6 +54,10 @@ public class System {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void addGame(Game game) {
+		games.add(game);
 	}
 	
 	public void setGames(List<Game> games) {
