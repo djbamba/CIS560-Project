@@ -15,17 +15,7 @@ import javax.persistence.ManyToMany;
  */
 
 @Entity
-public class PurchaseWebsite {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	
-	@Column(name = "name", nullable = false)
-	private String name;
-	
-	@Column(name = "url", nullable = false)
-	private String url;
+public class PurchaseWebsite extends Website{
 	
 	@Column(name = "price", nullable = false)
 	private String price;
@@ -34,37 +24,24 @@ public class PurchaseWebsite {
 	private List<Game> games = new ArrayList<>();
 	
 	public PurchaseWebsite() {
-		
+		super();
 	}
 	
 	public PurchaseWebsite(String name, String url, String price) {
-		this.name = name;
-		this.url = url;
+		super(name, url);
 		this.price = price;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
+	public void setPrice(String price) {
+		this.price = price;
 	}
 	
-	public int getId() {
-		return id;
+	public String getPrice() {
+		return price;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
-	public String getUrl() {
-		return url;
+	public void addGame(Game game) {
+		games.add(game);
 	}
 	
 	public void setGames(List<Game> games) {

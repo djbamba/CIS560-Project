@@ -1,6 +1,6 @@
 package com.dj.model;
 
-import javax.persistence.DiscriminatorValue;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
@@ -8,9 +8,9 @@ import javax.persistence.Entity;
  */
 
 @Entity
-@DiscriminatorValue(value = "PUB")
 public class Publisher extends Company {
 	
+	@Column(name = "content_rating")
 	private String contentRating;
 	
 	public Publisher() {
@@ -35,6 +35,5 @@ public class Publisher extends Company {
 		return String.format("Publisher[id: %d name: %s contentRating: %s]",
 		                     id, name, contentRating);
 	}
-	
 	
 }
