@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -41,5 +42,10 @@ public class GameController {
 		
 		return "games/game";
 	}
-	
+
+	@RequestMapping(value = "recent", method = RequestMethod.GET)
+	public String getRecentGames(@RequestParam("searchText")String searchText, Model model){
+		model.addAttribute("games", gameRepository.findByNameLike(searchText));
+		return "games/game";
+	}
 }
