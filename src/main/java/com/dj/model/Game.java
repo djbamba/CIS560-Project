@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -40,10 +41,14 @@ public class Game {
 	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
 	private List<Genre> genres = new ArrayList<>();
 	
-	@ManyToMany(targetEntity = ScoreWebsite.class, cascade = CascadeType.ALL)
-	@JoinTable(name = "game_purchase_site", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
-	 inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id"))
+//	@ManyToMany(targetEntity = ScoreWebsite.class, cascade = CascadeType.ALL)
+//	@JoinTable(name = "game_purchase_site", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
+//	 inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id"))
+	@ManyToMany
 	private List<ScoreWebsite> scoreWebsites = new ArrayList<>();
+	
+	@OneToMany
+	private List<PurchaseWebsite> purchaseWebsites = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private List<Score> scores = new ArrayList<>();

@@ -3,12 +3,14 @@ package com.dj.model;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Created by DJ on 11/15/16.
  */
 
 @Entity
+@DiscriminatorValue("DEV")
 public class Developer extends Company {
 	
 	@Column(name = "lead_designer", nullable = false)

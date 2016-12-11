@@ -577,3 +577,6 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:/Users/ajcab
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:344)
 	... 46 more
+2016-12-11 12:39:49 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Table "GAME_PURCHASE_WEBSITE" not found; SQL statement:
+DROP TABLE company, company_country, country, developer, game, game_genre, game_purchase_site, game_purchase_website, game_system, genre, publisher, purchase_website, score, score_website, system, website [42102-192]

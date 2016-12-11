@@ -2,37 +2,36 @@ package com.dj.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
 /**
  * Created by DJ on 12/10/16.
  */
 
-@Entity
-@Table
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Website implements Serializable {
+//@Entity
+//@Table(name = "Website")
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
+public abstract class Website{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected int id;
 	
+	@Column(name = "name")
 	protected String name;
 	
+	@Column(name = "url")
 	protected String url;
 	
-	public Website() {
-		super();
-	}
+	public Website() {}
 	
 	public Website(String name, String url) {
-		super();
 		this.name = name;
 		this.url = url;
 	}

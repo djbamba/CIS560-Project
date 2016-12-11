@@ -19,7 +19,6 @@ public class Score {
 	private int id; // primary key
 	
 	@ManyToOne
-	@JoinColumn(name = "website_name", referencedColumnName = "name")
 	private ScoreWebsite scoreWebsite; // foreign key to name in ScoreWebsite
 	
 	@ManyToOne

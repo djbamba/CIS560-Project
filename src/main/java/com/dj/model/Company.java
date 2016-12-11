@@ -14,6 +14,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
 /**
@@ -21,9 +22,10 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Company implements Serializable {
+//@Table(name = "company")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "company_type")
+public abstract class Company{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,15 +34,14 @@ public class Company implements Serializable {
 	@Column(name = "name", nullable = false, unique = true)
 	protected String name;
 	
-	@ManyToOne(targetEntity = Company.class, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = Country.class, cascade = CascadeType.ALL)
 	protected Country country;
 	
 	public Company() {
-		super();
+		
 	}
 	
 	public Company(String name) {
-		super();
 		this.name = name;
 	}
 	

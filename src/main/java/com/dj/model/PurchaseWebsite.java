@@ -9,18 +9,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * Created by DJ on 12/10/16.
  */
 
 @Entity
+@Table(name = "purchase_website")
 public class PurchaseWebsite extends Website{
 	
 	@Column(name = "price", nullable = false)
 	private String price;
 	
-	@ManyToMany(mappedBy = "purchaseSites")
+	@ManyToMany(mappedBy = "purchaseWebsites")
 	private List<Game> games = new ArrayList<>();
 	
 	public PurchaseWebsite() {
