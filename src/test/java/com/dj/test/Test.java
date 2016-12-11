@@ -117,7 +117,7 @@ public class Test {
 	
 	public static void scoreExtraction(WikiResultsPage wikiResults) {
 		try {
-			wikiResults.getScores();
+			wikiResults.getScoreWebsiteInfo();
 			
 		} catch (Exception e) {
 			LOG.error("Error in scoreExtraction:", e);
