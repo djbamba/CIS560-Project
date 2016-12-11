@@ -1,6 +1,5 @@
 package com.dj.model;
 
-import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

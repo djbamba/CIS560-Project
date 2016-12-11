@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created by DJ on 11/23/16.
+ * CREATE TABLE GAME (ID INT PRIMARY KEY, NAME VARCHAR(225), RELEASE_DATE VARCHAR(225), IMAGE_URL VARCHAR(225));
  */
 //INSERT INTO game SELECT id, name, release_date, image_url from CSVREAD('./src/main/resources/data/games.csv');
 @Repository
