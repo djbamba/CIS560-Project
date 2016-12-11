@@ -8,6 +8,7 @@ public interface PageConstants {
 	String GOOGLE_URL = "http://www.google.com";
 	String WIKI_URL = "https://en.wikipedia.org/wiki/Main_Page";
 	String WIKI_COMPANY_PUBLISHER = "https://en.wikipedia.org/wiki/List_of_video_game_publishers";
+	String WIKI_COMPANY_DEVELOPER = "https://en.wikipedia.org/wiki/List_of_video_game_developers";
 
 	String INFO_BOX = ".//table[@class='infobox hproduct']";
 	

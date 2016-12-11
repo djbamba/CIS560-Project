@@ -5,6 +5,7 @@ import com.dj.model.Developer;
 import com.dj.model.Game;
 import com.dj.model.Genre;
 import com.dj.model.Publisher;
+import com.dj.model.*;
 import com.dj.model.System;
 import com.dj.repository.CountryRepository;
 import com.dj.repository.GameRepository;
@@ -226,46 +227,23 @@ public class SeedController {
 		config();
 
 		// Grab the list of publishers
-		WikiCompanyPage wikiPublisherListPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
-//		List<WebElement> publisherList = driver.findElements(wikiPublisherPage.getPublisherNames());
-//		List<String> publisherList = wikiPublisherListPage.getPublisherInfoLinks();
-//
-//		for (String link : publisherList) {
-//			LOG.info(link);
-//		}
-//
-//		// TODO: Taiwan, South Korea, Netherlands, US, USA, UK
-//
-//		for (String link : publisherList) {
-//			WikiCompanyPage publisherInfo = new WikiCompanyPage(driver, link);
-//
-//			String publisherName = "";
-//            String countryName = "";
-//
-//
-//            if (publisherInfo.containsMissingInfo()) {
-//                publisherName = publisherInfo.getCompanyNameByHeading().getText();
-//                countryName = "N/A";
-//
-//            } else {
-//
-//                publisherName = publisherInfo.getCompanyName().getText();
-//
-//                try {
-//                    countryName = publisherInfo.getHeadquartersByClass().getText();
-//                } catch (NoSuchElementException ex) {
-//                    countryName = publisherInfo.getHeadquartersByLink().getText();
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
-//
-//            }
-//
-//            LOG.info("Publisher: " + publisherName + ", Country: " + countryName);
-//        }
+		WikiCompanyPage wikiPubPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
 
-        List<WebElement> publishers = wikiPublisherListPage.getPublishers();
+        List<WebElement> publishers = wikiPubPage.getPublishers();
+        for (WebElement publisher : publishers) {
+            String name = wikiPubPage.getPubName(publisher);
+            String location = wikiPubPage.getPubLocByTd(publisher);
+            LOG.info("Name: " + name + ", Location: " + location);
+            // TODO: Store publisher data in database
+        }
         LOG.info("Size: " + publishers.size());
+        // TODO: Scrape developer data
 
 	}
+
+	@RequestMapping("/populateDevelopers")
+	public void populateDevelopers() {
+        WikiCompanyPage wikiPubPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
+
+    }
 }
