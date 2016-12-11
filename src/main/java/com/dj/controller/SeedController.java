@@ -5,7 +5,6 @@ import com.dj.model.Developer;
 import com.dj.model.Game;
 import com.dj.model.Genre;
 import com.dj.model.Publisher;
-import com.dj.model.*;
 import com.dj.model.System;
 import com.dj.repository.CountryRepository;
 import com.dj.repository.GameRepository;
@@ -20,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -222,28 +220,80 @@ public class SeedController {
 		}
 	}
 
-	@RequestMapping("/populateCompanies")
-	public void populateCompanies() throws InterruptedException {
+	@RequestMapping("/populatePublishers")
+	public void populatePublishers() throws InterruptedException {
 		config();
+
+		File file = new File("src/main/resources/data/publishers.csv");
+        BufferedWriter br;
+        FileOutputStream fos;
+        OutputStreamWriter osr;
 
 		// Grab the list of publishers
 		WikiCompanyPage wikiPubPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
 
         List<WebElement> publishers = wikiPubPage.getPublishers();
-        for (WebElement publisher : publishers) {
-            String name = wikiPubPage.getPubName(publisher);
-            String location = wikiPubPage.getPubLocByTd(publisher);
-            LOG.info("Name: " + name + ", Location: " + location);
-            // TODO: Store publisher data in database
+
+        String line;
+        try {
+            fos = new FileOutputStream(file);
+            osr = new OutputStreamWriter(fos);
+            br = new BufferedWriter(osr);
+
+            for (WebElement publisher : publishers) {
+                String name = wikiPubPage.getPubName(publisher);
+                String location = wikiPubPage.getPubLoc(publisher);
+
+                // TODO: Store publisher data
+                line = name.concat(";").concat(location);
+                LOG.info(line);
+                br.write(line);
+                br.newLine();
+            }
+            br.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        LOG.info("Size: " + publishers.size());
-        // TODO: Scrape developer data
 
 	}
 
 	@RequestMapping("/populateDevelopers")
 	public void populateDevelopers() {
-        WikiCompanyPage wikiPubPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
+	    config();
 
+        File file = new File("src/main/resources/data/developers.csv");
+        BufferedWriter br;
+        FileOutputStream fos;
+        OutputStreamWriter osr;
+
+        WikiCompanyPage wikiDevPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_DEVELOPER);
+        List<WebElement> developerTables = wikiDevPage.getDeveloperTables();
+        // SMH, location is in 3rd column, I can't even
+        developerTables.remove(24);
+
+        String line;
+        try {
+            fos = new FileOutputStream(file);
+            osr = new OutputStreamWriter(fos);
+            br = new BufferedWriter(osr);
+
+            for (WebElement developerTable : developerTables) {
+                List<WebElement> devRows = wikiDevPage.getDevelopersFromTable(developerTable);
+                for (WebElement devRow : devRows) {
+                    String name = wikiDevPage.getDevName(devRow);
+                    String location = wikiDevPage.getDevLoc(devRow);
+
+                    // TODO: Store developer data
+                    line = name.concat(";").concat(location);
+                    LOG.info(line);
+                    br.write(line);
+                    br.newLine();
+                }
+            }
+            br.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
