@@ -2,7 +2,6 @@ package com.dj.model;
 
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +24,7 @@ public abstract class Website{
 	@Column(name = "name")
 	protected String name;
 	
-	@Column(name = "url")
+	@Column(name = "url", length = 400)
 	protected String url;
 	
 	public Website() {}

@@ -104,6 +104,10 @@ public class Game {
 		return genres;
 	}
 	
+	public void addScoreWebsite(ScoreWebsite scoreWebsite){
+		scoreWebsites.add(scoreWebsite);
+	}
+	
 	public void setScoreWebsites(List<ScoreWebsite> scoreWebsites) {
 		this.scoreWebsites = scoreWebsites;
 	}
