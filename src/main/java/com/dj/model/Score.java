@@ -34,7 +34,7 @@ public class Score {
 	public Score(ScoreWebsite scoreWebsite, Game game, String score) {
 		this.scoreWebsite = scoreWebsite;
 		this.game = game;
-		this.score = score;
+		this.score = cleanScore(score);
 	}
 	
 	public void setId(int id) {
@@ -67,6 +67,20 @@ public class Score {
 	
 	public String getScore() {
 		return score;
+	}
+	
+	public String cleanScore(String score) {
+		String cleaned = "";
+		if (score.contains("[")) {
+			cleaned = score.substring(0, score.indexOf('['));
+		}
+		if (score.contains("stars")){
+			cleaned = score.substring(0, score.indexOf("stars"));
+		}
+		if (score.contains(":")) {
+			cleaned = score.substring(score.indexOf(':') + 1, score.length());
+		}
+		return cleaned;
 	}
 	
 	@Override

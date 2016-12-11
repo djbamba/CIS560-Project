@@ -3,6 +3,8 @@ package com.dj.controller;
 import com.dj.model.Country;
 import com.dj.model.Developer;
 import com.dj.model.Game;
+import com.dj.model.Genre;
+import com.dj.model.Publisher;
 import com.dj.model.System;
 import com.dj.repository.CountryRepository;
 import com.dj.repository.GameRepository;
@@ -159,24 +161,26 @@ public class SeedController {
 	
 	@RequestMapping("/populate")
 	public void populate() {
-		
+		List<Game> allGames = gameRepository.findAll();
 		config();
 		WikiPage wikiPage = new WikiPage(driver);
 		WikiResultsPage resultsPage;
 		
-		List<Developer> devs = new ArrayList<>();
+		Publisher pub;
+		Developer dev;
+		List<Genre> genres = new ArrayList<>();
 		List<System> systems = new ArrayList<>();
-		List<Game> allGames = gameRepository.findAll();
 		List<Game> updatedGames;
 		
 		try {
 			
 			for (Game game : allGames) {
 				resultsPage = wikiPage.searchGame(game.getName()).getWikiResultsPage();
-				game.setImageUrl(resultsPage.getImageSource());
+//				game.setImageUrl(resultsPage.getImageSource());
 				// TODO: 11/30/16 get ready to handle multiple exceptions when locating these elements...
 //				game.setGenres(resultsPage.getGenres());
 //				game.setSystems(resultsPage.getPlatforms());
+				
 				gameRepository.save(game);
 			}
 			

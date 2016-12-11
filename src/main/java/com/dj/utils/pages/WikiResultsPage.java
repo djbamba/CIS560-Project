@@ -45,6 +45,8 @@ public class WikiResultsPage extends WikiPage {
 	
 	private List<WebElement> tempsE;
 	
+//	private Game game;
+	
 	public WikiResultsPage(WebDriver driver) {
 		super(driver, null);
 	}
@@ -163,19 +165,24 @@ public class WikiResultsPage extends WikiPage {
 		return "https://" + src;
 	}
 	
-	public void /*List<String[]>*/ getScores() {
+	public List<String[]> getScores() {
 		List<String[]> scoreList = new ArrayList<>();
+		String scoreString;
 		try {
-			scores.forEach(score -> {
-				LOG.info("<tr>:");
-				LOG.info("\t <td>[1]: {}", score.findElement(By.xpath("./td[1]")).getText());
-				LOG.info("\t <td>[2]: {}", score.findElement(By.xpath("./td[2]")).getText());
-				LOG.info("Extracted info: {}", processScore(score));
-			});
+//			scores.forEach(score -> {
+//				LOG.info("<tr>:");
+//				LOG.info("\t <td>[1]: {}", score.findElement(By.xpath("./td[1]")).getText());
+//				LOG.info("\t <td>[2]: {}", score.findElement(By.xpath("./td[2]")).getText());
+//				LOG.info("Extracted info: {}", processScore(score));
+				for (WebElement score : scores) {
+					scoreList.add(processScore(score).split(" "));
+				}
+//			});
 			
 		} catch (Exception e) {
 			LOG.error("Error in getScores:", e);
 		}
+		return scoreList;
 	}
 	
 	private String processScore(WebElement row) {
