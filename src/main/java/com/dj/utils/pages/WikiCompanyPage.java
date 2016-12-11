@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class WikiCompanyPage extends WikiPage {
 
@@ -20,8 +19,15 @@ public class WikiCompanyPage extends WikiPage {
     @FindBy(xpath = "//table[@class='infobox vcard']//caption")
     private WebElement companyName;
 
+    @FindBy(xpath = "//h1[@id='firstHeading']")
+    private WebElement companyNameByHeading;
+
+    // Location of country headquartersByClass aren't uniform across info blocks
     @FindBy(xpath = "//table[@class='infobox vcard']//tr/td/span[@class='country-name']")
-    private WebElement headquarters;
+    private WebElement headquartersByClass;
+
+    @FindBy(xpath = "//table[@class='infobox vcard']//tr//td[@class='label']/a[last()]")
+    private WebElement headquartersByLink;
 
     @FindBy(xpath = "//table[@class='wikitable sortable jquery-tablesorter']/tbody/tr/td[1]/a")
     private List<WebElement> publishers;
@@ -42,8 +48,16 @@ public class WikiCompanyPage extends WikiPage {
         return companyName;
     }
 
-    public WebElement getHeadquarters() {
-        return headquarters;
+    public WebElement getCompanyNameByHeading() {
+        return companyNameByHeading;
+    }
+
+    public WebElement getHeadquartersByClass() {
+        return headquartersByClass;
+    }
+
+    public WebElement getHeadquartersByLink() {
+        return headquartersByLink;
     }
 
     public List<WebElement> getPublishers() {
