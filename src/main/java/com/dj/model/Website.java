@@ -26,7 +26,6 @@ public abstract class Website{
 	
 	@Column(name = "url", length = 400)
 	protected String url;
-	
 	public Website() {}
 	
 	public Website(String name, String url) {
