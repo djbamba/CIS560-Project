@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.Optional;
+
 import static com.dj.utils.pages.PageConstants.*;
 
 /**
@@ -16,7 +18,10 @@ public class WikiPage extends PageObject {
 	@FindBy(id = "searchInput")
 	
 	protected WebElement searchBar;
-	
+
+	@FindBy(id = "//table[@id='noarticletext']")
+	protected WebElement missingInfo;
+
 	public WikiPage(WebDriver driver) {
 		super(driver, WIKI_URL);
 	}
@@ -37,10 +42,14 @@ public class WikiPage extends PageObject {
 		searchBar.submit();
 		return new WikiResultsPage(this.driver);
 	}
-	
+
 	protected String processCitation(String id) {
 		WebElement citation = driver.findElement(By.id(id.substring(id.indexOf('#') + 1)));
 		return citation.findElement(By.xpath(".//cite[1]/a[1]")).getAttribute("href");
 	}
-	
+
+	public boolean containsMissingInfo() {
+
+        return elementExists(missingInfo);
+    }
 }

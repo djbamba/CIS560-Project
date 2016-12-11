@@ -7,7 +7,8 @@ public interface PageConstants {
 	
 	String GOOGLE_URL = "http://www.google.com";
 	String WIKI_URL = "https://en.wikipedia.org/wiki/Main_Page";
-	
+	String WIKI_COMPANY_PUBLISHER = "https://en.wikipedia.org/wiki/List_of_video_game_publishers";
+
 	String INFO_BOX = ".//table[@class='infobox hproduct']";
 	
 	String DEV_1 = ".//table[@class='infobox hproduct']/tbody//th[contains(.,'Developer(s)')]";
@@ -27,8 +28,6 @@ public interface PageConstants {
 	
 	String IMAGE_PATH = ".//table[@class='infobox hproduct']//tr/td/a/img";
 
-	String WIKI_COMPANY_PUBLISHER = "https://en.wikipedia.org/wiki/List_of_video_game_publishers";
-	
 	String SCORE_ROWS = ".//table[@class='infobox wikitable']//tr[contains(.,'Score')][2]/following-sibling::tr";
 	
 }
