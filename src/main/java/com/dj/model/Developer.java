@@ -9,7 +9,6 @@ import javax.persistence.Entity;
  */
 
 @Entity
-@DiscriminatorValue(value = "DEV")
 public class Developer extends Company {
 	
 	@Column(name = "lead_designer", nullable = false)

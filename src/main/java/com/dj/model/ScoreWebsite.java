@@ -3,44 +3,36 @@ package com.dj.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * Created by DJ on 11/10/16.
  */
 
 @Entity
-public class ScoreWebsite {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	
-	@Column(name = "name", nullable = false)
-	private String name;
-	
-	@Column(name = "url", nullable = false)
-	private String url;
+public class ScoreWebsite extends Website {
 	
 	@ManyToMany(mappedBy = "scoreWebsites")
 	private List<Game> games = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "scoreWebsite")
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Score> scores = new ArrayList<>();
 	
 	public ScoreWebsite() {
-		
+		super();
 	}
 	
 	public ScoreWebsite(String name, String url) {
-		this.name = name;
-		this.url = url;
+		super(name,url);
 	}
 	
 	public void setId(int id) {
@@ -83,7 +75,7 @@ public class ScoreWebsite {
 		scores.add(score);
 	}
 	
-	public void setScores(List<Score> scores) {
+	public void setScore(List<Score> scores) {
 		this.scores = scores;
 	}
 	

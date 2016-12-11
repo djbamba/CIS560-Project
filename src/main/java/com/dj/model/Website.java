@@ -2,46 +2,39 @@ package com.dj.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Created by DJ on 11/10/16.
+ * Created by DJ on 12/10/16.
  */
 
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Company implements Serializable {
+public class Website implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected int id;
 	
-	@Column(name = "name", nullable = false, unique = true)
 	protected String name;
 	
-	@ManyToOne(targetEntity = Company.class, cascade = CascadeType.ALL)
-	protected Country country;
+	protected String url;
 	
-	public Company() {
+	public Website() {
 		super();
 	}
 	
-	public Company(String name) {
+	public Website(String name, String url) {
 		super();
 		this.name = name;
+		this.url = url;
 	}
 	
 	public void setId(int id) {
@@ -60,12 +53,11 @@ public class Company implements Serializable {
 		return name;
 	}
 	
-	public void setCountry(Country country) {
-		this.country = country;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	
-	public Country getCountry() {
-		return country;
+	public String getUrl() {
+		return url;
 	}
-	
 }
