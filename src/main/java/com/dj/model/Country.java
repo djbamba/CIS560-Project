@@ -1,5 +1,6 @@
 package com.dj.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ public class Country {
 	private String name;
 	
 	@OneToMany(mappedBy = "country")
-	private List<Company> companies;
+	private List<Company> companies = new ArrayList<>();
 	
 	public Country() {
 		
@@ -49,6 +50,10 @@ public class Country {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void addCompany(Company company) {
+		companies.add(company);
 	}
 	
 	public void setCompanies(List<Company> companies) {

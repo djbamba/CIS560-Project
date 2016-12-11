@@ -1,5 +1,6 @@
 package com.dj.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,18 +38,18 @@ public class Game {
 	@ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "game_genre", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
 	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
-	private List<Genre> genres;
+	private List<Genre> genres = new ArrayList<>();
 	
-	@ManyToMany(targetEntity = Website.class, cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = ScoreWebsite.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "game_purchase_site", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
 	 inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id"))
-	private List<Website> websites;
+	private List<ScoreWebsite> scoreWebsites = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
-	private List<Score> scores;
+	private List<Score> scores = new ArrayList<>();
 	
 	@ManyToMany(mappedBy = "games")
-	private List<System> systems;
+	private List<System> systems = new ArrayList<>();
 	
 	public Game() {
 	}
@@ -98,12 +99,12 @@ public class Game {
 		return genres;
 	}
 	
-	public void setWebsites(List<Website> websites) {
-		this.websites = websites;
+	public void setScoreWebsites(List<ScoreWebsite> scoreWebsites) {
+		this.scoreWebsites = scoreWebsites;
 	}
 	
-	public List<Website> getWebsites() {
-		return websites;
+	public List<ScoreWebsite> getScoreWebsites() {
+		return scoreWebsites;
 	}
 	
 	public void setScores(List<Score> scores) {
