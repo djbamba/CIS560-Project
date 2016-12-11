@@ -29,20 +29,20 @@
       <tbody>
         <tr>
             <tr th:if="${games}" th:each="game : ${games}">
-            <th scope="row"><span th:text="${game.index}"></span></th>
-                <td><span th:text="${game.name}"></span></td>
+                <th scope="row"><span th:text="${game.index}"></span></th>
+                <td><span th:text="${game.name}" href="/game/${game.name}"></span></td>
                 <td><span th:text="${game.system}"></span></td>
                 <td><span th:text="${game.release}"></span></td>
             </tr>
             <tr th:if="${gamesByGenre}" th:each="game : ${gamesByGenre}">
                 <th scope="row"><span th:text="${game.index}"></span></th>
-                <td><span th:text="${game.name}"></span></td>
+                <td><span th:text="${game.name}" href="/game/${game.name}"></span></td>
                 <td><span th:text="${game.system}"></span></td>
                 <td><span th:text="${game.release}"></span></td>
             </tr>
             <tr th:if="${gamesBySystem}" th:each="game : ${gamesBySystem}">
                 <th scope="row"><span th:text="${game.index}"></span></th>
-                <td><span th:text="${game.name}"></span></td>
+                <td><span th:text="${game.name}" href="/game/${game.name}"></span></td>
                 <td><span th:text="${game.system}"></span></td>
                 <td><span th:text="${game.release}"></span></td>
             </tr>

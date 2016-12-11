@@ -27,13 +27,13 @@ div {
 	width: 97%;
   list-style-type: none;
 }
- .search{
+.search{
 	 position: absolute;
 	 right: 0;
 	 margin-right: 3%;
 	 width: 300px;
- }
- label{
+}
+label{
 	 right: 0;
 	 position: absolute;
 	 margin-top: -30px;

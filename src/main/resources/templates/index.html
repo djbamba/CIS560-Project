@@ -10,10 +10,10 @@
     <header class="text-left">
         <h1 class="title">GameScraper</h1>
         <div class="form-group">
-            <label for="searchBar">Search by Game, Author, or Release Date.</label>
+            <label style="margin-right: 3%;" for="searchBar">Search by Game, Author, or Release Date.</label>
             <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
         </div>
-        <h6 style="margin-left: 70px;">Reviews scraped from the web.</h6>
+        <h6 style="margin-left: calc(5% + 27px);" >Reviews scraped from the web</h6>
 
     </header>
     <div class="text-center">
@@ -23,12 +23,7 @@
         <section>
             <h3 class="ul-header text-left">Games By Genre</h3>
             <ul style= "margin-top: 1%;">
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Action</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Sports</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Shooting</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Fighting</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Adventure</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Trivia</button></ul>
+                <ul th:each="genre : ${genres}"><button class="btn btn-default genre-button" href="/genre/${genre.name}" type="submit"><span th:text="${genre.name}"></span></button></ul>
             </ul>
         </section>
     </div>
@@ -36,10 +31,7 @@
         <section>
             <h3 class="ul-header">Games by System</h3>
             <ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">PC</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Playstation 4</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Xbox One</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Handhelds</button></ul>
+                <ul th:each="system : ${systems}"><button class="btn btn-default genre-button" href="/system/${system.name}" type="submit"><span th:text="${system.name}"></span></button></ul>
             </ul>
         </section>
     </div>
