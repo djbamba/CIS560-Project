@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ScoreWebsiteRepository extends JpaRepository<ScoreWebsite,Integer> {
 	
+	ScoreWebsite findByName(String name);
 }
