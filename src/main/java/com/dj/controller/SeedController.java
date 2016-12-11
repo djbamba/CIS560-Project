@@ -5,14 +5,20 @@ import com.dj.model.Developer;
 import com.dj.model.Game;
 import com.dj.model.Genre;
 import com.dj.model.Publisher;
+import com.dj.model.Score;
+import com.dj.model.ScoreWebsite;
 import com.dj.model.System;
 import com.dj.repository.CountryRepository;
+import com.dj.repository.DeveloperRepository;
 import com.dj.repository.GameRepository;
 import com.dj.repository.GenreRepository;
+import com.dj.repository.PublisherRepository;
 import com.dj.repository.ScoreRepository;
+import com.dj.repository.ScoreWebsiteRepository;
 import com.dj.repository.SystemRepository;
 import com.dj.utils.MetaScraper;
 import com.dj.utils.pages.*;
+import com.dj.utils.repoutils.RepoUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -67,6 +73,15 @@ public class SeedController {
 	
 	@Autowired
 	private ScoreRepository scoreRepository;
+	
+	@Autowired
+	private ScoreWebsiteRepository scoreWebsiteRepository;
+	
+	@Autowired
+	private DeveloperRepository developerRepository;
+	
+	@Autowired
+	private PublisherRepository publisherRepository;
 	
 	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
 	@ResponseBody
@@ -168,20 +183,54 @@ public class SeedController {
 		
 		Publisher pub;
 		Developer dev;
-		List<Genre> genres = new ArrayList<>();
-		List<System> systems = new ArrayList<>();
-		List<Game> updatedGames;
+		ScoreWebsite tempScoreWebsite;
+		Score tempScore;
+		List<String[]> scoreWebsiteInfo;
+		List<Genre> genres;
+		List<System> systems;
+		List<Score> scores = new ArrayList<>();
+		List<ScoreWebsite> scoreWebsites = new ArrayList<>();
 		
 		try {
 			
 			for (Game game : allGames) {
 				resultsPage = wikiPage.searchGame(game.getName()).getWikiResultsPage();
-//				game.setImageUrl(resultsPage.getImageSource());
-				// TODO: 11/30/16 get ready to handle multiple exceptions when locating these elements...
-//				game.setGenres(resultsPage.getGenres());
-//				game.setSystems(resultsPage.getPlatforms());
+//				extract info
+				genres = resultsPage.getGenres();
+				systems = resultsPage.getPlatforms();
+				pub = resultsPage.getPublisher();
+				dev = resultsPage.getDeveloper();
+//				check repositories
+				genres = RepoUtils.checkGenres(genres, genreRepository);
+				systems = RepoUtils.checkSystems(systems, systemRepository);
+//				build ScoreWebsite & Score
+				scoreWebsiteInfo = resultsPage.getScoreWebsiteInfo();
+				
+				for (String[] info : scoreWebsiteInfo) {
+					LOG.info("Score Website info: {}", info.toString());
+					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(info[0],info[1]),scoreWebsiteRepository);
+					
+					scoreWebsites.add(tempScoreWebsite);
+					tempScore = new Score(tempScoreWebsite,game,info[2]);
+					tempScoreWebsite.addGame(game);
+					tempScoreWebsite.addScore(tempScore);
+					scores.add(tempScore);
+					game.addScoreWebsite(tempScoreWebsite);
+				}
+//				save game info
+//				publisherRepository.save(pub);
+//				developerRepository.save(dev);
+				scoreWebsiteRepository.save(scoreWebsites);
+				scoreRepository.save(scores);
+//				save all info into game
 				
 				gameRepository.save(game);
+//				clear lists
+				scoreWebsites.clear();
+				scoreWebsiteInfo.clear();
+				scores.clear();
+				genres.clear();
+				systems.clear();
 			}
 			
 		} catch (Exception e) {
