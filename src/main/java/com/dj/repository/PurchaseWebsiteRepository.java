@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PurchaseWebsiteRepository extends JpaRepository<PurchaseWebsite,Integer>{
 	
+	PurchaseWebsite findByName(String name);
 }

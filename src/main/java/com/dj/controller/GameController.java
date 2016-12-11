@@ -42,4 +42,9 @@ public class GameController {
 		return "games/game";
 	}
 	
+//	@RequestMapping(value = "recent", method = RequestMethod.GET)
+//	public String getRecentGames(Model model) {
+//		model.addAttribute("games", gameRepository.)
+//	}
+	
 }
