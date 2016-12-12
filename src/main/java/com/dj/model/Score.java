@@ -76,6 +76,9 @@ public class Score {
 		if (score.contains("[")) {
 			cleaned = score.substring(0, score.indexOf('['));
 		}
+		if (score.contains("(")) {
+			cleaned = score.substring(0, score.indexOf('('));
+		}
 		if (score.contains("stars")){
 			cleaned = score.substring(0, score.indexOf("stars"));
 		}
