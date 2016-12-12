@@ -1,10 +1,8 @@
 package com.dj.utils.pages;
 
 import com.dj.model.Developer;
-import com.dj.model.Game;
 import com.dj.model.Genre;
 import com.dj.model.Publisher;
-import com.dj.model.Score;
 import com.dj.model.System;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +17,6 @@ import org.openqa.selenium.support.FindBy;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -183,7 +180,7 @@ public class WikiResultsPage extends WikiPage {
 		String siteName, score, href, citationID;
 		siteName = row.findElement(By.xpath("./td[1]")).getText().trim();
 		score = row.findElement(By.xpath("./td[2]")).getText().trim();
-		if (score.charAt(0) == '[') {
+		if (score.charAt(0) == '[' || score.charAt(0) == '(') {
 //			handles the star scoring
 			score = row.findElement(By.xpath("./td[2]/span")).getAttribute("title").trim();
 		}

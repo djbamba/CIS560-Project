@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 @Table(name = "score_website")
 public class ScoreWebsite extends Website {
 	
+	/***	relations ***/
 	@ManyToMany(mappedBy = "scoreWebsites")
 	private List<Game> games = new ArrayList<>();
 	
@@ -28,32 +30,8 @@ public class ScoreWebsite extends Website {
 	}
 	
 	public ScoreWebsite(String name, String url) {
-		super(name,url);
+		super(name, url);
 	}
-	
-//	public void setId(int id) {
-//		this.id = id;
-//	}
-//
-//	public int getId() {
-//		return id;
-//	}
-	
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public void setUrl(String url) {
-//		this.url = url;
-//	}
-//
-//	public String getUrl() {
-//		return url;
-//	}
 	
 	public void addGame(Game game) {
 		games.add(game);

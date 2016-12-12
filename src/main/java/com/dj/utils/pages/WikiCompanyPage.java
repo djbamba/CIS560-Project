@@ -87,11 +87,45 @@ public class WikiCompanyPage extends WikiPage {
      * Using web element table row obtained from publisher page, grab country from column
      * Multiple cases where same country names vary as well as only include state and not country
      */
-    public String getPubLocByTd(WebElement publisherRow) {
+    public String getPubLoc(WebElement publisherRow) {
         By pubLocByTd = By.xpath("td[2]");
         WebElement pubLoc = publisherRow.findElement(pubLocByTd);
         String locText = pubLoc.getText().trim();
 
+        return checkName(locText);
+    }
+
+    /**
+     * Grab the rows of developer info from a table
+     */
+    public List<WebElement> getDevelopersFromTable(WebElement devTable) {
+        return devTable.findElements(By.xpath("tbody/tr"));
+    }
+
+    /**
+     * Using web element table row obtained from developer page, grab name from column
+     */
+    public String getDevName(WebElement developerRow) {
+        By devName = By.xpath("td[1]/a[1]");
+        WebElement name = developerRow.findElement(devName);
+        return name.getText();
+    }
+
+    /**
+     * Using web element table row obtained from developer page, grab country from column
+     */
+    public String getDevLoc(WebElement developerRow) {
+        By devLocByTd = By.xpath("td[4]");
+        WebElement devLoc = developerRow.findElement(devLocByTd);
+        String locText = devLoc.getText().trim();
+        return checkName(locText);
+
+    }
+
+    /**
+     * Multiple cases where same country names vary as well as only include state and not country
+     */
+    private String checkName(String locText) {
         String[] split = locText.split(",");
         String countryName = split[split.length - 1].trim();
 
@@ -113,6 +147,7 @@ public class WikiCompanyPage extends WikiPage {
                 country = "United States";
                 break;
             case "UK":
+            case "England":
                 country = "United Kingdom";
                 break;
             case "South Korea":

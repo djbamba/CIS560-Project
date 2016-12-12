@@ -3,16 +3,20 @@ package com.dj.controller;
 import com.dj.model.Country;
 import com.dj.repository.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 /**
  * Created by DJ on 11/23/16.
  */
+@RestController
+@RequestMapping(value = "countries")
 public class CountryController {
     @Autowired
     private CountryRepository countryRepository;
@@ -29,10 +33,10 @@ public class CountryController {
         return "countries/country";
     }
 
-    @RequestMapping(value = "{countryName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{countryName}", method = RequestMethod.GET, produces = "text/html")
     public String getCountryByName(@PathVariable(value = "countryName") String name, Model model) {
         Country country = countryRepository.findByName(name);
         model.addAttribute("country", country);
-        return "countries/country";
+        return country.getCode();
     }
 }
