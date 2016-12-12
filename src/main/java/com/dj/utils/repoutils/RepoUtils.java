@@ -25,13 +25,6 @@ import java.util.List;
  */
 public class RepoUtils {
 	
-//	public static Company checkCompany(Company company, CompanyRepository companyRepository) {
-//		if (companyRepository.findByName(company.getName()) == null) {
-//			return companyRepository.save(company);
-//		}
-//		return companyRepository.findByName(company.getName());
-//	}
-	
 	public static Country checkCountry(Country country, CountryRepository countryRepository) {
 		if (countryRepository.findByCode(country.getCode()) == null) {
 			return countryRepository.save(country);
