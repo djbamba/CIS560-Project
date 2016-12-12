@@ -24,21 +24,40 @@
 
 <table class="table table-hover results" id="resultsTable">
     <thead>
-    <tr>
-        <th scope="row">Game ID</th>
-        <td><span th:text= "${game.id}"/></td>
-    </tr>
+        <tr>
+            <th scope="row">Released</th>
+            <td><span th:text= "${game.release}"/></td>
+        </tr>
     </thead>
     <tbody>
-    <th scope="row">Systems</th>
-    <tr th:each="system : ${game.systems}">
-        <td><span th:text="${system.name}"></span></td>
-    </tr>
-    <tr>
-        <th scope="row">Released</th>
-        <td><span th:text= "${game.release}"/></td>
-    </tr>
+        <th scope="row">Systems</th>
+        <tr th:each="system : ${game.systems}">
+            <td><span th:text="${system.name}"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <thead>
+        <th scope="row">Purchasable At:</th>
+    </thead>
+    <tbody>
+        <tr th:each="purchase : ${purchase}">
+            <td><span th:text="${purchase.name}"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <thead>
+        <th scope="row">Scores:</th>
+    </thead>
+    <tbody>
+        <tr th:each="score : ${score}">
+            <td><span th:text="${score.name}: ${score.score}"></span></td>
+        </tr>
     </tbody>
 </table>
 </body>
+<div style="display: hidden;" value="${game.id}"></div>
 </html>
