@@ -30,14 +30,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Spliterator;
 
 /**
  * Created by DJ on 11/24/16.
@@ -270,7 +268,7 @@ public class SeedController {
 	}
 
 	@RequestMapping("/populatePublishers")
-	public void populatePublishers() throws InterruptedException {
+	public void scrapePublishers() throws InterruptedException {
 		config();
 
 		File file = new File("src/main/resources/data/publishers.csv");
@@ -307,7 +305,7 @@ public class SeedController {
 	}
 
 	@RequestMapping("/populateDevelopers")
-	public void populateDevelopers() {
+	public void scrapeDevelopers() {
 	    config();
 
         File file = new File("src/main/resources/data/developers.csv");
@@ -345,4 +343,33 @@ public class SeedController {
             ex.printStackTrace();
         }
     }
+
+    @RequestMapping(value = "/populateCompanies", method = RequestMethod.GET)
+    public void populateCompanies() {
+        File developersCSV = new File("src/main/resources/data/developers.csv");
+        BufferedReader br;
+        FileInputStream fis;
+        InputStreamReader isr;
+
+        String line;
+        try {
+            fis = new FileInputStream(developersCSV);
+            isr = new InputStreamReader(fis);
+            br = new BufferedReader(isr);
+
+            while ((line = br.readLine()) != null) {
+                String[] split = line.split(";");
+                String name = split[0];
+                String country = split[1];
+                LOG.info("Country: " + country + ", " + country.length());
+                LOG.info(country);
+                Country countryObject = countryRepository.findByName(country);
+                LOG.info(countryObject.getCode());
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }
