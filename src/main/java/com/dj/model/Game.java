@@ -37,7 +37,7 @@ public class Game {
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Genre> genres = new ArrayList<>();
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "games")
 	private List<ScoreWebsite> scoreWebsites = new ArrayList<>();
 	
 	@OneToMany

@@ -21,9 +21,6 @@ public abstract class Company{
 	@Column(name = "name")
 	protected String name;
 	
-//	@ManyToOne(targetEntity = Country.class, cascade = CascadeType.ALL)
-//	protected Country country;
-	
 	public Company() {
 		
 	}

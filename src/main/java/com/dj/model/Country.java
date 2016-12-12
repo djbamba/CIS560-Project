@@ -56,10 +56,6 @@ public class Country {
 		return name;
 	}
 	
-//	public void addCompany(Company company) {
-//		companies.add(company);
-//	}
-	
 	public void addDeveloper(Developer developer) {
 		developers.add(developer);
 	}
@@ -67,14 +63,6 @@ public class Country {
 	public void addPublisher(Publisher publisher) {
 		publishers.add(publisher);
 	}
-	
-//	public void setCompanies(List<Company> companies) {
-//		this.companies = companies;
-//	}
-//
-//	public List<Company> getCompanies() {
-//		return companies;
-//	}
 	
 	public List<Developer> getDevelopers() {
 		return developers;
