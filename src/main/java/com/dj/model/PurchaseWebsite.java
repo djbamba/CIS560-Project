@@ -22,6 +22,7 @@ public class PurchaseWebsite extends Website{
 	@Column(name = "price", nullable = false)
 	private String price;
 	
+	/***	relations ***/
 	@ManyToMany(mappedBy = "purchaseWebsites")
 	private List<Game> games = new ArrayList<>();
 	

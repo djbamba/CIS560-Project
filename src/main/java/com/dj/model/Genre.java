@@ -29,7 +29,7 @@ public class Genre {
 	@Column(name = "genre", nullable = false, unique = true)
 	private String genre;
 	
-	/*relations*/
+	/***	relations ***/
 	@ManyToMany(mappedBy = "genres")
 	private List<Game> games = new ArrayList<>();
 	
