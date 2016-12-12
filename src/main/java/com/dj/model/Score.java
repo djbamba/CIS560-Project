@@ -18,7 +18,6 @@ public class Score {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id; // primary key
 	
-	
 	/***	relations ***/
 	@ManyToOne
 	private ScoreWebsite scoreWebsite; // foreign key to name in ScoreWebsite
@@ -76,7 +75,10 @@ public class Score {
 		if (score.contains("[")) {
 			cleaned = score.substring(0, score.indexOf('['));
 		}
-		if (score.contains("stars")){
+		if (score.contains("(")) {
+			cleaned = score.substring(0, score.indexOf('('));
+		}
+		if (score.contains("stars")) {
 			cleaned = score.substring(0, score.indexOf("stars"));
 		}
 		if (score.contains(":")) {

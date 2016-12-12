@@ -20,7 +20,25 @@ import javax.persistence.Table;
 @Table(name = "genre")
 public class Genre {
 	
-	private static List<String> ignore = Arrays.asList(new String[]{"GAME", "VIDEO", "4X", "[11]"});
+	private final static List<String> IGNORE = new ArrayList<String>() {{
+		add("4X");
+		add("[11]");
+		add("[2]");
+		add("[4]");
+		add("[6]");
+		add("[7]");
+	}};
+	
+	private final static List<String> FILTER = new ArrayList<String>() {{
+		add("GAME");
+		add("FIGHTING");
+		add("VIDEO");
+	}};
+	
+	private final static List<String> PLATFORM = new ArrayList<String>() {{
+		add("PLATFORM");
+		add("PLATFORMER");
+	}};
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,7 +48,7 @@ public class Genre {
 	private String genre;
 	
 	/***	relations ***/
-	@ManyToMany(mappedBy = "genres")
+	@ManyToMany
 	private List<Game> games = new ArrayList<>();
 	
 	public Genre() {
@@ -38,7 +56,7 @@ public class Genre {
 	}
 	
 	public Genre(String genre) {
-		this.genre = genre;
+		this.genre = cleanGenre(genre);
 	}
 	
 	public void setId(int id) {
@@ -69,15 +87,24 @@ public class Genre {
 		return games;
 	}
 	
-	public String cleanGenre(String genre) {
-		StringBuilder sb = new StringBuilder();
-		for (String section : genre.split("[ |-]")) {
-			for (String ig : ignore) {
-				if (section.equalsIgnoreCase(ig)) {
-					continue;
-				}
-				sb.append(section + " ");
+	public static boolean shouldIgnore(String name) {
+		for (String ignore : IGNORE) {
+			if (name.trim().equalsIgnoreCase(ignore)) {
+				return true;
 			}
+		}
+		return false;
+	}
+	
+	private String cleanGenre(String genre) {
+		StringBuilder sb = new StringBuilder();
+		for (String section : genre.split("[ -]")) {
+			if (FILTER.contains(section.toUpperCase()))
+				continue;
+			if (PLATFORM.contains(section.toUpperCase())) {
+				sb.append("Platformer");
+			}
+			sb.append(section);
 		}
 		return sb.toString();
 	}

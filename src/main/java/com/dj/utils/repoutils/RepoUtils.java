@@ -1,13 +1,19 @@
 package com.dj.utils.repoutils;
 
-import com.dj.model.Company;
 import com.dj.model.Country;
+import com.dj.model.Developer;
+import com.dj.model.Game;
 import com.dj.model.Genre;
+import com.dj.model.Publisher;
+import com.dj.model.PurchaseWebsite;
 import com.dj.model.ScoreWebsite;
 import com.dj.model.System;
-import com.dj.repository.CompanyRepository;
 import com.dj.repository.CountryRepository;
+import com.dj.repository.DeveloperRepository;
+import com.dj.repository.GameRepository;
 import com.dj.repository.GenreRepository;
+import com.dj.repository.PublisherRepository;
+import com.dj.repository.PurchaseWebsiteRepository;
 import com.dj.repository.ScoreWebsiteRepository;
 import com.dj.repository.SystemRepository;
 
@@ -19,13 +25,6 @@ import java.util.List;
  */
 public class RepoUtils {
 	
-	public static Company checkCompany(Company company, CompanyRepository companyRepository) {
-		if (companyRepository.findByName(company.getName()) == null) {
-			return companyRepository.save(company);
-		}
-		return companyRepository.findByName(company.getName());
-	}
-	
 	public static Country checkCountry(Country country, CountryRepository countryRepository) {
 		if (countryRepository.findByCode(country.getCode()) == null) {
 			return countryRepository.save(country);
@@ -33,7 +32,19 @@ public class RepoUtils {
 		return countryRepository.findByCode(country.getCode());
 	}
 	
-	// TODO: 12/11/16 developer, game
+	public static Developer checkDeveloper(Developer developer, DeveloperRepository developerRepository) {
+		if (developerRepository.findByName(developer.getName()) == null) {
+			return developerRepository.save(developer);
+		}
+		return developerRepository.findByName(developer.getName());
+	}
+	
+	public static Game checkGame(Game game, GameRepository gameRepository) {
+		if (gameRepository.findByName(game.getName()) == null) {
+			return gameRepository.save(game);
+		}
+		return gameRepository.findByName(game.getName());
+	}
 	
 	public static Genre checkGenre(Genre genre, GenreRepository genreRepository) {
 		if (genreRepository.findByGenre(genre.getGenre()) == null) {
@@ -52,7 +63,20 @@ public class RepoUtils {
 		}
 		return temps;
 	}
-	// TODO: 12/11/16 publisher, purchaseWebsite
+	
+	public static Publisher checkPublisher(Publisher publisher, PublisherRepository publisherRepository) {
+		if (publisherRepository.findByName(publisher.getName()) == null) {
+			return publisherRepository.save(publisher);
+		}
+		return publisherRepository.findByName(publisher.getName());
+	}
+	
+	public static PurchaseWebsite checkPurchaseWebsite(PurchaseWebsite purchaseWebsite, PurchaseWebsiteRepository purchaseWebsiteRepository) {
+		if (purchaseWebsiteRepository.findByName(purchaseWebsite.getName()) == null) {
+			return purchaseWebsiteRepository.save(purchaseWebsite);
+		}
+		return purchaseWebsiteRepository.findByName(purchaseWebsite.getName());
+	}
 	
 	public static System checkSystem(System system, SystemRepository systemRepository) {
 		if (systemRepository.findByName(system.getName()) == null) {

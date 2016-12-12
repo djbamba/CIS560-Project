@@ -178,11 +178,14 @@ public class SeedController {
 	
 	@RequestMapping("/populate")
 	public void populate() {
+//		drop table developer, game_genres, game_purchase_website, game_score_website, genre, publisher, purchase_website, score, score_website,system,game_system,genre_games
+		// TODO: 12/12/16 stop duplicate entries for genre-games...
 		List<Game> allGames = gameRepository.findAll();
 		config();
 		WikiPage wikiPage = new WikiPage(driver);
-		WikiResultsPage resultsPage;
+		WikiResultsPage resultsPage = null;
 		
+		Country country;
 		Publisher pub;
 		Developer dev;
 		ScoreWebsite tempScoreWebsite;
@@ -197,35 +200,53 @@ public class SeedController {
 			
 			for (Game game : allGames) {
 				resultsPage = wikiPage.searchGame(game.getName()).getWikiResultsPage();
-//				extract info
+//				extract info from resultsPage
 				genres = resultsPage.getGenres();
 				systems = resultsPage.getPlatforms();
 				pub = resultsPage.getPublisher();
 				dev = resultsPage.getDeveloper();
-//				check repositories
+//				check info against their repositories
 				genres = RepoUtils.checkGenres(genres, genreRepository);
 				systems = RepoUtils.checkSystems(systems, systemRepository);
+				pub = RepoUtils.checkPublisher(pub, publisherRepository);
+				dev = RepoUtils.checkDeveloper(dev, developerRepository);
+//				country = RepoUtils.checkCountry(dev.getCountry(), countryRepository);
+//				country.addDeveloper(dev);
+				
+//				country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
+//				country.addPublisher(pub);
 //				build ScoreWebsite & Score
 				scoreWebsiteInfo = resultsPage.getScoreWebsiteInfo();
 				
 				for (String[] info : scoreWebsiteInfo) {
 					LOG.info("Score Website info: {}", info.toString());
 					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(info[0], info[1]), scoreWebsiteRepository);
-					
-					scoreWebsites.add(tempScoreWebsite);
 					tempScore = new Score(tempScoreWebsite, game, info[2]);
-					tempScoreWebsite.addGame(game);
 					tempScoreWebsite.addScore(tempScore);
 					scores.add(tempScore);
-					game.addScoreWebsite(tempScoreWebsite);
+					scoreWebsites.add(tempScoreWebsite);
 				}
-//				save game info
-//				publisherRepository.save(pub);
-//				developerRepository.save(dev);
-				scoreWebsiteRepository.save(scoreWebsites);
-				scoreRepository.save(scores);
-//				save all info into game
-				
+//				insert game into related info
+				pub.addGame(game);
+				dev.addGame(game);
+				genres.forEach(genre -> genre.addGame(game));
+				systems.forEach(system -> system.addGame(game));
+				scoreWebsites.forEach(scoreWebsite -> scoreWebsite.addGame(game));
+//				save game related info
+				genres = genreRepository.save(genres);
+				systems = systemRepository.save(systems);
+				pub = publisherRepository.save(pub);
+				dev = developerRepository.save(dev);
+				scoreWebsites = scoreWebsiteRepository.save(scoreWebsites);
+				scores = scoreRepository.save(scores);
+//				insert all info into game
+				game.setPublisher(pub);
+				game.setDeveloper(dev);
+				game.addGenres(genres);
+				game.addScoreWebsites(scoreWebsites);
+				game.addScores(scores);
+				game.addSystems(systems);
+//				save game in repository
 				gameRepository.save(game);
 //				clear lists
 				scoreWebsites.clear();
@@ -234,11 +255,11 @@ public class SeedController {
 				genres.clear();
 				systems.clear();
 			}
+			resultsPage.close();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	@RequestMapping("/populateCountries")
