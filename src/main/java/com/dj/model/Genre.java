@@ -1,6 +1,7 @@
 package com.dj.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,6 +20,26 @@ import javax.persistence.Table;
 @Table(name = "genre")
 public class Genre {
 	
+	private final static List<String> IGNORE = new ArrayList<String>() {{
+		add("4X");
+		add("[11]");
+		add("[2]");
+		add("[4]");
+		add("[6]");
+		add("[7]");
+	}};
+	
+	private final static List<String> FILTER = new ArrayList<String>() {{
+		add("GAME");
+		add("FIGHTING");
+		add("VIDEO");
+	}};
+	
+	private final static List<String> PLATFORM = new ArrayList<String>() {{
+		add("PLATFORM");
+		add("PLATFORMER");
+	}};
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -26,8 +47,8 @@ public class Genre {
 	@Column(name = "genre", nullable = false, unique = true)
 	private String genre;
 	
-	/*relations*/
-	@ManyToMany(mappedBy = "genres")
+	/***	relations ***/
+	@ManyToMany
 	private List<Game> games = new ArrayList<>();
 	
 	public Genre() {
@@ -35,7 +56,7 @@ public class Genre {
 	}
 	
 	public Genre(String genre) {
-		this.genre = genre;
+		this.genre = cleanGenre(genre);
 	}
 	
 	public void setId(int id) {
@@ -64,6 +85,28 @@ public class Genre {
 	
 	public List<Game> getGames() {
 		return games;
+	}
+	
+	public static boolean shouldIgnore(String name) {
+		for (String ignore : IGNORE) {
+			if (name.trim().equalsIgnoreCase(ignore)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private String cleanGenre(String genre) {
+		StringBuilder sb = new StringBuilder();
+		for (String section : genre.split("[ -]")) {
+			if (FILTER.contains(section.toUpperCase()))
+				continue;
+			if (PLATFORM.contains(section.toUpperCase())) {
+				sb.append("Platformer");
+			}
+			sb.append(section);
+		}
+		return sb.toString();
 	}
 	
 	@Override

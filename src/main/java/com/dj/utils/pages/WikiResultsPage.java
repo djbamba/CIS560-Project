@@ -1,10 +1,8 @@
 package com.dj.utils.pages;
 
 import com.dj.model.Developer;
-import com.dj.model.Game;
 import com.dj.model.Genre;
 import com.dj.model.Publisher;
-import com.dj.model.Score;
 import com.dj.model.System;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,11 +17,11 @@ import org.openqa.selenium.support.FindBy;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.dj.utils.pages.PageConstants.*;
+
 
 /**
  * Created by DJ on 11/28/16.
@@ -44,7 +42,7 @@ public class WikiResultsPage extends WikiPage {
 	private WebElement tempE;
 	
 	private List<WebElement> tempsE;
-	
+
 //	private Game game;
 	
 	public WikiResultsPage(WebDriver driver) {
@@ -165,22 +163,15 @@ public class WikiResultsPage extends WikiPage {
 		return "https://" + src;
 	}
 	
-	public List<String[]> getScores() {
+	public List<String[]> getScoreWebsiteInfo() {
 		List<String[]> scoreList = new ArrayList<>();
 		String scoreString;
 		try {
-//			scores.forEach(score -> {
-//				LOG.info("<tr>:");
-//				LOG.info("\t <td>[1]: {}", score.findElement(By.xpath("./td[1]")).getText());
-//				LOG.info("\t <td>[2]: {}", score.findElement(By.xpath("./td[2]")).getText());
-//				LOG.info("Extracted info: {}", processScore(score));
-				for (WebElement score : scores) {
-					scoreList.add(processScore(score).split(" "));
-				}
-//			});
-			
+			for (WebElement score : scores) {
+				scoreList.add(processScore(score).split("\\*"));
+			}
 		} catch (Exception e) {
-			LOG.error("Error in getScores:", e);
+			LOG.error("Error in getScoreWebsiteInfo:", e);
 		}
 		return scoreList;
 	}
@@ -189,7 +180,7 @@ public class WikiResultsPage extends WikiPage {
 		String siteName, score, href, citationID;
 		siteName = row.findElement(By.xpath("./td[1]")).getText().trim();
 		score = row.findElement(By.xpath("./td[2]")).getText().trim();
-		if (score.charAt(0) == '[') {
+		if (score.charAt(0) == '[' || score.charAt(0) == '(') {
 //			handles the star scoring
 			score = row.findElement(By.xpath("./td[2]/span")).getAttribute("title").trim();
 		}
@@ -199,9 +190,10 @@ public class WikiResultsPage extends WikiPage {
 		} catch (NoSuchElementException e) {
 			href = "N/A";
 		}
-		
-		return String.format("site: %s\tscore: %s\turl: %s", siteName, score, href);
+//		return String.format("site: %s\turl: %s\tscore: %s", siteName, href, score);
+		return String.format("%s * %s * %s", siteName, href, score);
 	}
+	
 	
 }
 	

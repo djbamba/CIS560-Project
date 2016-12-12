@@ -35,26 +35,37 @@ public class Game {
 	@Column(name = "image_url")
 	private String imageUrl;
 	
-	//relations
-	@ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL)
-	@JoinTable(name = "game_genre", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
-	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
+	/*** relations ***/
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "game_genres",joinColumns = @JoinColumn(name = "game_id"),
+	inverseJoinColumns = @JoinColumn(name = "genre_id",referencedColumnName = "id"))
 	private List<Genre> genres = new ArrayList<>();
 	
-//	@ManyToMany(targetEntity = ScoreWebsite.class, cascade = CascadeType.ALL)
-//	@JoinTable(name = "game_purchase_site", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
-//	 inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id"))
 	@ManyToMany
+	@JoinTable(name = "game_score_website",joinColumns = @JoinColumn(name = "game_id"),
+	inverseJoinColumns = @JoinColumn(name = "score_website_id",referencedColumnName = "id"))
 	private List<ScoreWebsite> scoreWebsites = new ArrayList<>();
 	
-	@OneToMany
+	@ManyToMany
+	@JoinTable(name = "game_purchase_website",joinColumns = @JoinColumn(name = "game_id"),
+	inverseJoinColumns = @JoinColumn(name = "purchase_website_id",referencedColumnName = "id"))
 	private List<PurchaseWebsite> purchaseWebsites = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private List<Score> scores = new ArrayList<>();
 	
-	@ManyToMany(mappedBy = "games")
+	@ManyToMany
+	@JoinTable(name="game_system",joinColumns = @JoinColumn(name = "game_id"),
+	inverseJoinColumns = @JoinColumn(name = "system_id",referencedColumnName = "id"))
 	private List<System> systems = new ArrayList<>();
+	
+	@ManyToOne(targetEntity = Developer.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "developer_id", referencedColumnName = "id")
+	private Developer developer;
+	
+	@ManyToOne(targetEntity = Publisher.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "publisher_id", referencedColumnName = "id")
+	private Publisher publisher;
 	
 	public Game() {
 	}
@@ -62,6 +73,22 @@ public class Game {
 	public Game(String name, String release) {
 		this.name = name;
 		this.release = release;
+	}
+	
+	public Developer getDeveloper() {
+		return developer;
+	}
+	
+	public void setDeveloper(Developer developer) {
+		this.developer = developer;
+	}
+	
+	public Publisher getPublisher() {
+		return publisher;
+	}
+	
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
 	}
 	
 	public void setId(int id) {
@@ -96,12 +123,20 @@ public class Game {
 		return imageUrl;
 	}
 	
+	public void addGenres(List<Genre> genres) {
+		this.genres.addAll(genres);
+	}
+	
 	public void setGenres(List<Genre> genres) {
 		this.genres = genres;
 	}
 	
 	public List<Genre> getGenres() {
 		return genres;
+	}
+	
+	public void addScoreWebsites(List<ScoreWebsite> scoreWebsites) {
+		this.scoreWebsites.addAll(scoreWebsites);
 	}
 	
 	public void setScoreWebsites(List<ScoreWebsite> scoreWebsites) {
@@ -112,12 +147,21 @@ public class Game {
 		return scoreWebsites;
 	}
 	
+	public void addScores(List<Score> scores) {
+		
+		this.scores.addAll(scores);
+	}
+	
 	public void setScores(List<Score> scores) {
 		this.scores = scores;
 	}
 	
 	public List<Score> getScores() {
 		return scores;
+	}
+	
+	public void addSystems(List<System> systems) {
+		this.systems.addAll(systems);
 	}
 	
 	public void setSystems(List<System> systems) {
