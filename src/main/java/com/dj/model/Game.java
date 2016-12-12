@@ -35,15 +35,10 @@ public class Game {
 	@Column(name = "image_url")
 	private String imageUrl;
 	
-	//relations
-	@ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL)
-	@JoinTable(name = "game_genre", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
-	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
+	/***	relations ***/
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Genre> genres = new ArrayList<>();
 	
-//	@ManyToMany(targetEntity = ScoreWebsite.class, cascade = CascadeType.ALL)
-//	@JoinTable(name = "game_purchase_site", joinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"),
-//	 inverseJoinColumns = @JoinColumn(name = "website_id", referencedColumnName = "id"))
 	@ManyToMany
 	private List<ScoreWebsite> scoreWebsites = new ArrayList<>();
 	

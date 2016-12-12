@@ -17,6 +17,7 @@ import javax.persistence.Table;
 @Table(name = "score_website")
 public class ScoreWebsite extends Website {
 	
+	/***	relations ***/
 	@ManyToMany(mappedBy = "scoreWebsites")
 	private List<Game> games = new ArrayList<>();
 	

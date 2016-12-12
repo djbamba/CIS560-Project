@@ -24,6 +24,7 @@ public class Country {
 	@Column(name = "name", unique = true, nullable = false)
 	private String name;
 	
+	/***	relations ***/
 	@OneToMany(mappedBy = "country")
 	private List<Company> companies = new ArrayList<>();
 	

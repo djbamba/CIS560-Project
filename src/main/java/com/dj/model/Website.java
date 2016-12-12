@@ -11,9 +11,6 @@ import javax.persistence.MappedSuperclass;
  * Created by DJ on 12/10/16.
  */
 
-//@Entity
-//@Table(name = "Website")
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @MappedSuperclass
 public abstract class Website{
 	
