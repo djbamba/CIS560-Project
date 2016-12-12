@@ -183,7 +183,7 @@ public class WikiResultsPage extends WikiPage {
 		String siteName, score, href, citationID;
 		siteName = row.findElement(By.xpath("./td[1]")).getText().trim();
 		score = row.findElement(By.xpath("./td[2]")).getText().trim();
-		if (score.charAt(0) == '[') {
+		if (score.charAt(0) == '[' || score.charAt(0) == '(') {
 //			handles the star scoring
 			score = row.findElement(By.xpath("./td[2]/span")).getAttribute("title").trim();
 		}
