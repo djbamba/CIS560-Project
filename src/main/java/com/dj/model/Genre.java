@@ -1,6 +1,7 @@
 package com.dj.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,6 +20,8 @@ import javax.persistence.Table;
 @Table(name = "genre")
 public class Genre {
 	
+	private static List<String> ignore = Arrays.asList(new String[]{"GAME", "VIDEO", "4X", "[11]"});
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -26,7 +29,7 @@ public class Genre {
 	@Column(name = "genre", nullable = false, unique = true)
 	private String genre;
 	
-	/*relations*/
+	/***	relations ***/
 	@ManyToMany(mappedBy = "genres")
 	private List<Game> games = new ArrayList<>();
 	
@@ -64,6 +67,19 @@ public class Genre {
 	
 	public List<Game> getGames() {
 		return games;
+	}
+	
+	public String cleanGenre(String genre) {
+		StringBuilder sb = new StringBuilder();
+		for (String section : genre.split("[ |-]")) {
+			for (String ig : ignore) {
+				if (section.equalsIgnoreCase(ig)) {
+					continue;
+				}
+				sb.append(section + " ");
+			}
+		}
+		return sb.toString();
 	}
 	
 	@Override

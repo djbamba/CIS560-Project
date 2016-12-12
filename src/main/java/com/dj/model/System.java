@@ -27,9 +27,11 @@ public class System {
 	@Column(unique = true)
 	private String name;
 	
-	@ManyToMany(targetEntity = Game.class, cascade = CascadeType.ALL)
-	@JoinTable(name = "game_system", joinColumns = @JoinColumn(name = "system_id", referencedColumnName = "id"),
-	 inverseJoinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"))
+	/***	relations ***/
+//	@ManyToMany(targetEntity = Game.class, cascade = CascadeType.ALL)
+//	@JoinTable(name = "game_system", joinColumns = @JoinColumn(name = "system_id", referencedColumnName = "id"),
+//	 inverseJoinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"))
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Game> games = new ArrayList<>();
 	
 	public System() {

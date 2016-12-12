@@ -18,6 +18,8 @@ public class Score {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id; // primary key
 	
+	
+	/***	relations ***/
 	@ManyToOne
 	private ScoreWebsite scoreWebsite; // foreign key to name in ScoreWebsite
 	

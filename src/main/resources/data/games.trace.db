@@ -772,3 +772,9 @@ DROP TABLE SCORE, GAME_SCORE_WEBSITE, GENRE, SYSTEM [42102-192]
 2016-12-11 17:25:24 jdbc[12]: exception
 org.h2.jdbc.JdbcSQLException: Value too long for column "URL VARCHAR(255)": "' http://pqasb.pqarchiver.com/USAToday/doc/408837885.html?FMT=ABS&FMTS=ABS&date=Oct+27%2C+2000&author=Kent%2C+Steven&pub=USA+TOD... (275)"; SQL statement:
 insert into score_website (id, name, url) values (null, ?, ?) [22001-192]
+2016-12-11 18:50:13 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Table "TABLE" not found; SQL statement:
+update table country set name = 'Russia' where code = 'RU' [42102-192]
+2016-12-11 18:52:28 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CSVWRITE[*]('./src/main/resources/data/countries2.csv','select * from country')"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT, {"; SQL statement:
+CSVWRITE('./src/main/resources/data/countries2.csv','select * from country') [42001-192]
