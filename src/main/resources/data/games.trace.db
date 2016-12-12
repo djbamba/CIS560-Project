@@ -778,3 +778,6 @@ update table country set name = 'Russia' where code = 'RU' [42102-192]
 2016-12-11 18:52:28 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CSVWRITE[*]('./src/main/resources/data/countries2.csv','select * from country')"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT, {"; SQL statement:
 CSVWRITE('./src/main/resources/data/countries2.csv','select * from country') [42001-192]
+2016-12-11 19:39:27 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "DROP COMPANY[*], COUNTRY, COMPANY_GAMES, GAME_GENRE, GAME_GENRES, GAME_PURCHASE_WEBSITES, GAME_SCORE_WEBSITES, GAME_SYSTEM, GENRE, PURCHASE_WEBSITE, SCORE, SCORE_WEBSITE, SYSTEM, SYSTEM_GAMES "; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE"; SQL statement:
+drop company, country, company_games, game_genre, game_genres, game_purchase_websites, game_score_websites, game_system, genre, purchase_website, score, score_website, system, system_games [42001-192]

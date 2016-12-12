@@ -194,21 +194,22 @@ public class SeedController {
 			
 			for (Game game : allGames) {
 				resultsPage = wikiPage.searchGame(game.getName()).getWikiResultsPage();
-//				extract info
+//				extract info from resultsPage
 				genres = resultsPage.getGenres();
 				systems = resultsPage.getPlatforms();
 				pub = resultsPage.getPublisher();
 				dev = resultsPage.getDeveloper();
-//				check repositories
+//				check info against their repositories
 				genres = RepoUtils.checkGenres(genres, genreRepository);
 				systems = RepoUtils.checkSystems(systems, systemRepository);
+				pub = RepoUtils.checkPublisher(pub, publisherRepository);
+				dev = RepoUtils.checkDeveloper(dev, developerRepository);
 //				build ScoreWebsite & Score
 				scoreWebsiteInfo = resultsPage.getScoreWebsiteInfo();
 				
 				for (String[] info : scoreWebsiteInfo) {
 					LOG.info("Score Website info: {}", info.toString());
 					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(info[0], info[1]), scoreWebsiteRepository);
-					
 					scoreWebsites.add(tempScoreWebsite);
 					tempScore = new Score(tempScoreWebsite, game, info[2]);
 					tempScoreWebsite.addGame(game);
@@ -216,9 +217,9 @@ public class SeedController {
 					scores.add(tempScore);
 					game.addScoreWebsite(tempScoreWebsite);
 				}
-//				save game info
-//				publisherRepository.save(pub);
-//				developerRepository.save(dev);
+//				save game info related to game
+				publisherRepository.save(pub);
+				developerRepository.save(dev);
 				scoreWebsiteRepository.save(scoreWebsites);
 				scoreRepository.save(scores);
 //				save all info into game
@@ -235,7 +236,6 @@ public class SeedController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	@RequestMapping("/populateCountries")
