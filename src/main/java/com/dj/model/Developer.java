@@ -12,7 +12,7 @@ import javax.persistence.Entity;
 @DiscriminatorValue("DEV")
 public class Developer extends Company {
 	
-	@Column(name = "lead_designer", nullable = false)
+	@Column(name = "lead_designer")
 	private String leadDesigner;
 	
 	public Developer() {

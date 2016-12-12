@@ -271,7 +271,7 @@ public class SeedController {
 		}
 	}
 
-	@RequestMapping("/populatePublishers")
+	@RequestMapping("/scrapePublishers")
 	public void scrapePublishers() throws InterruptedException {
 		config();
 
@@ -308,7 +308,7 @@ public class SeedController {
 
 	}
 
-	@RequestMapping("/populateDevelopers")
+	@RequestMapping("/scrapeDevelopers")
 	public void scrapeDevelopers() {
 	    config();
 
@@ -348,14 +348,12 @@ public class SeedController {
         }
     }
 
-	@RequestMapping(value = "/populateCompanies", method = RequestMethod.GET)
-	public void populateCompanies() {
+	@RequestMapping(value = "/populateDevelopers", method = RequestMethod.GET)
+	public void populateDevelopers() {
 		File developersCSV = new File("src/main/resources/data/developers.csv");
 		BufferedReader br;
 		FileInputStream fis;
 		InputStreamReader isr;
-
-		List<String> badLines = new ArrayList<>();
 
 		String line;
 		try {
@@ -363,29 +361,52 @@ public class SeedController {
 			isr = new InputStreamReader(fis);
 			br = new BufferedReader(isr);
 
-			int counter = 0;
 			while ((line = br.readLine()) != null) {
 				String[] split = line.split(";");
 				String name = split[0];
 				String country = split[1];
-				LOG.info("Country: " + country + ", " + country.length());
-				LOG.info(country);
 				Country countryObject = countryRepository.findByName(country);
-				if (countryObject != null) {
-                    LOG.info(countryObject.getCode());
-                    counter++;
-                } else badLines.add(line);
-
+//				if (countryObject != null)
+                Developer developer = new Developer();
+                developer.setName(name);
+                developer.setCountry(countryObject);
+                developer.setLeadDesigner("N/A");
+                developerRepository.save(developer);
 			}
-			LOG.info("#: " + counter);
-			LOG.info("Bad:");
-            for (String badLine : badLines) {
-                LOG.info(badLine);
-            }
 
         } catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 	}
+
+	@RequestMapping("/populatePublishers")
+	public void populatePublishers() {
+        File publishersCSV = new File("src/main/resources/data/publishers.csv");
+        BufferedReader br;
+        FileInputStream fis;
+        InputStreamReader isr;
+
+        String line;
+        try {
+            fis = new FileInputStream(publishersCSV);
+            isr = new InputStreamReader(fis);
+            br = new BufferedReader(isr);
+
+            while ((line = br.readLine()) != null) {
+                String[] split = line.split(";");
+                String name = split[0];
+                String country = split[1];
+                Country countryObject = countryRepository.findByName(country);
+                Publisher publisher = new Publisher();
+                publisher.setName(name);
+                publisher.setCountry(countryObject);
+                publisher.setContentRating("N/A");
+                publisherRepository.save(publisher);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }
