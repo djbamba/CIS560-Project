@@ -805,3 +805,9 @@ drop table developer, game_genres, game_purchase_website, game_score_website, ge
 2016-12-12 01:29:19 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLException: Table "DEVELOPER" not found; SQL statement:
 drop table developer, game_genres, game_purchase_website, game_score_website, genre, publisher, purchase_website, score, score_website,system,game_system,genre_games [42102-192]
+2016-12-12 05:01:42 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLException: Table "GENRES" not found; SQL statement:
+SELECT * FROM GENRES where genre_id = 500 [42102-192]
+2016-12-12 05:01:50 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLException: Table "GENRES" not found; SQL statement:
+SELECT * FROM GENRES where genre_id = 478 [42102-192]

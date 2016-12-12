@@ -21,10 +21,18 @@ import javax.persistence.Table;
 public class Genre {
 	
 	private final static List<String> IGNORE = new ArrayList<String>() {{
-		add("GAME");
-		add("VIDEO");
 		add("4X");
 		add("[11]");
+		add("[2]");
+		add("[4]");
+		add("[6]");
+		add("[7]");
+	}};
+	
+	private final static List<String> FILTER = new ArrayList<String>() {{
+		add("GAME");
+		add("FIGHTING");
+		add("VIDEO");
 	}};
 	
 	private final static List<String> PLATFORM = new ArrayList<String>() {{
@@ -48,7 +56,7 @@ public class Genre {
 	}
 	
 	public Genre(String genre) {
-		this.genre = genre;
+		this.genre = cleanGenre(genre);
 	}
 	
 	public void setId(int id) {
@@ -79,18 +87,24 @@ public class Genre {
 		return games;
 	}
 	
-	public String cleanGenre(String genre) {
-		StringBuilder sb = new StringBuilder();
-		for (String section : genre.split("[ |-]")) {
-			for (String ig : IGNORE) {
-				if (section.equalsIgnoreCase(ig)) {
-					continue;
-				}
-				sb.append(section + " ");
+	public static boolean shouldIgnore(String name) {
+		for (String ignore : IGNORE) {
+			if (name.trim().equalsIgnoreCase(ignore)) {
+				return true;
 			}
 		}
-		if (PLATFORM.contains(sb.toString())) {
-			return "PLATFORMER";
+		return false;
+	}
+	
+	private String cleanGenre(String genre) {
+		StringBuilder sb = new StringBuilder();
+		for (String section : genre.split("[ -]")) {
+			if (FILTER.contains(section.toUpperCase()))
+				continue;
+			if (PLATFORM.contains(section.toUpperCase())) {
+				sb.append("Platformer");
+			}
+			sb.append(section);
 		}
 		return sb.toString();
 	}
