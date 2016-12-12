@@ -175,6 +175,7 @@ public class SeedController {
 	
 	@RequestMapping("/populate")
 	public void populate() {
+//		drop table developer, game_genres, game_purchase_websites, game_score_websites, genre, publisher, purchase_website, score, score_website, score_website_games,system,system_games
 		List<Game> allGames = gameRepository.findAll();
 		config();
 		WikiPage wikiPage = new WikiPage(driver);
@@ -205,24 +206,22 @@ public class SeedController {
 				systems = RepoUtils.checkSystems(systems, systemRepository);
 				pub = RepoUtils.checkPublisher(pub, publisherRepository);
 				dev = RepoUtils.checkDeveloper(dev, developerRepository);
-				country = RepoUtils.checkCountry(dev.getCountry(), countryRepository);
-				country.addDeveloper(dev);
+//				country = RepoUtils.checkCountry(dev.getCountry(), countryRepository);
+//				country.addDeveloper(dev);
 				
-				country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
-				country.addPublisher(pub);
+//				country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
+//				country.addPublisher(pub);
 //				build ScoreWebsite & Score
 				scoreWebsiteInfo = resultsPage.getScoreWebsiteInfo();
 				
 				for (String[] info : scoreWebsiteInfo) {
 					LOG.info("Score Website info: {}", info.toString());
 					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(info[0], info[1]), scoreWebsiteRepository);
-					scoreWebsites.add(tempScoreWebsite);
 					tempScore = new Score(tempScoreWebsite, game, info[2]);
 					tempScoreWebsite.addGame(game);
 					tempScoreWebsite.addScore(tempScore);
 					scores.add(tempScore);
-					game.addScoreWebsite(tempScoreWebsite);
-					game.addScore(tempScore);
+					scoreWebsites.add(tempScoreWebsite);
 				}
 //				insert game into related info
 				pub.addGame(game);
@@ -234,9 +233,14 @@ public class SeedController {
 				developerRepository.save(dev);
 				scoreWebsiteRepository.save(scoreWebsites);
 				scoreRepository.save(scores);
-				countryRepository.save(pub.getCountry());
-				countryRepository.save(dev.getCountry());
+//				countryRepository.save(pub.getCountry());
+//				countryRepository.save(dev.getCountry());
 //				save all info into game
+				game.setGenres(genres);
+				game.setScoreWebsites(scoreWebsites);
+				game.setScores(scores);
+				game.setSystems(systems);
+//				save game in repository
 				gameRepository.save(game);
 //				clear lists
 				scoreWebsites.clear();
