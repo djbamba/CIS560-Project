@@ -25,20 +25,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Spliterator;
 
 /**
  * Created by DJ on 11/24/16.
@@ -270,51 +267,109 @@ public class SeedController {
 		}
 	}
 
-	@RequestMapping("/populateCompanies")
-	public void populateCompanies() throws InterruptedException {
+	@RequestMapping("/populatePublishers")
+	public void scrapePublishers() throws InterruptedException {
 		config();
 
-		// Grab the list of publishers
-		WikiCompanyPage wikiPublisherListPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
-//		List<WebElement> publisherList = driver.findElements(wikiPublisherPage.getPublisherNames());
-//		List<String> publisherList = wikiPublisherListPage.getPublisherInfoLinks();
-//
-//		for (String link : publisherList) {
-//			LOG.info(link);
-//		}
-//
-//		// TODO: Taiwan, South Korea, Netherlands, US, USA, UK
-//
-//		for (String link : publisherList) {
-//			WikiCompanyPage publisherInfo = new WikiCompanyPage(driver, link);
-//
-//			String publisherName = "";
-//            String countryName = "";
-//
-//
-//            if (publisherInfo.containsMissingInfo()) {
-//                publisherName = publisherInfo.getCompanyNameByHeading().getText();
-//                countryName = "N/A";
-//
-//            } else {
-//
-//                publisherName = publisherInfo.getCompanyName().getText();
-//
-//                try {
-//                    countryName = publisherInfo.getHeadquartersByClass().getText();
-//                } catch (NoSuchElementException ex) {
-//                    countryName = publisherInfo.getHeadquartersByLink().getText();
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
-//
-//            }
-//
-//            LOG.info("Publisher: " + publisherName + ", Country: " + countryName);
-//        }
+		File file = new File("src/main/resources/data/publishers.csv");
+        BufferedWriter br;
+        FileOutputStream fos;
+        OutputStreamWriter osr;
 
-        List<WebElement> publishers = wikiPublisherListPage.getPublishers();
-        LOG.info("Size: " + publishers.size());
+		// Grab the list of publishers
+		WikiCompanyPage wikiPubPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
+
+        List<WebElement> publishers = wikiPubPage.getPublishers();
+
+        String line;
+        try {
+            fos = new FileOutputStream(file);
+            osr = new OutputStreamWriter(fos);
+            br = new BufferedWriter(osr);
+
+            for (WebElement publisher : publishers) {
+                String name = wikiPubPage.getPubName(publisher);
+                String location = wikiPubPage.getPubLoc(publisher);
+
+                // TODO: Store publisher data
+                line = name.concat(";").concat(location);
+                LOG.info(line);
+                br.write(line);
+                br.newLine();
+            }
+            br.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
 	}
+
+	@RequestMapping("/populateDevelopers")
+	public void scrapeDevelopers() {
+	    config();
+
+        File file = new File("src/main/resources/data/developers.csv");
+        BufferedWriter br;
+        FileOutputStream fos;
+        OutputStreamWriter osr;
+
+        WikiCompanyPage wikiDevPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_DEVELOPER);
+        List<WebElement> developerTables = wikiDevPage.getDeveloperTables();
+        // SMH, location is in 3rd column, I can't even
+        developerTables.remove(24);
+
+        String line;
+        try {
+            fos = new FileOutputStream(file);
+            osr = new OutputStreamWriter(fos);
+            br = new BufferedWriter(osr);
+
+            for (WebElement developerTable : developerTables) {
+                List<WebElement> devRows = wikiDevPage.getDevelopersFromTable(developerTable);
+                for (WebElement devRow : devRows) {
+                    String name = wikiDevPage.getDevName(devRow);
+                    String location = wikiDevPage.getDevLoc(devRow);
+
+                    // TODO: Store developer data
+                    line = name.concat(";").concat(location);
+                    LOG.info(line);
+                    br.write(line);
+                    br.newLine();
+                }
+            }
+            br.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/populateCompanies", method = RequestMethod.GET)
+    public void populateCompanies() {
+        File developersCSV = new File("src/main/resources/data/developers.csv");
+        BufferedReader br;
+        FileInputStream fis;
+        InputStreamReader isr;
+
+        String line;
+        try {
+            fis = new FileInputStream(developersCSV);
+            isr = new InputStreamReader(fis);
+            br = new BufferedReader(isr);
+
+            while ((line = br.readLine()) != null) {
+                String[] split = line.split(";");
+                String name = split[0];
+                String country = split[1];
+                LOG.info("Country: " + country + ", " + country.length());
+                LOG.info(country);
+                Country countryObject = countryRepository.findByName(country);
+                LOG.info(countryObject.getCode());
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

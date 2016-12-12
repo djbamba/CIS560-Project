@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="content-Type" content="text/html; charset= UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" href="../static/css/index.css" th:href="@{css/index.css}"/>
+    <link rel="stylesheet" type="text/css" href="../../css/index.css" th:href="@{../../css/index.css}"/>
     <title>GameScraper</title>
 </head>
 <body>
@@ -11,10 +11,9 @@
         <h1 class="title">GameScraper</h1>
         <div class="form-group">
             <label for="searchBar">Search by Game, Author, or Release Date.</label>
-            <input type="text" class="form-control search" id="searchBar" placeholder="Search" />
+            <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
         </div>
         <h6 style="margin-left: 70px;">Reviews scraped from the web.</h6>
-
     </header>
 
     <h3 class="ul-header" style="margin-top: 4%;">Search Results</h3>
@@ -29,34 +28,24 @@
       </thead>
       <tbody>
         <tr>
-          <th scope="row">1</th>
-            <td><a href="/Zelda">Zelda</a></td>
-            <td><a href="/N64">N64</a></td>
-          <td>19somethin</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-            <td><a href="/Metroid_Prime">Metroid Prime</a></td>
-            <td><a href="/GC">GC</a></td>
-          <td>20somethin</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-            <td><a href="/Halo">Halo</a></td>
-            <td><a href="/Xbox">Xbox</a></td>
-          <td>20somethin</td>
-        </tr>
-        <tr>
-          <th scope="row">4</th>
-            <td><a href="/Mario">Mario</a></td>
-            <td><a href="/Wii">Wii</a></td>
-          <td>20somethin</td>
-        </tr>
-        <tr>
-          <th scope="row">5</th>
-            <td><a href="/The_Last_of_Us">The Last of Us</a></td>
-            <td><a href="/PS4">PS4</a></td>
-          <td>20somethin</td>
+            <tr th:if="${games}" th:each="game : ${games}">
+            <th scope="row"><span th:text="${game.index}"></span></th>
+                <td><span th:text="${game.name}"></span></td>
+                <td><span th:text="${game.system}"></span></td>
+                <td><span th:text="${game.release}"></span></td>
+            </tr>
+            <tr th:if="${gamesByGenre}" th:each="game : ${gamesByGenre}">
+                <th scope="row"><span th:text="${game.index}"></span></th>
+                <td><span th:text="${game.name}"></span></td>
+                <td><span th:text="${game.system}"></span></td>
+                <td><span th:text="${game.release}"></span></td>
+            </tr>
+            <tr th:if="${gamesBySystem}" th:each="game : ${gamesBySystem}">
+                <th scope="row"><span th:text="${game.index}"></span></th>
+                <td><span th:text="${game.name}"></span></td>
+                <td><span th:text="${game.system}"></span></td>
+                <td><span th:text="${game.release}"></span></td>
+            </tr>
         </tr>
       </tbody>
     </table>

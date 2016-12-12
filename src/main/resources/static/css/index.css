@@ -3,7 +3,7 @@ html {
 }
 
 body {
-
+    background-color: whitesmoke;
 }
 
 div {
@@ -24,15 +24,13 @@ div {
 
 .genre-button{
 	left: 0%;
-	width: 94%;
-	margin-left: 3%;
+	width: 97%;
   list-style-type: none;
 }
  .search{
 	 position: absolute;
-	 margin-top: 0%;
 	 right: 0;
-	 margin-right: 10px;
+	 margin-right: 3%;
 	 width: 300px;
  }
  label{
@@ -43,10 +41,29 @@ div {
 }
 
 .title{
-	margin-left: 50px;
+	margin-left: 5%;
 }
 
 .results{
 	margin-top: 1%;
 	margin-left: 5%;
+	width: 92%;
+}
+
+.game-image{
+	display: inline;
+	width: 175px;
+	height: 175px;
+	margin-left: 30px;
+	margin-top: 70px;
+  overflow: hidden;
+	float: left;
+	text-align: left;
+}
+
+.game-image-description{
+  text-align: left;
+	vertical-align: bottom;
+	float: left;
+	margin-top: 200px;
 }
