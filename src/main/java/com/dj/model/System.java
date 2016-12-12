@@ -1,6 +1,7 @@
 package com.dj.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -20,59 +21,61 @@ import javax.persistence.ManyToMany;
 @Entity
 public class System {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id; // primary key
-	
-	@Column(unique = true)
-	private String name;
-	
-	/***	relations ***/
-//	@ManyToMany(targetEntity = Game.class, cascade = CascadeType.ALL)
-//	@JoinTable(name = "game_system", joinColumns = @JoinColumn(name = "system_id", referencedColumnName = "id"),
-//	 inverseJoinColumns = @JoinColumn(name = "game_id", referencedColumnName = "id"))
-	@ManyToMany(cascade = CascadeType.ALL)
-	private List<Game> games = new ArrayList<>();
-	
-	public System() {
-		
-	}
-	
-	public System(String name) {
-		this.name = name;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public int getId() {
-		return id;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void addGame(Game game) {
-		games.add(game);
-	}
-	
-	public void setGames(List<Game> games) {
-		this.games = games;
-	}
-	
-	public List<Game> getGames() {
-		return games;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("System[id: %d name: %s]", id, name);
-	}
-	
-}
+	private final static List<String> IGNORE = new ArrayList<String>() {{
+		add("Playstation Network");
+		add("Xbox Live");
+	}};
+
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+private int id; // primary key
+
+@Column(unique = true)
+private String name;
+
+/***	relations ***/
+@ManyToMany(cascade = CascadeType.ALL)
+private List<Game> games=new ArrayList<>();
+
+public System(){
+	 
+        }
+
+public System(String name){
+        this.name=name;
+        }
+
+public void setId(int id){
+        this.id=id;
+        }
+
+public int getId(){
+        return id;
+        }
+
+public void setName(String name){
+        this.name=name;
+        }
+
+public String getName(){
+        return name;
+        }
+
+public void addGame(Game game){
+        games.add(game);
+        }
+
+public void setGames(List<Game> games){
+                                 this.games=games;
+                                 }
+
+public List<Game> getGames(){
+                   return games;
+                   }
+
+@Override
+public String toString(){
+        return String.format("System[id: %d name: %s]",id,name);
+        }
+	 
+        }

@@ -1,8 +1,12 @@
 package com.dj.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -15,6 +19,10 @@ public class Publisher extends Company {
 	
 	@Column(name = "content_rating")
 	private String contentRating;
+	
+	/*** relations ***/
+	@OneToMany(mappedBy = "publisher")
+	private List<Game> games = new ArrayList<>();
 	
 	public Publisher() {
 		super();
@@ -31,6 +39,14 @@ public class Publisher extends Company {
 	
 	public String getContentRating() {
 		return contentRating;
+	}
+	
+	public void addGame(Game game) {
+		games.add(game);
+	}
+	
+	public List<Game> getGames() {
+		return games;
 	}
 	
 	@Override

@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -35,7 +33,7 @@ public class Game {
 	@Column(name = "image_url")
 	private String imageUrl;
 	
-	/***	relations ***/
+	/*** relations ***/
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Genre> genres = new ArrayList<>();
 	
@@ -50,6 +48,12 @@ public class Game {
 	
 	@ManyToMany(mappedBy = "games")
 	private List<System> systems = new ArrayList<>();
+	
+	@ManyToOne(targetEntity = Developer.class, cascade = CascadeType.ALL)
+	private Developer developer;
+	
+	@ManyToOne(targetEntity = Publisher.class,cascade = CascadeType.ALL)
+	private Publisher publisher;
 	
 	public Game() {
 	}

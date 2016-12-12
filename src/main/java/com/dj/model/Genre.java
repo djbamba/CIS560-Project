@@ -20,7 +20,17 @@ import javax.persistence.Table;
 @Table(name = "genre")
 public class Genre {
 	
-	private static List<String> ignore = Arrays.asList(new String[]{"GAME", "VIDEO", "4X", "[11]"});
+	private final static List<String> IGNORE = new ArrayList<String>() {{
+		add("GAME");
+		add("VIDEO");
+		add("4X");
+		add("[11]");
+	}};
+	
+	private final static List<String> PLATFORM = new ArrayList<String>() {{
+		add("PLATFORM");
+		add("PLATFORMER");
+	}};
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -72,12 +82,15 @@ public class Genre {
 	public String cleanGenre(String genre) {
 		StringBuilder sb = new StringBuilder();
 		for (String section : genre.split("[ |-]")) {
-			for (String ig : ignore) {
+			for (String ig : IGNORE) {
 				if (section.equalsIgnoreCase(ig)) {
 					continue;
 				}
 				sb.append(section + " ");
 			}
+		}
+		if (PLATFORM.contains(sb.toString())) {
+			return "PLATFORMER";
 		}
 		return sb.toString();
 	}
