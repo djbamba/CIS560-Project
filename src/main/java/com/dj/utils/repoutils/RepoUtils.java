@@ -36,7 +36,12 @@ public class RepoUtils {
 		if (developerRepository.findByName(developer.getName()) == null) {
 			return developerRepository.save(developer);
 		}
-		return developerRepository.findByName(developer.getName());
+		Developer existingDeveloper = developerRepository.findByName(developer.getName());
+		String designer;
+		if ((designer = developer.getLeadDesigner()) != null) {
+			existingDeveloper.setLeadDesigner(designer);
+		}
+		return existingDeveloper;
 	}
 	
 	public static Game checkGame(Game game, GameRepository gameRepository) {
@@ -68,7 +73,12 @@ public class RepoUtils {
 		if (publisherRepository.findByName(publisher.getName()) == null) {
 			return publisherRepository.save(publisher);
 		}
-		return publisherRepository.findByName(publisher.getName());
+		Publisher existingPublisher = publisherRepository.findByName(publisher.getName());
+		String rating;
+		if ((rating = publisher.getContentRating()) != null) {
+			existingPublisher.setContentRating(rating);
+		}
+		return existingPublisher;
 	}
 	
 	public static PurchaseWebsite checkPurchaseWebsite(PurchaseWebsite purchaseWebsite, PurchaseWebsiteRepository purchaseWebsiteRepository) {

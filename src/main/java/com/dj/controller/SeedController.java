@@ -178,7 +178,7 @@ public class SeedController {
 	
 	@RequestMapping("/populate")
 	public void populate() {
-//		drop table developer, game_genres, game_purchase_website, game_score_website, genre, publisher, purchase_website, score, score_website,system,game_system,genre_games
+//		drop table developer, game_genres, game_purchase_websites, game_score_website, genre, publisher, purchase_website, score, score_website,system,game_system,genre_games
 		// TODO: 12/12/16 stop duplicate entries for genre-games...
 		List<Game> allGames = gameRepository.findAll();
 		config();
@@ -377,6 +377,8 @@ public class SeedController {
 		InputStreamReader isr;
 
 		String line;
+		int counter = 0;
+		List<String> badLines = new ArrayList<>();
 		try {
 			fis = new FileInputStream(developersCSV);
 			isr = new InputStreamReader(fis);
@@ -393,8 +395,13 @@ public class SeedController {
                 developer.setCountry(countryObject);
                 developer.setLeadDesigner("N/A");
                 developerRepository.save(developer);
-			}
+                if (countryObject == null)
+                    badLines.add(line);
+                else counter++;
 
+            }
+			LOG.info("Successfully saved " + counter + "/" + 539 + " Developers");
+            checkBadParse(badLines);
         } catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -409,6 +416,8 @@ public class SeedController {
         InputStreamReader isr;
 
         String line;
+        int counter = 0;
+        List<String> badLines = new ArrayList<>();
         try {
             fis = new FileInputStream(publishersCSV);
             isr = new InputStreamReader(fis);
@@ -424,10 +433,23 @@ public class SeedController {
                 publisher.setCountry(countryObject);
                 publisher.setContentRating("N/A");
                 publisherRepository.save(publisher);
+                if (countryObject == null)
+                    badLines.add(line);
+                else counter++;
             }
-
+            LOG.info("Successfully saved " + counter + "/" + 226 + " Publishers");
+            checkBadParse(badLines);
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void checkBadParse(List<String> badLines) {
+        if (badLines.size() > 0) {
+            LOG.info("Bad lines: ");
+            for (String badLine : badLines) {
+                LOG.info(badLine);
+            }
         }
     }
 }
