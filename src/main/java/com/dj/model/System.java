@@ -31,7 +31,7 @@ public class System {
 	private String name;
 	
 	/***	relations ***/
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "systems",cascade = CascadeType.ALL)
 	private List<Game> games = new ArrayList<>();
 	
 	public System() {

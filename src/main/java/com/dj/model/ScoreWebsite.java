@@ -19,8 +19,7 @@ import javax.persistence.Table;
 public class ScoreWebsite extends Website {
 	
 	/***	relations ***/
-	@ManyToMany
-	@JoinColumn(name = "game_id", referencedColumnName = "id")
+	@ManyToMany(mappedBy = "scoreWebsites")
 	private List<Game> games = new ArrayList<>();
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "scoreWebsite")

@@ -175,11 +175,12 @@ public class SeedController {
 	
 	@RequestMapping("/populate")
 	public void populate() {
-//		drop table developer, game_genres, game_purchase_websites, game_score_websites, genre, publisher, purchase_website, score, score_website, score_website_games,system,system_games
+//		drop table developer, game_genres, game_purchase_website, game_score_website, genre, publisher, purchase_website, score, score_website,system,game_system,genre_games
+		// TODO: 12/12/16 stop duplicate entries for genre-games...
 		List<Game> allGames = gameRepository.findAll();
 		config();
 		WikiPage wikiPage = new WikiPage(driver);
-		WikiResultsPage resultsPage;
+		WikiResultsPage resultsPage = null;
 		
 		Country country;
 		Publisher pub;
@@ -218,7 +219,6 @@ public class SeedController {
 					LOG.info("Score Website info: {}", info.toString());
 					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(info[0], info[1]), scoreWebsiteRepository);
 					tempScore = new Score(tempScoreWebsite, game, info[2]);
-					tempScoreWebsite.addGame(game);
 					tempScoreWebsite.addScore(tempScore);
 					scores.add(tempScore);
 					scoreWebsites.add(tempScoreWebsite);
@@ -228,18 +228,21 @@ public class SeedController {
 				dev.addGame(game);
 				genres.forEach(genre -> genre.addGame(game));
 				systems.forEach(system -> system.addGame(game));
-//				save game info related to game
-				publisherRepository.save(pub);
-				developerRepository.save(dev);
-				scoreWebsiteRepository.save(scoreWebsites);
-				scoreRepository.save(scores);
-//				countryRepository.save(pub.getCountry());
-//				countryRepository.save(dev.getCountry());
-//				save all info into game
-				game.setGenres(genres);
-				game.setScoreWebsites(scoreWebsites);
-				game.setScores(scores);
-				game.setSystems(systems);
+				scoreWebsites.forEach(scoreWebsite -> scoreWebsite.addGame(game));
+//				save game related info
+				genres = genreRepository.save(genres);
+				systems = systemRepository.save(systems);
+				pub = publisherRepository.save(pub);
+				dev = developerRepository.save(dev);
+				scoreWebsites = scoreWebsiteRepository.save(scoreWebsites);
+				scores = scoreRepository.save(scores);
+//				insert all info into game
+				game.setPublisher(pub);
+				game.setDeveloper(dev);
+				game.addGenres(genres);
+				game.addScoreWebsites(scoreWebsites);
+				game.addScores(scores);
+				game.addSystems(systems);
 //				save game in repository
 				gameRepository.save(game);
 //				clear lists
@@ -249,6 +252,7 @@ public class SeedController {
 				genres.clear();
 				systems.clear();
 			}
+			resultsPage.close();
 			
 		} catch (Exception e) {
 			e.printStackTrace();

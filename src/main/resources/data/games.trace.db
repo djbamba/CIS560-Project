@@ -781,3 +781,27 @@ CSVWRITE('./src/main/resources/data/countries2.csv','select * from country') [42
 2016-12-11 19:39:27 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "DROP COMPANY[*], COUNTRY, COMPANY_GAMES, GAME_GENRE, GAME_GENRES, GAME_PURCHASE_WEBSITES, GAME_SCORE_WEBSITES, GAME_SYSTEM, GENRE, PURCHASE_WEBSITE, SCORE, SCORE_WEBSITE, SYSTEM, SYSTEM_GAMES "; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE"; SQL statement:
 drop company, country, company_games, game_genre, game_genres, game_purchase_websites, game_score_websites, game_system, genre, purchase_website, score, score_website, system, system_games [42001-192]
+2016-12-12 00:08:22 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLException: Table "GENRE" not found; SQL statement:
+select genre0_.id as id1_5_, genre0_.genre as genre2_5_ from genre genre0_ where genre0_.genre=? [42102-192]
+2016-12-12 01:27:58 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Table "GAME_PURCHASE_WEBSITES" not found; SQL statement:
+drop table developer, game_genres, game_purchase_websites, game_score_websites, genre, publisher, purchase_website, score, score_website, score_website_games,system,system_games [42102-192]
+2016-12-12 01:28:10 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Table "GAME_PURCHASE_WEBSITS" not found; SQL statement:
+drop table developer, game_genres, game_purchase_websits, game_score_websites, genre, publisher, purchase_website, score, score_website, score_website_games,system,system_games [42102-192]
+2016-12-12 01:28:16 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Table "GAME_SCORE_WEBSITES" not found; SQL statement:
+drop table developer, game_genres, game_purchase_website, game_score_websites, genre, publisher, purchase_website, score, score_website, score_website_games,system,system_games [42102-192]
+2016-12-12 01:28:22 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Table "SCORE_WEBSITE_GAMES" not found; SQL statement:
+drop table developer, game_genres, game_purchase_website, game_score_website, genre, publisher, purchase_website, score, score_website, score_website_games,system,system_games [42102-192]
+2016-12-12 01:28:32 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Table "SCORE_WEBSITE_GAME" not found; SQL statement:
+drop table developer, game_genres, game_purchase_website, game_score_website, genre, publisher, purchase_website, score, score_website, score_website_game,system,system_games [42102-192]
+2016-12-12 01:28:44 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Table "SYSTEM_GAMES" not found; SQL statement:
+drop table developer, game_genres, game_purchase_website, game_score_website, genre, publisher, purchase_website, score, score_website,system,system_games [42102-192]
+2016-12-12 01:29:19 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Table "DEVELOPER" not found; SQL statement:
+drop table developer, game_genres, game_purchase_website, game_score_website, genre, publisher, purchase_website, score, score_website,system,game_system,genre_games [42102-192]

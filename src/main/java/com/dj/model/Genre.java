@@ -40,7 +40,7 @@ public class Genre {
 	private String genre;
 	
 	/***	relations ***/
-	@ManyToMany(mappedBy = "genres")
+	@ManyToMany
 	private List<Game> games = new ArrayList<>();
 	
 	public Genre() {
