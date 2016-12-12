@@ -354,13 +354,16 @@ public class SeedController {
 		BufferedReader br;
 		FileInputStream fis;
 		InputStreamReader isr;
-		
+
+		List<String> badLines = new ArrayList<>();
+
 		String line;
 		try {
 			fis = new FileInputStream(developersCSV);
 			isr = new InputStreamReader(fis);
 			br = new BufferedReader(isr);
-			
+
+			int counter = 0;
 			while ((line = br.readLine()) != null) {
 				String[] split = line.split(";");
 				String name = split[0];
@@ -368,11 +371,19 @@ public class SeedController {
 				LOG.info("Country: " + country + ", " + country.length());
 				LOG.info(country);
 				Country countryObject = countryRepository.findByName(country);
-				if (countryObject != null)
-					LOG.info(countryObject.getCode());
+				if (countryObject != null) {
+                    LOG.info(countryObject.getCode());
+                    counter++;
+                } else badLines.add(line);
+
 			}
-			
-		} catch (Exception e) {
+			LOG.info("#: " + counter);
+			LOG.info("Bad:");
+            for (String badLine : badLines) {
+                LOG.info(badLine);
+            }
+
+        } catch (Exception e) {
 			e.printStackTrace();
 		}
 		
