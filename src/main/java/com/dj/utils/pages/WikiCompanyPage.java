@@ -29,7 +29,7 @@ public class WikiCompanyPage extends WikiPage {
     @FindBy(xpath = "//table[@class='infobox vcard']//tr//td[@class='label']/a[last()]")
     private WebElement headquartersByLink;
 
-    @FindBy(xpath = "//table[@class='wikitable sortable jquery-tablesorter']/tbody/tr/td[1]/a")
+    @FindBy(xpath = "//table[@class='wikitable sortable jquery-tablesorter']/tbody/tr")
     private List<WebElement> publishers;
 
     public WikiCompanyPage(WebDriver driver) {

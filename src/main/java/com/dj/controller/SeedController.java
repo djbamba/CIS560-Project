@@ -27,6 +27,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -275,41 +276,45 @@ public class SeedController {
 
 		// Grab the list of publishers
 		WikiCompanyPage wikiPublisherListPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
-//		List<WebElement> publisherList = driver.findElements(wikiPublisherPage.getPublishers());
-		List<String> publisherList = wikiPublisherListPage.getPublisherInfoLinks();
+//		List<WebElement> publisherList = driver.findElements(wikiPublisherPage.getPublisherNames());
+//		List<String> publisherList = wikiPublisherListPage.getPublisherInfoLinks();
+//
+//		for (String link : publisherList) {
+//			LOG.info(link);
+//		}
+//
+//		// TODO: Taiwan, South Korea, Netherlands, US, USA, UK
+//
+//		for (String link : publisherList) {
+//			WikiCompanyPage publisherInfo = new WikiCompanyPage(driver, link);
+//
+//			String publisherName = "";
+//            String countryName = "";
+//
+//
+//            if (publisherInfo.containsMissingInfo()) {
+//                publisherName = publisherInfo.getCompanyNameByHeading().getText();
+//                countryName = "N/A";
+//
+//            } else {
+//
+//                publisherName = publisherInfo.getCompanyName().getText();
+//
+//                try {
+//                    countryName = publisherInfo.getHeadquartersByClass().getText();
+//                } catch (NoSuchElementException ex) {
+//                    countryName = publisherInfo.getHeadquartersByLink().getText();
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//
+//            }
+//
+//            LOG.info("Publisher: " + publisherName + ", Country: " + countryName);
+//        }
 
-		for (String link : publisherList) {
-			LOG.info(link);
-		}
-
-		// TODO: Taiwan, South Korea, Netherlands, US, USA, UK
-
-		for (String link : publisherList) {
-			WikiCompanyPage publisherInfo = new WikiCompanyPage(driver, link);
-
-			String publisherName = "";
-            String countryName = "";
-
-            if (publisherInfo.containsMissingInfo()) {
-                publisherName = publisherInfo.getCompanyNameByHeading().getText();
-                countryName = "N/A";
-            } else {
-
-                publisherName = publisherInfo.getCompanyName().getText();
-
-                try {
-                    countryName = publisherInfo.getHeadquartersByClass().getText();
-                } catch (NoSuchElementException ex) {
-                    countryName = publisherInfo.getHeadquartersByLink().getText();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-
-            }
-
-            LOG.info("Publisher: " + publisherName + ", Country: " + countryName);
-
-        }
+        List<WebElement> publishers = wikiPublisherListPage.getPublishers();
+        LOG.info("Size: " + publishers.size());
 
 	}
 }
