@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="content-Type" content="text/html; charset= UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" href="../../static/css/index.css" th:href="@{../../css/index.css}"/>
+    <link rel="stylesheet" type="text/css" href="../../css/index.css" th:href="@{../../css/index.css}"/>
     <title>GameScraper</title>
 </head>
 <body>
@@ -13,31 +13,26 @@
         <label style="margin-right: 3%;" for="searchBar">Search by Game, Author, or Release Date.</label>
         <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
     </div>
-    <h6 style="margin-left: calc(5% + 27px);" class="title">Reviews scraped from the web</h6>
-
+    <h6 style="margin-left: calc(5% + 27px);">Reviews scraped from the web</h6>
 </header>
 
-<div>
-    <img th:src="${game.imageUrl}" th:alt="${game.name}" class="img-thumbnail game-image"></img>
-    <h1 class="ul-header game-image-description"><span th:text= "${game.name}"/></h1>
-</div>
-
+<h3 class="ul-header" style="margin-top: 5%;">Search Results</h3>
 <table class="table table-hover results" id="resultsTable">
     <thead>
     <tr>
-        <th scope="row">Game ID</th>
-        <td><span th:text= "${game.id}"/></td>
+        <th scope="row">#</th>
+        <td>Game</td>
+        <td>System</td>
+        <td>Released</td>
     </tr>
     </thead>
     <tbody>
-    <th scope="row">Systems</th>
-    <tr th:each="system : ${game.systems}">
-        <td><span th:text="${system.name}"></span></td>
-    </tr>
-    <tr>
-        <th scope="row">Released</th>
-        <td><span th:text= "${game.release}"/></td>
-    </tr>
+        <tr th:each="game : ${genre.games}">
+            <th scope="row"><span th:text="${game.index}"></span></th>
+            <td><span th:text="${game.name}" href="/game/${game.name}"></span></td>
+            <td><span th:text="${game.system}"></span></td>
+            <td><span th:text="${game.release}"></span></td>
+        </tr>
     </tbody>
 </table>
 </body>

@@ -6,13 +6,9 @@ body {
     background-color: whitesmoke;
 }
 
-div {
-
-}
-
 #genre-ul {
     text-align:left;
-		margin: 0;
+	margin: 0;
     padding: 0;
 }
 
@@ -23,9 +19,18 @@ div {
 }
 
 .genre-button{
-	left: 0%;
-	width: 97%;
-  list-style-type: none;
+	display: inline;
+	float: left;
+	height: 34px;
+	width: 16.49%;
+	overflow: hidden;
+    list-style-type: none;
+    margin-left: 1px;
+    margin-right: 1px;
+    text-transform: lowercase;
+}
+.genre-button:first-letter{
+    text-transform: uppercase;
 }
 .search{
 	 position: absolute;
@@ -66,4 +71,11 @@ label{
 	vertical-align: bottom;
 	float: left;
 	margin-top: 200px;
+}
+
+.clearfix:after {
+   content: " ";
+   display: block;
+   height: 0;
+   clear: both;
 }
