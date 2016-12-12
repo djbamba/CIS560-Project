@@ -25,7 +25,7 @@ public class Developer extends Company {
 	@OneToMany(mappedBy = "developer")
 	private List<Game> games = new ArrayList<>();
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Country country;
 	
 	public Developer() {

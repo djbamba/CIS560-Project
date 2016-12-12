@@ -20,7 +20,7 @@ public class ScoreWebsite extends Website {
 	
 	/***	relations ***/
 	@ManyToMany
-	@JoinColumn(name = "game_id",referencedColumnName = "id")
+	@JoinColumn(name = "game_id", referencedColumnName = "id")
 	private List<Game> games = new ArrayList<>();
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "scoreWebsite")
@@ -31,7 +31,7 @@ public class ScoreWebsite extends Website {
 	}
 	
 	public ScoreWebsite(String name, String url) {
-		super(name,url);
+		super(name, url);
 	}
 	
 	public void addGame(Game game) {

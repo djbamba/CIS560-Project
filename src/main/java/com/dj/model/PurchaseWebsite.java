@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "purchase_website")
-public class PurchaseWebsite extends Website{
+public class PurchaseWebsite extends Website {
 	
 	@Column(name = "price", nullable = false)
 	private String price;
@@ -54,6 +54,6 @@ public class PurchaseWebsite extends Website{
 	
 	@Override
 	public String toString() {
-		return String.format("PurchaseWebsite[id: %d name: %s url: %s]",id, name, url);
+		return String.format("PurchaseWebsite[id: %d name: %s url: %s]", id, name, url);
 	}
 }

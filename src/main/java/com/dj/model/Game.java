@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -50,9 +51,11 @@ public class Game {
 	private List<System> systems = new ArrayList<>();
 	
 	@ManyToOne(targetEntity = Developer.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "developer_id", referencedColumnName = "id")
 	private Developer developer;
 	
-	@ManyToOne(targetEntity = Publisher.class,cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = Publisher.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "publisher_id", referencedColumnName = "id")
 	private Publisher publisher;
 	
 	public Game() {
@@ -103,7 +106,7 @@ public class Game {
 		return genres;
 	}
 	
-	public void addScoreWebsite(ScoreWebsite scoreWebsite){
+	public void addScoreWebsite(ScoreWebsite scoreWebsite) {
 		scoreWebsites.add(scoreWebsite);
 	}
 	
