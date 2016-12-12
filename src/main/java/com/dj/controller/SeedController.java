@@ -25,13 +25,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -67,7 +67,7 @@ public class SeedController {
 	
 	@Autowired
 	private GenreRepository genreRepository;
-
+	
 	@Autowired
 	private CountryRepository countryRepository;
 	
@@ -90,7 +90,6 @@ public class SeedController {
 		ObjectMapper mapper = new ObjectMapper();
 		List<Game> games = MetaScraper.getPage(pageNumber);
 		StringBuilder sb = new StringBuilder();
-		
 		
 		for (Game game : games) {
 			
@@ -162,7 +161,7 @@ public class SeedController {
 			});
 			
 			developer = resultsPage.getDeveloper();
-				LOG.info(developer.toString());
+			LOG.info(developer.toString());
 			
 			LOG.info("Image src: {}", resultsPage.getImageSource());
 			
@@ -208,10 +207,10 @@ public class SeedController {
 				
 				for (String[] info : scoreWebsiteInfo) {
 					LOG.info("Score Website info: {}", info.toString());
-					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(info[0],info[1]),scoreWebsiteRepository);
+					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(info[0], info[1]), scoreWebsiteRepository);
 					
 					scoreWebsites.add(tempScoreWebsite);
-					tempScore = new Score(tempScoreWebsite,game,info[2]);
+					tempScore = new Score(tempScoreWebsite, game, info[2]);
 					tempScoreWebsite.addGame(game);
 					tempScoreWebsite.addScore(tempScore);
 					scores.add(tempScore);
@@ -238,78 +237,64 @@ public class SeedController {
 		}
 		
 	}
-
+	
 	@RequestMapping("/populateCountries")
 	public void populateCountries() {
 		File file = new File("src/main/resources/data/countries.csv");
 		BufferedReader br;
 		FileInputStream fis;
 		InputStreamReader isr;
-
+		
 		String line;
 		try {
 			fis = new FileInputStream(file);
 			isr = new InputStreamReader(fis);
 			br = new BufferedReader(isr);
-
+			
 			while ((line = br.readLine()) != null) {
 				String[] split = line.split(",");
 				// 0 = name, 1 = code
 				Country country = new Country(split[1], split[0]);
 				countryRepository.save(country);
 			}
-
+			
 			List<Country> countries = countryRepository.findAll();
 			for (Country country : countries) {
 				LOG.debug("Country: " + country.toString());
 			}
-
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-
-	@RequestMapping("/populateCompanies")
-	public void populateCompanies() throws InterruptedException {
-		config();
-
-		// Grab the list of publishers
-		WikiCompanyPage wikiPublisherListPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
-//		List<WebElement> publisherList = driver.findElements(wikiPublisherPage.getPublishers());
-		List<String> publisherList = wikiPublisherListPage.getPublisherInfoLinks();
-
-		for (String link : publisherList) {
-			LOG.info(link);
+	
+	@RequestMapping(value = "/populateCompanies", method = RequestMethod.GET)
+	public void populateCompanies() {
+		File developersCSV = new File("src/main/resources/data/developers.csv");
+		BufferedReader br;
+		FileInputStream fis;
+		InputStreamReader isr;
+		
+		String line;
+		try {
+			fis = new FileInputStream(developersCSV);
+			isr = new InputStreamReader(fis);
+			br = new BufferedReader(isr);
+			
+			while ((line = br.readLine()) != null) {
+				String[] split = line.split(";");
+				String name = split[0];
+				String country = split[1];
+				LOG.info("Country: " + country + ", " + country.length());
+				LOG.info(country);
+				Country countryObject = countryRepository.findByName(country);
+				if (countryObject != null)
+					LOG.info(countryObject.getCode());
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		// TODO: Taiwan, South Korea, Netherlands, US, USA, UK
-
-		for (String link : publisherList) {
-			WikiCompanyPage publisherInfo = new WikiCompanyPage(driver, link);
-
-			String publisherName = "";
-            String countryName = "";
-
-            if (publisherInfo.containsMissingInfo()) {
-                publisherName = publisherInfo.getCompanyNameByHeading().getText();
-                countryName = "N/A";
-            } else {
-
-                publisherName = publisherInfo.getCompanyName().getText();
-
-                try {
-                    countryName = publisherInfo.getHeadquartersByClass().getText();
-                } catch (NoSuchElementException ex) {
-                    countryName = publisherInfo.getHeadquartersByLink().getText();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-
-            }
-
-            LOG.info("Publisher: " + publisherName + ", Country: " + countryName);
-
-        }
-
+		
 	}
 }
