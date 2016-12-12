@@ -89,7 +89,7 @@ public class Genre {
 	
 	public static boolean shouldIgnore(String name) {
 		for (String ignore : IGNORE) {
-			if (name.trim().equalsIgnoreCase(ignore)) {
+			if (IGNORE.contains(name.trim().toUpperCase())) {
 				return true;
 			}
 		}
@@ -98,7 +98,7 @@ public class Genre {
 	
 	private String cleanGenre(String genre) {
 		StringBuilder sb = new StringBuilder();
-		for (String section : genre.split("[ -]")) {
+		for (String section : genre.split("[ ]")) {
 			if (FILTER.contains(section.toUpperCase()))
 				continue;
 			if (PLATFORM.contains(section.toUpperCase())) {
