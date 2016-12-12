@@ -3,9 +3,12 @@ package com.dj.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -14,7 +17,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@DiscriminatorValue("PUB")
+@Table(name = "publisher")
 public class Publisher extends Company {
 	
 	@Column(name = "content_rating")
@@ -24,8 +27,19 @@ public class Publisher extends Company {
 	@OneToMany(mappedBy = "publisher")
 	private List<Game> games = new ArrayList<>();
 	
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Country country;
+	
 	public Publisher() {
 		super();
+	}
+	
+	public Country getCountry() {
+		return country;
+	}
+	
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 	
 	public Publisher(String name, String contentRating) {

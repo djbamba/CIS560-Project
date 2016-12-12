@@ -180,6 +180,7 @@ public class SeedController {
 		WikiPage wikiPage = new WikiPage(driver);
 		WikiResultsPage resultsPage;
 		
+		Country country;
 		Publisher pub;
 		Developer dev;
 		ScoreWebsite tempScoreWebsite;
@@ -204,6 +205,11 @@ public class SeedController {
 				systems = RepoUtils.checkSystems(systems, systemRepository);
 				pub = RepoUtils.checkPublisher(pub, publisherRepository);
 				dev = RepoUtils.checkDeveloper(dev, developerRepository);
+				country = RepoUtils.checkCountry(dev.getCountry(), countryRepository);
+				country.addDeveloper(dev);
+				
+				country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
+				country.addPublisher(pub);
 //				build ScoreWebsite & Score
 				scoreWebsiteInfo = resultsPage.getScoreWebsiteInfo();
 				
@@ -216,14 +222,21 @@ public class SeedController {
 					tempScoreWebsite.addScore(tempScore);
 					scores.add(tempScore);
 					game.addScoreWebsite(tempScoreWebsite);
+					game.addScore(tempScore);
 				}
+//				insert game into related info
+				pub.addGame(game);
+				dev.addGame(game);
+				genres.forEach(genre -> genre.addGame(game));
+				systems.forEach(system -> system.addGame(game));
 //				save game info related to game
 				publisherRepository.save(pub);
 				developerRepository.save(dev);
 				scoreWebsiteRepository.save(scoreWebsites);
 				scoreRepository.save(scores);
+				countryRepository.save(pub.getCountry());
+				countryRepository.save(dev.getCountry());
 //				save all info into game
-				
 				gameRepository.save(game);
 //				clear lists
 				scoreWebsites.clear();

@@ -115,6 +115,10 @@ public class Game {
 		return scoreWebsites;
 	}
 	
+	public void addScore(Score score) {
+		scores.add(score);
+	}
+	
 	public void setScores(List<Score> scores) {
 		this.scores = scores;
 	}

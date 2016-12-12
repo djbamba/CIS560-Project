@@ -25,8 +25,11 @@ public class Country {
 	private String name;
 	
 	/***	relations ***/
-	@OneToMany(mappedBy = "country")
-	private List<Company> companies = new ArrayList<>();
+	@OneToMany(mappedBy = "country", targetEntity = Developer.class)
+	private List<Developer> developers = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "country", targetEntity = Publisher.class)
+	private List<Publisher> publishers = new ArrayList<>();
 	
 	public Country() {
 		
@@ -53,16 +56,32 @@ public class Country {
 		return name;
 	}
 	
-	public void addCompany(Company company) {
-		companies.add(company);
+//	public void addCompany(Company company) {
+//		companies.add(company);
+//	}
+	
+	public void addDeveloper(Developer developer) {
+		developers.add(developer);
 	}
 	
-	public void setCompanies(List<Company> companies) {
-		this.companies = companies;
+	public void addPublisher(Publisher publisher) {
+		publishers.add(publisher);
 	}
 	
-	public List<Company> getCompanies() {
-		return companies;
+//	public void setCompanies(List<Company> companies) {
+//		this.companies = companies;
+//	}
+//
+//	public List<Company> getCompanies() {
+//		return companies;
+//	}
+	
+	public List<Developer> getDevelopers() {
+		return developers;
+	}
+	
+	public List<Publisher> getPublishers() {
+		return publishers;
 	}
 	
 	@Override

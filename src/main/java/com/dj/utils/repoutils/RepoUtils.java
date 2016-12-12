@@ -1,6 +1,5 @@
 package com.dj.utils.repoutils;
 
-import com.dj.model.Company;
 import com.dj.model.Country;
 import com.dj.model.Developer;
 import com.dj.model.Game;
@@ -9,7 +8,6 @@ import com.dj.model.Publisher;
 import com.dj.model.PurchaseWebsite;
 import com.dj.model.ScoreWebsite;
 import com.dj.model.System;
-import com.dj.repository.CompanyRepository;
 import com.dj.repository.CountryRepository;
 import com.dj.repository.DeveloperRepository;
 import com.dj.repository.GameRepository;
@@ -27,12 +25,12 @@ import java.util.List;
  */
 public class RepoUtils {
 	
-	public static Company checkCompany(Company company, CompanyRepository companyRepository) {
-		if (companyRepository.findByName(company.getName()) == null) {
-			return companyRepository.save(company);
-		}
-		return companyRepository.findByName(company.getName());
-	}
+//	public static Company checkCompany(Company company, CompanyRepository companyRepository) {
+//		if (companyRepository.findByName(company.getName()) == null) {
+//			return companyRepository.save(company);
+//		}
+//		return companyRepository.findByName(company.getName());
+//	}
 	
 	public static Country checkCountry(Country country, CountryRepository countryRepository) {
 		if (countryRepository.findByCode(country.getCode()) == null) {
