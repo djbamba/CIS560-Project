@@ -110,7 +110,11 @@ label{
     background: lightgray;
 }
 
-.odd tr:hover{
-    background-color: lightgray;
-    background: lightgray;
+.odd td:hover {
+        background-color: lightgray;
+    }
+
+.odd tr:hover td{
+    background-color: lightgray !important;
+    background: lightgray !important;
 }
