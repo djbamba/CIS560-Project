@@ -23,9 +23,9 @@ public class GenreController {
     private GenreRepository genreRepository;
 
     @RequestMapping(value = "{genre}", method = RequestMethod.GET)
-    public String getGenreByGenre(@PathVariable(value = "genre") String title, Model model) {
+    public String findByGenre(@PathVariable(value = "genre") String title, Model model) {
         String name = title.replace("_", " ");
-        Genre test = genreRepository.findByGenre(name.toUpperCase());
+        Genre test = genreRepository.findByGenre(name);
         model.addAttribute("genre",test);
 
         return "genres/genre";

@@ -1,13 +1,8 @@
 package com.dj.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,11 +14,11 @@ import javax.persistence.Table;
 public class ScoreWebsite extends Website {
 	
 	/***	relations ***/
-	@ManyToMany(mappedBy = "scoreWebsites")
-	private List<Game> games = new ArrayList<>();
+//	@ManyToMany(mappedBy = "scoreWebsites")
+//	private List<Game> games = new ArrayList<>();
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "scoreWebsite")
-	private List<Score> scores = new ArrayList<>();
+	@OneToOne(cascade = CascadeType.ALL)
+	private Score score;
 	
 	public ScoreWebsite() {
 		super();
@@ -33,28 +28,28 @@ public class ScoreWebsite extends Website {
 		super(name, url);
 	}
 	
-	public void addGame(Game game) {
-		games.add(game);
-	}
+//	public void addGame(Game game) {
+//		games.add(game);
+//	}
 	
-	public void setGames(List<Game> games) {
-		this.games = games;
-	}
+//	public void setGames(List<Game> games) {
+//		this.games = games;
+//	}
 	
-	public List<Game> getGames() {
-		return games;
-	}
+//	public List<Game> getGames() {
+//		return games;
+//	}
 	
 	public void addScore(Score score) {
-		scores.add(score);
+		this.score =score;
 	}
 	
-	public void setScore(List<Score> scores) {
-		this.scores = scores;
-	}
+//	public void addScore(List<Score> scores) {
+//		this.scores = scores;
+//	}
 	
-	public List<Score> getScores() {
-		return scores;
+	public Score getScore() {
+		return score;
 	}
 	
 	@Override

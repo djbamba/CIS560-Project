@@ -37,7 +37,7 @@ public class Game {
 	
 	/*** relations ***/
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "game_genres",joinColumns = @JoinColumn(name = "game_id"),
+	@JoinTable(name = "game_genre",joinColumns = @JoinColumn(name = "game_id"),
 	inverseJoinColumns = @JoinColumn(name = "genre_id",referencedColumnName = "id"))
 	private List<Genre> genres = new ArrayList<>();
 	
@@ -185,7 +185,15 @@ public class Game {
         this.comments = comments;
     }
 
-    @Override
+	public List<PurchaseWebsite> getPurchaseWebsites() {
+		return purchaseWebsites;
+	}
+
+	public void setPurchaseWebsites(List<PurchaseWebsite> purchaseWebsites) {
+		this.purchaseWebsites = purchaseWebsites;
+	}
+
+	@Override
 	public String toString() {
 		return String.format("Game[id: %d name: %s release: %s]",
 		                     id, name, release);
