@@ -48,7 +48,7 @@ public class ScoreWebsite extends Website {
 //		this.scores = scores;
 //	}
 	
-	public Score getScores() {
+	public Score getScore() {
 		return score;
 	}
 	
