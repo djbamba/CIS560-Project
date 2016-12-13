@@ -10,13 +10,13 @@
     <header class="text-left">
         <h1 class="title">GameScraper</h1>
         <div class="form-group">
-            <label for="searchBar">Search by Game, Author, or Release Date.</label>
+            <label style="margin-right: 3%;" for="searchBar">Search by Game, Author, or Release Date.</label>
             <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
         </div>
-        <h6 style="margin-left: 70px;">Reviews scraped from the web.</h6>
+        <h6 style="margin-left: calc(5% + 27px);">Reviews scraped from the web</h6>
     </header>
 
-    <h3 class="ul-header" style="margin-top: 4%;">Search Results</h3>
+    <h3 class="ul-header" style="margin-top: 5%;">Search Results</h3>
     <table class="table table-hover results" id="resultsTable">
       <thead>
         <tr>
@@ -29,20 +29,20 @@
       <tbody>
         <tr>
             <tr th:if="${games}" th:each="game : ${games}">
-            <th scope="row"><span th:text="${game.index}"></span></th>
-                <td><span th:text="${game.name}"></span></td>
+                <th scope="row"><span th:text="${game.index}"></span></th>
+                <td><span th:text="${game.name}" href="/game/${game.name}"></span></td>
                 <td><span th:text="${game.system}"></span></td>
                 <td><span th:text="${game.release}"></span></td>
             </tr>
             <tr th:if="${gamesByGenre}" th:each="game : ${gamesByGenre}">
                 <th scope="row"><span th:text="${game.index}"></span></th>
-                <td><span th:text="${game.name}"></span></td>
+                <td><span th:text="${game.name}" href="/game/${game.name}"></span></td>
                 <td><span th:text="${game.system}"></span></td>
                 <td><span th:text="${game.release}"></span></td>
             </tr>
             <tr th:if="${gamesBySystem}" th:each="game : ${gamesBySystem}">
                 <th scope="row"><span th:text="${game.index}"></span></th>
-                <td><span th:text="${game.name}"></span></td>
+                <td><span th:text="${game.name}" href="/game/${game.name}"></span></td>
                 <td><span th:text="${game.system}"></span></td>
                 <td><span th:text="${game.release}"></span></td>
             </tr>

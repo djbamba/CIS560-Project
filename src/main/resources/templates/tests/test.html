@@ -9,7 +9,7 @@
 </head>
 <body>
 <header class="text-left">
-    <h1 class="title" th:href="@{/}" onclick="goToIndex();">GameScraper</h1>
+    <h1 class="title">GameScraper</h1>
     <div class="form-group">
         <label style="margin-right: 3%;" for="searchBar">Search by Game, Author, or Release Date.</label>
         <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
@@ -19,76 +19,94 @@
 </header>
 
 <div class="container">
+
+
+
     <div class="clearfix">
         <img th:src="${game.imageUrl}" th:alt="${game.name}" class="img-thumbnail game-image"></img>
-        <h1 style="font: large;" class="ul-header game-image-description"><span th:text= "${game.name}"/></h1>
+        <h1 class="ul-header game-image-description"><span th:text= "${game.name}"/></h1>
     </div>
 
 
 
-    <table style="width: 50%; float: left;" class="table table-hover results-game" id="resultsTable">
+    <table style="width: 50%; float: left;" class="table table-hover results" id="resultsTable">
         <thead>
-            <tr>
-                <th scope="row">Released</th>
-                <td><span th:text= "${game.release}"/></td>
-            </tr>
+        <tr>
+            <th scope="row">Released</th>
+            <td><span th:text= "${game.release}"/></td>
+        </tr>
         </thead>
         <tbody>
-            <th scope="row">Systems</th>
-                <td>
-                    <div th:each="system : ${game.systems}" >
-                        <a th:text="${system.name}" th:href="@{/system/} + ${system.name}"> </a>
-                    </div>
-                </td>
-        </tbody>
-        <tbody>
-            <th scope="row">Publisher</th>
-            <td>
-                <div>
-                    <a th:text="${game.publisher.name}" th:href="@{/publisher/} + ${game.publisher.name}"> </a>
-                </div>
-            </td>
-        </tbody>
-        <tbody>
-            <th scope="row">Developer</th>
-            <td>
-                <div>
-                    <a th:text="${game.developer.name}" th:href="@{/developer/} + ${game.developer.name}"> </a>
-                </div>
-            </td>
+        <th scope="row">Systems</th>
+        <td>
+            <div th:each="system : ${game.systems}" >
+                <span th:text="${system.name}"> </span>
+            </div>
+        </td>
         </tbody>
     </table>
 
-    <table id="scoreTable" style="width: 35%; float:right; margin-right: 5%;" class="table results purchases">
+
+    <table id="scoreTable" style="width: 35%; float:right; margin-right: 5%;" class="table table-hover results scores">
         <thead>
-            <tr>
-                <th scope="row" style="width: 55%;">Source</th>
-                <td>Score</td>
-            </tr>
+        <tr>
+            <th scope="row">Source</th>
+            <td>Score</td>
+        </tr>
         </thead>
-        <tbody class="purchases-body">
-            <tr th:each="score : ${score}">
-                <td style="width: 55%;"><span th:text="${score.name}"></span></td>
-                <td><span th:text="${score.score.score}"></span></td>
-            </tr>
+        <tbody>
+        <tr th:each="score : ${score}">
+            <td th:if="${scoreTable.length} % 2 == 0"><span  th:text="${score.name}: ${score.score}"></span></td>
+            <td th:if="${scoreTable.length} % 2 == 1" style="background: lightgray;"><span  th:text="${score.name}: ${score.score}"></span></td>
+        </tr>
         </tbody>
     </table>
 
     <table style="width: 90%;" class="table results purchases" id="purchasesTable">
         <thead>
-            <tr>
-                <th scope="row" style="width: 55%;">Purchasable At</th>
-                <th>Price</th>
-            </tr>
+        <tr>
+            <th scope="row" style="width: 55%;">Purchasable At</th>
+            <th>Price</th>
+        </tr>
         </thead>
         <tbody class="purchases-body">
-        <tr th:each="purchase : ${purchase}">
-            <td style="width: 55%;"><span th:text="${purchase.name}"></span></td>
-            <td><span th:text="${purchase.price}"></span></td>
-        </tr>
+            <tr th:each="purchase : ${purchase}">
+                <td><span th:text="${purchase.name}"></span></td>
+            </tr>
+            <tr>
+                <td style="width: 55%;"><span>WOW</span></td>
+                <td><span>WOW</span></td>
+            </tr>
+            <tr>
+                <td style="width: 55%;"><span>WOW</span></td>
+                <td><span>WOW</span></td>
+            </tr>
+            <tr>
+                <td style="width: 55%;"><span>WOW</span></td>
+                <td><span>WOW</span></td>
+            </tr>
+            <tr>
+                <td style="width: 55%;"><span>WOW</span></td>
+                <td><span>WOW</span></td>
+            </tr>
+            <tr>
+                <td style="width: 55%;"><span>WOW</span></td>
+                <td><span>WOW</span></td>
+            </tr>
+            <tr>
+                <td style="width: 55%;"><span>WOW</span></td>
+                <td><span>WOW</span></td>
+            </tr>
+            <tr>
+                <td style="width: 55%;"><span>WOW</span></td>
+                <td><span>WOW</span></td>
+            </tr>
+            <tr>
+                <td style="width: 55%;"><span>WOW</span></td>
+                <td><span>WOW</span></td>
+            </tr>
         </tbody>
     </table>
-
 
     <div class="row" style="margin-left: inherit">
         <div class="col-md-12">
@@ -97,7 +115,7 @@
     </div>
     <div class="row" style="margin-left: inherit">
         <div class="col-md-12">
-            <form class="form-horizontal" th:action="@{/game/addComment/} + ${game.id}" th:object="${comment}" method="post">
+            <form class="form-horizontal" th:action="@{/tests/addComment/} + ${game.id}" th:object="${comment}" method="post">
                 <div class="form-group">
                     <div class="input-group">
                         <!--<input type="text" class="form-control" placeholder="" />-->
@@ -118,7 +136,6 @@
         </div>
     </div>
 
-
     <script th:inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function() {
@@ -129,23 +146,12 @@
                 table[i].className += "odd"
             }
         }
-
-        document.getElementById('scoreTable').style.height = document.getElementById('resultsTable').style.height;
-        var table2 = document.getElementById('scoreTable').getElementsByTagName("tr");
-        for(var i = 0; i < table.length; i++){
-
-            if((i % 2) == 1){
-                table2[i].className += "odd"
-            }
-        }
     });
-
-    function goToIndex(){
-        window.location = "/";
-    }
     /*]]>*/
     </script>
+
 </div>
 </body>
-<div style="display: hidden;" value="${game.id}"></div>
+
+<div id="GameId" style="display: hidden;" value="${game.id}"></div>
 </html>

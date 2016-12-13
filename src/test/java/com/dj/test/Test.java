@@ -137,19 +137,19 @@ public class Test {
 		try {
 			LOG.info("id: {} name: {} date: {} url: {}", id, name, date, url);
 			WikiResultsPage wikiResults = wikiPage.searchGame(name).getWikiResultsPage();
-//			// test systems extraction
+//			// tests systems extraction
 //			systemExtraction(wikiResults);
-//			// test developer extraction
+//			// tests developer extraction
 //			developerExtraction(wikiResults);
-//			//test designer extraction
+//			//tests designer extraction
 //			designerExtraction(wikiResults);
-//			// test genre extraction
+//			// tests genre extraction
 //			genreExtraction(wikiResults);
-//			// test url extraction
+//			// tests url extraction
 //			urlExtraction(wikiResults);
-//			// test publisher extraction
+//			// tests publisher extraction
 //			publisherExtraction(wikiResults);
-//			test score extraction
+//			tests score extraction
 			scoreExtraction(wikiResults);
 		} catch (Exception e) {
 			LOG.error("Exception in gameInfoExtractionTest", e);
