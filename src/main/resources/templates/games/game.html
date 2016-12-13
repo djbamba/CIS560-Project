@@ -10,35 +10,160 @@
 <header class="text-left">
     <h1 class="title">GameScraper</h1>
     <div class="form-group">
-        <label class="search" style="margin-bottom: 5%;" for="searchBar">Search by Game, Author, or Release Date</label>
+        <label style="margin-right: 3%;" for="searchBar">Search by Game, Author, or Release Date.</label>
         <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
     </div>
-    <h6 class="title">Reviews scraped from the web.</h6>
+    <h6 style="margin-left: calc(5% + 27px);" class="title">Reviews scraped from the web</h6>
 
 </header>
 
-<div>
+<div class="clearfix">
     <img th:src="${game.imageUrl}" th:alt="${game.name}" class="img-thumbnail game-image"></img>
     <h1 class="ul-header game-image-description"><span th:text= "${game.name}"/></h1>
 </div>
 
-<table class="table table-hover results" id="resultsTable">
+
+
+<table style="width: 50%; float: left;" class="table table-hover results" id="resultsTable">
     <thead>
-    <tr>
-        <th scope="row">Game ID</th>
-        <td><span th:text= "${game.id}"/></td>
-    </tr>
+        <tr>
+            <th scope="row">Released</th>
+            <td><span th:text= "${game.release}"/></td>
+        </tr>
     </thead>
     <tbody>
-    <th scope="row">Systems</th>
-    <tr th:each="system : ${game.systems}">
-        <td><span th:text="${system.name}"></span></td>
+        <th scope="row">Systems</th>
+            <td>
+                <div th:each="system : ${game.systems}" >
+                    <span th:text="${system.name}"> </span>
+                </div>
+            </td>
+    </tbody>
+</table>
+
+
+<table id="scoreTable" style="width: 35%; float:right; margin-right: 5%;" class="table table-hover results scores">
+    <thead>
+        <tr>
+            <th scope="row">Source</th>
+            <td>Score</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="score : ${score}">
+            <td th:if="${scoreTable.length} % 2 == 0"><span  th:text="${score.name}: ${score.score}"></span></td>
+            <td th:if="${scoreTable.length} % 2 == 1" style="background: lightgray;"><span  th:text="${score.name}: ${score.score}"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+<table style="width: 90%;" class="table table-hover results purchases">
+    <thead>
+        <tr>
+            <th scope="row">Purchasable At</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody class="purchases-body">
+    <tr th:each="purchase : ${purchase}">
+        <td><span th:text="${purchase.name}"></span></td>
     </tr>
     <tr>
-        <th scope="row">Released</th>
-        <td><span th:text= "${game.release}"/></td>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr>
+    <tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
+    </tr><tr>
+        <td><span>WOW</span></td>
+        <td><span>WOW</span></td>
     </tr>
     </tbody>
 </table>
+
+
 </body>
+<div style="display: hidden;" value="${game.id}"></div>
 </html>

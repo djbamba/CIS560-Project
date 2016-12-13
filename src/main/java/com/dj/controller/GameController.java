@@ -37,7 +37,6 @@ public class GameController {
 	public String getGameByTitle(@PathVariable(value = "gameTitle") String title, Model model) {
 		String name = title.replace("_", " ");
 		Game test = gameRepository.findByName(name);
-		System.out.println(test.toString());
 		model.addAttribute("game",test);
 		
 		return "games/game";

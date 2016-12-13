@@ -6,13 +6,9 @@ body {
     background-color: whitesmoke;
 }
 
-div {
-
-}
-
 #genre-ul {
     text-align:left;
-		margin: 0;
+	margin: 0;
     padding: 0;
 }
 
@@ -23,17 +19,26 @@ div {
 }
 
 .genre-button{
-	left: 0%;
-	width: 97%;
-  list-style-type: none;
+	display: inline;
+	float: left;
+	height: 34px;
+	width: 16.49%;
+	overflow: hidden;
+    list-style-type: none;
+    margin-left: 1px;
+    margin-right: 1px;
+    text-transform: lowercase;
 }
- .search{
+.genre-button:first-letter{
+    text-transform: uppercase;
+}
+.search{
 	 position: absolute;
 	 right: 0;
 	 margin-right: 3%;
 	 width: 300px;
- }
- label{
+}
+label{
 	 right: 0;
 	 position: absolute;
 	 margin-top: -30px;
@@ -66,4 +71,35 @@ div {
 	vertical-align: bottom;
 	float: left;
 	margin-top: 200px;
+}
+
+.clearfix:after {
+   content: " ";
+   display: block;
+   height: 0;
+   clear: both;
+}
+
+.scores{
+    border-style: double;
+    height: 10%;
+    overflow-y: scroll;
+}
+
+.purchases{
+    border-style: ridge;
+    display: inline-block;
+}
+
+.purchases-body{
+    display: inline-block;
+    width: 100%;
+    height: 200px;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+}
+
+.odd{
+    background: lightgray;
 }
