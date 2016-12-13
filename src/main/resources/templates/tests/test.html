@@ -115,22 +115,23 @@
     </div>
     <div class="row" style="margin-left: inherit">
         <div class="col-md-12">
-            <form class="form-horizontal">
+            <form class="form-horizontal" action="#" th:action="@{/tests/addComment/} + ${game.id}" th:object="${comment}" method="post">
                 <div class="form-group">
                     <div class="input-group">
                         <!--<input type="text" class="form-control" placeholder="" />-->
-                        <textarea class="form-control" rows="3" placeholder="Insert a comment" style="margin-left: 5%; width: 675px; height: 100px;"></textarea>
+                        <textarea th:field="*{text}" class="form-control" rows="3" placeholder="Insert a comment" style="margin-left: 5%; width: 675px; height: 100px;"></textarea>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="margin-left: 2%">Add</button>
+                <button type="submit" value="Submit" class="btn btn-primary" style="margin-left: 2%">Add</button>
             </form>
         </div>
     </div>
 
-    <div class="row" style="margin-left: inherit; margin-top: 10px">
+    <div class="row" style="margin-left: inherit; margin-top: 25px">
         <div th:each="comment : ${game.comments}" class="col-md-12" >
             <blockquote>
                 <p th:text="${comment.text}"></p>
+                <footer th:text="${#dates.format(comment.date, 'dd-MMM-yyyy hh:mm:ss')}"></footer>
             </blockquote>
         </div>
     </div>
@@ -152,5 +153,5 @@
 </div>
 </body>
 
-<div style="display: hidden;" value="${game.id}"></div>
+<div id="GameId" style="display: hidden;" value="${game.id}"></div>
 </html>
