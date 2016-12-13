@@ -1,4 +1,4 @@
-src/main/resources/data/games.csv
+src/main/resources/data/games.mv.db
 src/main/resources/data/games.trace.db
 .DS_Store
 *.idea
