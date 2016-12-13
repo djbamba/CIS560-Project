@@ -66,7 +66,11 @@ public class Game {
 	@ManyToOne(targetEntity = Publisher.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "publisher_id", referencedColumnName = "id")
 	private Publisher publisher;
-	
+
+	@OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "comment_id", referencedColumnName = "id")
+	private List<Comment> comments;
+
 	public Game() {
 	}
 	
