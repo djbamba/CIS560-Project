@@ -115,7 +115,7 @@
     </div>
     <div class="row" style="margin-left: inherit">
         <div class="col-md-12">
-            <form class="form-horizontal" action="#" th:action="@{/tests/addComment/} + ${game.id}" th:object="${comment}" method="post">
+            <form class="form-horizontal" th:action="@{/tests/addComment/} + ${game.id}" th:object="${comment}" method="post">
                 <div class="form-group">
                     <div class="input-group">
                         <!--<input type="text" class="form-control" placeholder="" />-->
