@@ -18,10 +18,9 @@ public class Score {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id; // primary key
 	
-	
 	/***	relations ***/
-	@ManyToOne
-	private ScoreWebsite scoreWebsite; // foreign key to name in ScoreWebsite
+//	@OneToOne
+//	private ScoreWebsite scoreWebsite; // foreign key to name in ScoreWebsite
 	
 	@ManyToOne
 	@JoinColumn(name = "game_id")
@@ -34,7 +33,7 @@ public class Score {
 	}
 	
 	public Score(ScoreWebsite scoreWebsite, Game game, String score) {
-		this.scoreWebsite = scoreWebsite;
+//		this.scoreWebsite = scoreWebsite;
 		this.game = game;
 		this.score = cleanScore(score);
 	}
@@ -47,13 +46,13 @@ public class Score {
 		return id;
 	}
 	
-	public void setScoreWebsite(ScoreWebsite scoreWebsite) {
-		this.scoreWebsite = scoreWebsite;
-	}
-	
-	public ScoreWebsite getScoreWebsite() {
-		return scoreWebsite;
-	}
+//	public void setScoreWebsite(ScoreWebsite scoreWebsite) {
+//		this.scoreWebsite = scoreWebsite;
+//	}
+//
+//	public ScoreWebsite getScoreWebsite() {
+//		return scoreWebsite;
+//	}
 	
 	public void setGame(Game game) {
 		this.game = game;
@@ -76,7 +75,10 @@ public class Score {
 		if (score.contains("[")) {
 			cleaned = score.substring(0, score.indexOf('['));
 		}
-		if (score.contains("stars")){
+		if (score.contains("(")) {
+			cleaned = score.substring(0, score.indexOf('('));
+		}
+		if (score.contains("stars")) {
 			cleaned = score.substring(0, score.indexOf("stars"));
 		}
 		if (score.contains(":")) {
@@ -87,7 +89,7 @@ public class Score {
 	
 	@Override
 	public String toString() {
-		return String.format("Score[id: %d websiteName: %s gameId: %s score: %s ]",
-		                     id, scoreWebsite.toString(), game.toString(), score);
+		return String.format("Score[id: %d gameId: %s score: %s ]",
+		                     id /*scoreWebsite.toString()*/, game.toString(), score);
 	}
 }

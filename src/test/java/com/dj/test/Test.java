@@ -1,9 +1,12 @@
 package com.dj.test;
 
 import com.dj.model.Developer;
+import com.dj.model.Game;
 import com.dj.model.Genre;
 import com.dj.model.Publisher;
+import com.dj.model.PurchaseWebsite;
 import com.dj.model.System;
+import com.dj.utils.pages.BingPage;
 import com.dj.utils.pages.WikiPage;
 import com.dj.utils.pages.WikiResultsPage;
 
@@ -34,6 +37,8 @@ public class Test {
 	private static WebDriver driver;
 	
 	private static WikiPage wikiPage;
+	
+	private static BingPage bingPage;
 
 //	private static WikiResultsPage wikiResults;
 	
@@ -41,9 +46,10 @@ public class Test {
 	public static void setup() {
 		java.lang.System.setProperty("webdriver.firefox.bin", "/Applications/Firefox-2.app/Contents/MacOS/firefox-bin");
 		driver = new FirefoxDriver();
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
-		wikiPage = new WikiPage(driver);
+//		wikiPage = new WikiPage(driver);
+		bingPage = new BingPage(driver);
 	}
 	
 	@AfterClass
@@ -149,5 +155,14 @@ public class Test {
 			LOG.error("Exception in gameInfoExtractionTest", e);
 		}
 	}
-	// check Grand Theft Auto IV genres, BioShock, The Elder Scrolls V: Skyrim
+	
+	@org.junit.Test
+	@FileParameters(value = "src/main/resources/data/games.csv", mapper = CsvWithHeaderMapper.class)
+	public static void gamePurchaseSiteTest(String id, String name, String date, String url) {
+		List<PurchaseWebsite> sites;
+		Game test = new Game(name, date);
+		sites = bingPage.searchGame(test).getPurchaseWebsites();
+		
+		sites.forEach(site -> LOG.info(site.toString()));
+	}
 }

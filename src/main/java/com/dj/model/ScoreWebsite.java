@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+//import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,66 +18,42 @@ import javax.persistence.Table;
 public class ScoreWebsite extends Website {
 	
 	/***	relations ***/
-	@ManyToMany(mappedBy = "scoreWebsites")
-	private List<Game> games = new ArrayList<>();
+//	@ManyToMany(mappedBy = "scoreWebsites")
+//	private List<Game> games = new ArrayList<>();
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "scoreWebsite")
-	private List<Score> scores = new ArrayList<>();
+	@OneToOne(cascade = CascadeType.ALL)
+	private Score score;
 	
 	public ScoreWebsite() {
 		super();
 	}
 	
 	public ScoreWebsite(String name, String url) {
-		super(name,url);
+		super(name, url);
 	}
 	
-//	public void setId(int id) {
-//		this.id = id;
-//	}
-//
-//	public int getId() {
-//		return id;
+//	public void addGame(Game game) {
+//		games.add(game);
 //	}
 	
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public void setUrl(String url) {
-//		this.url = url;
-//	}
-//
-//	public String getUrl() {
-//		return url;
+//	public void setGames(List<Game> games) {
+//		this.games = games;
 //	}
 	
-	public void addGame(Game game) {
-		games.add(game);
-	}
-	
-	public void setGames(List<Game> games) {
-		this.games = games;
-	}
-	
-	public List<Game> getGames() {
-		return games;
-	}
+//	public List<Game> getGames() {
+//		return games;
+//	}
 	
 	public void addScore(Score score) {
-		scores.add(score);
+		this.score =score;
 	}
 	
-	public void setScore(List<Score> scores) {
-		this.scores = scores;
-	}
+//	public void addScore(List<Score> scores) {
+//		this.scores = scores;
+//	}
 	
-	public List<Score> getScores() {
-		return scores;
+	public Score getScore() {
+		return score;
 	}
 	
 	@Override
