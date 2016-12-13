@@ -93,9 +93,10 @@ public class Genre {
 			if (FILTER.contains(section.toUpperCase()))
 				continue;
 			if (PLATFORM.contains(section.toUpperCase()) && !genreX.contains(section)) {
-				genreX.add("Platformer");
+				genreX.add("PLATFORMER");
+			} else {
+				genreX.add(section);
 			}
-			genreX.add(section);
 		}
 		return genreX.stream().collect(Collectors.joining(" "));
 	}
@@ -114,7 +115,6 @@ public class Genre {
 	}
 	
 	@Override
-	
 	public String toString() {
 		return String.format("Genre[id: %d genre: %s]", id, genre);
 	}
