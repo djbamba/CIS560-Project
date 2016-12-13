@@ -1452,3 +1452,6 @@ Caused by: java.lang.IllegalArgumentException: Tue Dec 13 02:47:55 CST 2016
 	at org.h2.value.ValueTimestamp.parseTry(ValueTimestamp.java:140)
 	at org.h2.value.ValueTimestamp.parse(ValueTimestamp.java:120)
 	... 135 more
+2016-12-13 04:27:01 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "DELETE *[*] FROM COMMENT WHERE TEXT = 'I love halo' "; expected "identifier"; SQL statement:
+delete * from comment where text = 'I love halo' [42001-192]

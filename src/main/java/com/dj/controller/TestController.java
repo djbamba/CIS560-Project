@@ -65,22 +65,26 @@ public class TestController {
 //        gameRepository.save(game);
 
 		model.addAttribute("game", game);
+		model.addAttribute("comment", new Comment());
+
 		LOG.debug("On Test Page");
 	}
 
-	@PostMapping(value = "/addComment/{gameId}")
-	public String addComment(@Valid @ModelAttribute("comment") Comment comment, @PathVariable(value = "gameId") String gameId,
-                             BindingResult bindingResult) {
+	@RequestMapping(value = "/addComment/{gameId}", method = RequestMethod.POST)
+	public String addComment(@Valid @ModelAttribute("comment") Comment comment,
+                             @PathVariable(value = "gameId") String gameId, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) LOG.error(bindingResult);
 
-	    Game game = gameRepository.findById(Integer.parseInt(gameId));
 
+
+	    Game game = gameRepository.findById(Integer.parseInt(gameId));
+        comment.setDate(new Date());
         game.getComments().add(comment);
 
         gameRepository.save(game);
 
-        return "tests/test";
+        return "redirect:/tests/test";
 
     }
 }
