@@ -4,6 +4,7 @@
     <meta http-equiv="content-Type" content="text/html; charset= UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link rel="stylesheet" type="text/css" href="../../static/css/index.css" th:href="@{../../css/index.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <title>GameScraper</title>
 </head>
 <body>
@@ -57,10 +58,10 @@
     </tbody>
 </table>
 
-<table style="width: 90%;" class="table table-hover results purchases">
+<table style="width: 90%;" class="table table-hover results purchases" id="purchasesTable">
     <thead>
         <tr>
-            <th scope="row">Purchasable At</th>
+            <th scope="row" style="width: 55%;">Purchasable At</th>
             <th>Price</th>
         </tr>
     </thead>
@@ -69,100 +70,67 @@
         <td><span th:text="${purchase.name}"></span></td>
     </tr>
     <tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr>
-    <tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr><tr>
-        <td><span>WOW</span></td>
-        <td><span>WOW</span></td>
-    </tr><tr>
-        <td><span>WOW</span></td>
+        <td style="width: 55%;"><span>WOW</span></td>
         <td><span>WOW</span></td>
     </tr>
     </tbody>
 </table>
 
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function() {
+    var table = document.getElementById('purchasesTable').getElementsByTagName("tr");
+    for(var i = 0; i < table.length; i++){
+
+        if((i % 2) == 1){
+            table[i].className += "odd"
+        }
+    }
+});
+/*]]>*/
+</script>
 
 </body>
 <div style="display: hidden;" value="${game.id}"></div>
