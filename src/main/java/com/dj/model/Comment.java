@@ -12,9 +12,6 @@ public class Comment {
     @Column
     private String comment;
 
-    @ManyToOne
-    private Game game;
-
     public Comment() {}
 
     public Comment(int id, String comment) {

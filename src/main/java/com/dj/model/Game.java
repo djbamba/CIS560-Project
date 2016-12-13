@@ -68,7 +68,8 @@ public class Game {
 	private Publisher publisher;
 
 	@OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "comment_id", referencedColumnName = "id")
+	@JoinTable(name = "game_comment", joinColumns = @JoinColumn(name = "game_id"),
+	inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
 	private List<Comment> comments;
 
 	public Game() {
