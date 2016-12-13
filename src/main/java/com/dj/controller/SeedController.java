@@ -235,13 +235,13 @@ public class SeedController {
 				/* insert game into related info */
 				pub.addGame(game);
 				dev.addGame(game);
-				/* genres.forEach(genre -> genre.addGame(game)); */
-				/* systems.forEach(system -> system.addGame(game)); */
-				
-//				scoreWebsites.forEach(scoreWebsite -> scoreWebsite.addGame(game));
+				genres.forEach(genre -> genre.addGame(game));
+				systems.forEach(system -> system.addGame(game));
+
+				/* scoreWebsites.forEach(scoreWebsite -> scoreWebsite.addGame(game)); */
 				/* save game related info */
-				genres = genreRepository.save(genres);
-				systems = systemRepository.save(systems);
+//				genres = genreRepository.save(genres);
+//				systems = systemRepository.save(systems);
 				pub = publisherRepository.save(pub);
 				dev = developerRepository.save(dev);
 				scoreWebsites = scoreWebsiteRepository.save(scoreWebsites);
