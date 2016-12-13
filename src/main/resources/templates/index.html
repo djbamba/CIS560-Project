@@ -16,6 +16,7 @@
         <h6 style="margin-left: calc(5% + 27px);" >Reviews scraped from the web</h6>
 
     </header>
+
     <div class="text-center">
         <p><a href="/games" th:href="@{/games}"></a></p>
     </div>
@@ -34,7 +35,7 @@
             <h3 class="ul-header">Games by System</h3>
             <div style="margin-top: 1%; text-transform: lowercase;" class="clearfix">
                 <ul style="-webkit-padding-start: 0;">
-                    <ul style="-webkit-padding-start: 2%; -webkit-padding-end: 2%;" th:each="system : ${systems}"><a class="btn btn-default genre-button" th:href="@{/system/} + ${#strings.toLowerCase(system.name)}" type="submit"><span th:text="${system.name}"></span></a></ul>
+                    <ul style="-webkit-padding-start: 2%; -webkit-padding-end: 2%;" th:each="system : ${systems}"><a class="btn btn-default genre-button" th:href="@{/system/} + ${system.name}" type="submit"><span th:text="${system.name}"></span></a></ul>
                 </ul>
             </div>
         </section>

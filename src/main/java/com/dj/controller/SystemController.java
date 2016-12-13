@@ -20,7 +20,7 @@ public class SystemController {
     private SystemRepository systemRepository;
 
     @RequestMapping(value = "{system}", method = RequestMethod.GET)
-    public String findByName(@PathVariable(value = "system") String title, Model model) {
+    public String getSystemByName(@PathVariable(value = "system") String title, Model model) {
         String name = title.replace("_", " ");
         System test = systemRepository.findByName(name);
         model.addAttribute("system", test);

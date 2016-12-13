@@ -9,7 +9,7 @@
 </head>
 <body>
 <header class="text-left">
-    <h1 class="title">GameScraper</h1>
+    <h1 class="title" th:href="@{/}" onclick="goToIndex();">GameScraper</h1>
     <div class="form-group">
         <label style="margin-right: 3%;" for="searchBar">Search by Game, Author, or Release Date.</label>
         <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
@@ -18,7 +18,7 @@
 </header>
 
 <h3 class="ul-header" style="margin-top: 5%; text-transform: capitalize;" th:text="${#strings.toLowerCase(genre.genre)}"></h3>
-<table class="table table-hover results" id="resultsTable">
+<table class="table results" id="resultsTable">
     <thead>
     <tr>
         <th scope="row">Game</th>
@@ -50,6 +50,10 @@ $(document).ready(function() {
         }
     }
 });
+
+function goToIndex(){
+    window.location = "/";
+}
 /*]]>*/
 </script>
 </body>
