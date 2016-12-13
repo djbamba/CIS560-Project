@@ -48,12 +48,8 @@ public class Genre {
 	private String genre;
 	
 	/***	relations ***/
-	@ManyToMany
+	@ManyToMany(mappedBy = "genres")
 	private List<Game> games = new ArrayList<>();
-	
-	public Genre() {
-		
-	}
 	
 	public Genre(String genre) {
 		this.genre = cleanGenre(genre);
@@ -63,28 +59,42 @@ public class Genre {
 		this.id = id;
 	}
 	
+	public Genre() {
+		
+	}
+	
 	public int getId() {
 		return id;
 	}
 	
 	public void setGenre(String genre) {
+		
 		this.genre = genre;
-	}
-	
-	public String getGenre() {
-		return genre;
-	}
-	
-	public void addGame(Game game) {
-		games.add(game);
 	}
 	
 	public void setGames(List<Game> games) {
 		this.games = games;
 	}
 	
-	public List<Game> getGames() {
-		return games;
+	public void addGame(Game game) {
+		games.add(game);
+	}
+	
+	public String getGenre() {
+		return genre;
+	}
+	
+	private String cleanGenre(String genre) {
+		StringBuilder sb = new StringBuilder();
+		for (String section : genre.split("[ ]")) {
+			if (FILTER.contains(section.toUpperCase()))
+				continue;
+			if (PLATFORM.contains(section.toUpperCase())) {
+				sb.append(" Platformer");
+			}
+			sb.append(section + " ");
+		}
+		return sb.toString();
 	}
 	
 	public static boolean shouldIgnore(String name) {
@@ -96,20 +106,12 @@ public class Genre {
 		return false;
 	}
 	
-	private String cleanGenre(String genre) {
-		StringBuilder sb = new StringBuilder();
-		for (String section : genre.split("[ ]")) {
-			if (FILTER.contains(section.toUpperCase()))
-				continue;
-			if (PLATFORM.contains(section.toUpperCase())) {
-				sb.append("Platformer");
-			}
-			sb.append(section);
-		}
-		return sb.toString();
+	public List<Game> getGames() {
+		return games;
 	}
 	
 	@Override
+	
 	public String toString() {
 		return String.format("Genre[id: %d genre: %s]", id, genre);
 	}

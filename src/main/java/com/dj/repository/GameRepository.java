@@ -12,6 +12,7 @@ import java.util.List;
  * CREATE TABLE GAME (ID INT PRIMARY KEY, NAME VARCHAR(225), RELEASE_DATE VARCHAR(225), IMAGE_URL VARCHAR(225));
  */
 //INSERT INTO game SELECT id, name, release_date, image_url from CSVREAD('./src/main/resources/data/games.csv');
+// insert into game ("ID", "IMAGE_URL","NAME","RELEASE_DATE")  select "ID", "IMAGE_URL","NAME","RELEASE_DATE" from csvread('./src/main/resources/data/games.csv')
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
 	
@@ -20,4 +21,6 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	List<Game> findByNameLike(String name);
 	
 	List<Game> findByNameOrderByRelease(String name);
+	
+	Game findById(int id);
 }

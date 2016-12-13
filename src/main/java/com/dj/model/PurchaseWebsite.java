@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -20,7 +21,7 @@ public class PurchaseWebsite extends Website {
 	private String price;
 	
 	/***	relations ***/
-	@ManyToMany(mappedBy = "purchaseWebsites")
+	@OneToMany(mappedBy = "purchaseWebsites")
 	private List<Game> games = new ArrayList<>();
 	
 	public PurchaseWebsite() {
@@ -54,6 +55,6 @@ public class PurchaseWebsite extends Website {
 	
 	@Override
 	public String toString() {
-		return String.format("PurchaseWebsite[id: %d name: %s url: %s]", id, name, url);
+		return String.format("PurchaseWebsite[id: %d name: %s price: %s url: %s]", id, name, price, url);
 	}
 }

@@ -37,26 +37,26 @@ public class Game {
 	
 	/*** relations ***/
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "game_genres",joinColumns = @JoinColumn(name = "game_id"),
-	inverseJoinColumns = @JoinColumn(name = "genre_id",referencedColumnName = "id"))
+	@JoinTable(name = "game_genre", joinColumns = @JoinColumn(name = "game_id"),
+	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
 	private List<Genre> genres = new ArrayList<>();
 	
 	@ManyToMany
-	@JoinTable(name = "game_score_website",joinColumns = @JoinColumn(name = "game_id"),
-	inverseJoinColumns = @JoinColumn(name = "score_website_id",referencedColumnName = "id"))
+	@JoinTable(name = "game_score_website", joinColumns = @JoinColumn(name = "game_id"),
+	 inverseJoinColumns = @JoinColumn(name = "score_website_id", referencedColumnName = "id"))
 	private List<ScoreWebsite> scoreWebsites = new ArrayList<>();
 	
 	@ManyToMany
-	@JoinTable(name = "game_purchase_website",joinColumns = @JoinColumn(name = "game_id"),
-	inverseJoinColumns = @JoinColumn(name = "purchase_website_id",referencedColumnName = "id"))
+	@JoinTable(name = "game_purchase_website", joinColumns = @JoinColumn(name = "game_id"),
+	 inverseJoinColumns = @JoinColumn(name = "purchase_website_id", referencedColumnName = "id"))
 	private List<PurchaseWebsite> purchaseWebsites = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private List<Score> scores = new ArrayList<>();
 	
 	@ManyToMany
-	@JoinTable(name="game_system",joinColumns = @JoinColumn(name = "game_id"),
-	inverseJoinColumns = @JoinColumn(name = "system_id",referencedColumnName = "id"))
+	@JoinTable(name = "game_system", joinColumns = @JoinColumn(name = "game_id"),
+	 inverseJoinColumns = @JoinColumn(name = "system_id", referencedColumnName = "id"))
 	private List<System> systems = new ArrayList<>();
 	
 	@ManyToOne(targetEntity = Developer.class, cascade = CascadeType.ALL)
@@ -150,6 +150,14 @@ public class Game {
 	public void addScores(List<Score> scores) {
 		
 		this.scores.addAll(scores);
+	}
+	
+	public void setPurchaseWebsites(List<PurchaseWebsite> purchaseWebsites) {
+		this.purchaseWebsites = purchaseWebsites;
+	}
+	
+	public List<PurchaseWebsite> getPurchaseWebsites() {
+		return purchaseWebsites;
 	}
 	
 	public void setScores(List<Score> scores) {

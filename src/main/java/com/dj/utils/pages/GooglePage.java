@@ -1,5 +1,7 @@
 package com.dj.utils.pages;
 
+import com.dj.model.Game;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,10 +24,11 @@ public class GooglePage extends PageObject {
 		super(driver, url);
 	}
 	
-	public void searchGame(String search) {
+	public GooglePage searchGame(String search) {
 		searchBar.click();
 		searchBar.clear();
 		searchBar.sendKeys(search);
+		return this;
 	}
 	
 	public GoogleResultsPage getGoogleResultsPage() {
@@ -33,4 +36,7 @@ public class GooglePage extends PageObject {
 		return new GoogleResultsPage(this.driver);
 	}
 	
+	public void getpurchaseWebsites(Game game) {
+		
+	}
 }
