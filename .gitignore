@@ -1,5 +1,5 @@
-*.db
-src/main/resources/data.games.trace.db
+src/main/resources/data/games.csv
+src/main/resources/data/games.trace.db
 .DS_Store
 *.idea
 *target/
@@ -103,7 +103,6 @@ buildNumber.properties
 ### Intellij+iml Patch ###
 # Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023 
 
-*.iml
 modules.xml
 .idea/misc.xml 
 *.ipr
@@ -157,3 +156,5 @@ Temporary Items
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+src/main/java/com/dj/utils/pages/BingPage.java
+src/main/resources/application.properties
