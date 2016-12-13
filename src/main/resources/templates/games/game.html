@@ -45,7 +45,7 @@
             <th scope="row">Publisher</th>
             <td>
                 <div>
-                    <span th:text="${game.publisher.name}"> </span>
+                    <a th:text="${game.publisher.name}" th:href="@{/publisher/} + ${game.publisher.name}"> </a>
                 </div>
             </td>
         </tbody>
@@ -53,7 +53,7 @@
             <th scope="row">Developer</th>
             <td>
                 <div>
-                    <span th:text="${game.developer.name}"> </span>
+                    <a th:text="${game.developer.name}" th:href="@{/developer/} + ${game.developer.name}"> </a>
                 </div>
             </td>
         </tbody>
@@ -133,6 +133,35 @@
         </tr>
         </tbody>
     </table>
+
+
+    <div class="row" style="margin-left: inherit">
+        <div class="col-md-12">
+            <h2 style="margin-left: 2%">Comments</h2>
+        </div>
+    </div>
+    <div class="row" style="margin-left: inherit">
+        <div class="col-md-12">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <div class="input-group">
+                        <!--<input type="text" class="form-control" placeholder="" />-->
+                        <textarea class="form-control" rows="3" placeholder="Insert a comment" style="margin-left: 5%; width: 675px; height: 100px;"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-left: 2%">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" style="margin-left: inherit; margin-top: 10px">
+        <div th:each="comment : ${game.comments}" class="col-md-12" >
+            <blockquote>
+                <p th:text="${comment.text}"></p>
+            </blockquote>
+        </div>
+    </div>
+
 
     <script th:inline="javascript">
     /*<![CDATA[*/
