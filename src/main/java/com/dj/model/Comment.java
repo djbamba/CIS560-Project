@@ -10,13 +10,13 @@ public class Comment {
     private int id;
 
     @Column
-    private String comment;
+    private String text;
 
     public Comment() {}
 
     public Comment(int id, String comment) {
         this.id = id;
-        this.comment = comment;
+        this.text = comment;
     }
 
     public int getId() {
@@ -27,11 +27,11 @@ public class Comment {
         this.id = id;
     }
 
-    public String getComment() {
-        return comment;
+    public String getText() {
+        return text;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setText(String text) {
+        this.text = text;
     }
 }

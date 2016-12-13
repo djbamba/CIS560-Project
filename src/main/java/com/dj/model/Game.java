@@ -176,8 +176,16 @@ public class Game {
 	public List<System> getSystems() {
 		return systems;
 	}
-	
-	@Override
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    @Override
 	public String toString() {
 		return String.format("Game[id: %d name: %s release: %s]",
 		                     id, name, release);
