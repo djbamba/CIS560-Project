@@ -82,10 +82,22 @@ label{
 
 .scores{
     border-style: double;
+    height: 10%;
+    overflow-y: scroll;
 }
 
 .purchases{
     border-style: ridge;
+    display: inline-block;
+}
+
+.purchases-body{
+    display: inline-block;
+    width: 100%;
+    height: 200px;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
 }
 
 .odd{
