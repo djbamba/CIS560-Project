@@ -92,14 +92,25 @@ label{
 }
 
 .purchases-body{
-    display: inline-block;
-    width: 100%;
-    height: 200px;
-    margin: 0;
-    padding: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
+    display: block;
+    max-height: 200px;
+}
+
+.purchases thead {
+   display: table;
+   width: 100%;
+}
+.purchases tbody tr {
+   display: table;
+   width: 100%;
 }
 
 .odd{
+    background: lightgray;
+}
+
+.odd tr:hover{
+    background-color: lightgray;
     background: lightgray;
 }
