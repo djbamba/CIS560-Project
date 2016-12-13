@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset= UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css" th:href="@{css/index.css}"/>
+    <title>GameScraper</title>
+</head>
+<body>
+    <header class="text-left">
+        <h1 class="title">GameScraper</h1>
+        <div class="form-group">
+            <label style="margin-right: 3%;" for="searchBar">Search by Game, Author, or Release Date.</label>
+            <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
+        </div>
+        <h6 style="margin-left: calc(5% + 27px);" >Reviews scraped from the web</h6>
+
+    </header>
+
+    <div class="text-center">
+        <p><a href="/games" th:href="@{/games}"></a></p>
+    </div>
+    <div>
+        <section>
+            <h3 style="margin-top: 5%;" class="ul-header">Games By Genre</h3>
+            <div style="margin-top: 1%; text-transform: lowercase;" class="clearfix">
+                <ul style="-webkit-padding-start: 0;">
+                    <ul style="-webkit-padding-start: 2%; -webkit-padding-end: 2%;" th:each="genre : ${genres}"><a class="btn btn-default genre-button" th:href="@{/genre/} + ${#strings.toLowerCase(genre.genre)}" type="submit"><span th:text="${genre.genre}"></span></a></ul>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <div>
+        <section>
+            <h3 class="ul-header">Games by System</h3>
+            <div style="margin-top: 1%; text-transform: lowercase;" class="clearfix">
+                <ul style="-webkit-padding-start: 0;">
+                    <ul style="-webkit-padding-start: 2%; -webkit-padding-end: 2%;" th:each="system : ${systems}"><a class="btn btn-default genre-button" th:href="@{/system/} + ${system.name}" type="submit"><span th:text="${system.name}"></span></a></ul>
+                </ul>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

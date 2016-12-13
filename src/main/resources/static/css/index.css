@@ -1,0 +1,126 @@
+html {
+	padding: 3px;
+}
+
+body {
+    background-color: whitesmoke;
+}
+
+#genre-ul {
+    text-align:left;
+	margin: 0;
+    padding: 0;
+}
+
+.ul-header {
+    margin-bottom:0;
+    margin-left: 2%;
+    margin-right: auto;
+}
+
+.genre-button{
+	display: inline;
+	float: left;
+	height: 34px;
+	width: 16.49%;
+	overflow: hidden;
+    list-style-type: none;
+    margin-left: 1px;
+    margin-right: 1px;
+    text-transform: lowercase;
+}
+.genre-button:first-letter{
+    text-transform: uppercase;
+}
+.search{
+	 position: absolute;
+	 right: 0;
+	 margin-right: 3%;
+	 width: 300px;
+}
+label{
+	 right: 0;
+	 position: absolute;
+	 margin-top: -30px;
+	 margin-right: 26px;
+}
+
+.title{
+	margin-left: 5%;
+}
+
+.results{
+	margin-top: 1%;
+	margin-left: 5%;
+	width: 92%;
+}
+.results-game{
+	margin-top: 1%;
+	margin-left: 5%;
+	width: 92%;
+	display: table-row;
+}
+
+.game-image{
+	display: inline;
+	width: 175px;
+	height: 175px;
+	margin-left: 30px;
+	margin-top: 70px;
+  overflow: hidden;
+	float: left;
+	text-align: left;
+}
+
+.game-image-description{
+  text-align: left;
+	vertical-align: bottom;
+	float: left;
+	margin-top: 200px;
+}
+
+.clearfix:after {
+   content: " ";
+   display: block;
+   height: 0;
+   clear: both;
+}
+
+.scores{
+    border-style: double;
+    height: 10%;
+    overflow-y: scroll;
+}
+
+.purchases{
+    border-style: ridge;
+    display: inline-block;
+}
+
+.purchases-body{
+    overflow-y: auto;
+    display: block;
+    max-height: 200px;
+}
+
+.purchases thead {
+   display: table;
+   width: 100%;
+}
+.purchases tbody tr {
+   display: table;
+   width: 100%;
+}
+
+.odd{
+    background: lightgray;
+}
+
+.odd td:hover {
+        background-color: lightgray;
+    }
+
+.odd tr:hover td{
+    background-color: lightgray !important;
+    background: lightgray !important;
+}
