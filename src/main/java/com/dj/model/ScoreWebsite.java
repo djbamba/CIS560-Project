@@ -17,7 +17,7 @@ public class ScoreWebsite extends Website {
 //	@ManyToMany(mappedBy = "scoreWebsites")
 //	private List<Game> games = new ArrayList<>();
 	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "scoreWebsite")
+	@OneToOne(cascade = CascadeType.ALL)
 	private Score score;
 	
 	public ScoreWebsite() {
@@ -40,11 +40,11 @@ public class ScoreWebsite extends Website {
 //		return games;
 //	}
 	
-	public void setScore(Score score) {
+	public void addScore(Score score) {
 		this.score =score;
 	}
 	
-//	public void setScore(List<Score> scores) {
+//	public void addScore(List<Score> scores) {
 //		this.scores = scores;
 //	}
 	
