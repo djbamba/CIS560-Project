@@ -25,7 +25,8 @@ public class HomeController {
 
     @RequestMapping("/")
     public String index(Model model) {
-        model.addAttribute("genres", genreRepository.findAll());
+        model.addAttribute("genres", genreRepository.findAllByOrderByGenre());
+        model.addAttribute("systems", systemRepository.findAllByOrderByName());
         LOG.info("Index requested");
         return "index";
     }

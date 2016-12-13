@@ -29,12 +29,14 @@
             </div>
         </section>
     </div>
-    <div style="margin-top: 1%;">
+    <div>
         <section>
             <h3 class="ul-header">Games by System</h3>
-            <ul>
-                <ul th:each="system : ${systems}"><a class="btn btn-default genre-button" th:href="@{/systems/} + ${#strings.toLowerCase(system.name)}" type="submit"><span th:text="${system.name}"></span></a></ul>
-            </ul>
+            <div style="margin-top: 1%; text-transform: lowercase;" class="clearfix">
+                <ul style="-webkit-padding-start: 0;">
+                    <ul style="-webkit-padding-start: 2%; -webkit-padding-end: 2%;" th:each="system : ${systems}"><a class="btn btn-default genre-button" th:href="@{/system/} + ${#strings.toLowerCase(system.name)}" type="submit"><span th:text="${system.name}"></span></a></ul>
+                </ul>
+            </div>
         </section>
     </div>
 </body>

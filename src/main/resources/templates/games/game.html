@@ -17,12 +17,14 @@
 
 </header>
 
-<div>
+<div class="clearfix">
     <img th:src="${game.imageUrl}" th:alt="${game.name}" class="img-thumbnail game-image"></img>
     <h1 class="ul-header game-image-description"><span th:text= "${game.name}"/></h1>
 </div>
 
-<table class="table table-hover results" id="resultsTable">
+
+
+<table style="width: 50%; float: left;" class="table table-hover results" id="resultsTable">
     <thead>
         <tr>
             <th scope="row">Released</th>
@@ -31,33 +33,45 @@
     </thead>
     <tbody>
         <th scope="row">Systems</th>
-        <tr th:each="system : ${game.systems}">
-            <td><span th:text="${system.name}"></span></td>
-        </tr>
+            <td>
+                <div th:each="system : ${game.systems}" >
+                    <span th:text="${system.name}"> </span>
+                </div>
+            </td>
     </tbody>
 </table>
 
-<table>
-    <thead>
-        <th scope="row">Purchasable At:</th>
-    </thead>
-    <tbody>
-        <tr th:each="purchase : ${purchase}">
-            <td><span th:text="${purchase.name}"></span></td>
-        </tr>
-    </tbody>
-</table>
 
-<table>
+<table id="scoreTable" style="width: 35%; float:right; margin-right: 5%;" class="table table-hover results scores">
     <thead>
-        <th scope="row">Scores:</th>
+        <tr>
+            <th scope="row">Source</th>
+            <td>Score</td>
+        </tr>
     </thead>
     <tbody>
         <tr th:each="score : ${score}">
-            <td><span th:text="${score.name}: ${score.score}"></span></td>
+            <td th:if="${scoreTable.length} % 2 == 0"><span  th:text="${score.name}: ${score.score}"></span></td>
+            <td th:if="${scoreTable.length} % 2 == 1" style="background: lightgray;"><span  th:text="${score.name}: ${score.score}"></span></td>
         </tr>
     </tbody>
 </table>
+
+<table style="width: 90%;" class="table table-hover results purchases">
+    <thead>
+        <tr>
+            <th scope="row">Purchasable At</th>
+            <td>Price</td>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:each="purchase : ${purchase}">
+        <td><span th:text="${purchase.name}"></span></td>
+    </tr>
+    </tbody>
+</table>
+
+
 </body>
 <div style="display: hidden;" value="${game.id}"></div>
 </html>

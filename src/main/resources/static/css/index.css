@@ -79,3 +79,15 @@ label{
    height: 0;
    clear: both;
 }
+
+.scores{
+    border-style: double;
+}
+
+.purchases{
+    border-style: ridge;
+}
+
+.odd{
+    background: lightgray;
+}

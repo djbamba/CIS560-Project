@@ -19,20 +19,20 @@
 <h3 class="ul-header" style="margin-top: 5%;">Search Results</h3>
 <table class="table table-hover results" id="resultsTable">
     <thead>
-    <tr>
-        <th scope="row">#</th>
-        <td>Game</td>
-        <td>System</td>
-        <td>Released</td>
-    </tr>
+        <tr>
+            <th scope="row">#</th>
+            <td>Game</td>
+            <td>System</td>
+            <td>Released</td>
+        </tr>
     </thead>
     <tbody>
-    <tr th:each="game : ${system.games}">
-        <th scope="row"><span th:text="${game.index}"></span></th>
-        <td><span th:text="${game.name}" href="/game/${game.name}"></span></td>
-        <td><span th:text="${game.system}"></span></td>
-        <td><span th:text="${game.release}"></span></td>
-    </tr>
+        <tr th:each="system : ${system}">
+            <th scope="row"><span th:each="game : ${system.games}" th:text="${game.index}"></span></th>
+            <td><span th:text="${game.name}" href="/game/${game.name}"></span></td>
+            <td><span th:text="${game.system}"></span></td>
+            <td><span th:text="${game.release}"></span></td>
+        </tr>
     </tbody>
 </table>
 </body>
