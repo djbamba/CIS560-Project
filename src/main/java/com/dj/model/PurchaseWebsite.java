@@ -55,6 +55,6 @@ public class PurchaseWebsite extends Website {
 	
 	@Override
 	public String toString() {
-		return String.format("PurchaseWebsite[id: %d name: %s url: %s]", id, name, url);
+		return String.format("PurchaseWebsite[id: %d name: %s price: %s url: %s]", id, name, price, url);
 	}
 }

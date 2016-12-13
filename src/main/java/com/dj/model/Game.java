@@ -152,6 +152,14 @@ public class Game {
 		this.scores.addAll(scores);
 	}
 	
+	public void setPurchaseWebsites(List<PurchaseWebsite> purchaseWebsites) {
+		this.purchaseWebsites = purchaseWebsites;
+	}
+	
+	public List<PurchaseWebsite> getPurchaseWebsites() {
+		return purchaseWebsites;
+	}
+	
 	public void setScores(List<Score> scores) {
 		this.scores = scores;
 	}

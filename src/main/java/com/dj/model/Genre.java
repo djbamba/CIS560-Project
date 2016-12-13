@@ -56,12 +56,13 @@ public class Genre {
 	}
 	
 	public void setId(int id) {
-		
 		this.id = id;
 	}
+	
 	public Genre() {
 		
 	}
+	
 	public int getId() {
 		return id;
 	}
@@ -70,18 +71,19 @@ public class Genre {
 		
 		this.genre = genre;
 	}
+	
 	public void setGames(List<Game> games) {
 		this.games = games;
 	}
+	
 	public void addGame(Game game) {
 		games.add(game);
 	}
 	
 	public String getGenre() {
-		
-		
 		return genre;
 	}
+	
 	private String cleanGenre(String genre) {
 		StringBuilder sb = new StringBuilder();
 		for (String section : genre.split("[ ]")) {
@@ -94,6 +96,7 @@ public class Genre {
 		}
 		return sb.toString();
 	}
+	
 	public static boolean shouldIgnore(String name) {
 		for (String ignore : IGNORE) {
 			if (IGNORE.contains(name.trim().toUpperCase())) {
@@ -104,10 +107,9 @@ public class Genre {
 	}
 	
 	public List<Game> getGames() {
-		
-		
 		return games;
 	}
+	
 	@Override
 	
 	public String toString() {
