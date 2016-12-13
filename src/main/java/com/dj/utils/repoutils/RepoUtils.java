@@ -61,6 +61,10 @@ public class RepoUtils {
 	public static List<Genre> checkGenres(List<Genre> genres, GenreRepository genreRepository) {
 		List<Genre> temps = new ArrayList<>();
 		for (Genre genre : genres) {
+			
+			if (Genre.shouldIgnore(genre.getGenre()))
+				continue;
+			
 			if (genreRepository.findByGenre(genre.getGenre()) == null) {
 				temps.add(genreRepository.save(genre));
 			}
@@ -81,11 +85,16 @@ public class RepoUtils {
 		return existingPublisher;
 	}
 	
-	public static PurchaseWebsite checkPurchaseWebsite(PurchaseWebsite purchaseWebsite, PurchaseWebsiteRepository purchaseWebsiteRepository) {
-		if (purchaseWebsiteRepository.findByName(purchaseWebsite.getName()) == null) {
-			return purchaseWebsiteRepository.save(purchaseWebsite);
+	public static List<PurchaseWebsite> checkPurchaseWebsites(List<PurchaseWebsite> purchaseWebsites, PurchaseWebsiteRepository purchaseWebsiteRepository) {
+		List<PurchaseWebsite> temps = new ArrayList<>();
+		
+		for (PurchaseWebsite purchaseWebsite : purchaseWebsites) {
+			if (purchaseWebsiteRepository.findByName(purchaseWebsite.getName()) == null) {
+				temps.add(purchaseWebsiteRepository.save(purchaseWebsite));
+			}
+			temps.add(purchaseWebsiteRepository.findByName(purchaseWebsite.getName()));
 		}
-		return purchaseWebsiteRepository.findByName(purchaseWebsite.getName());
+		return temps;
 	}
 	
 	public static System checkSystem(System system, SystemRepository systemRepository) {
@@ -95,23 +104,27 @@ public class RepoUtils {
 		return systemRepository.findByName(system.getName());
 	}
 	
-	public static ScoreWebsite checkScoreWebsite(ScoreWebsite scoreWebsite, ScoreWebsiteRepository scoreWebsiteRepository) {
-		if (scoreWebsiteRepository.findByName(scoreWebsite.getName()) == null) {
-			return scoreWebsiteRepository.save(scoreWebsite);
-		}
-		return scoreWebsiteRepository.findByName(scoreWebsite.getName());
-	}
-	
 	public static List<System> checkSystems(List<System> systems, SystemRepository systemRepository) {
 		List<System> temps = new ArrayList<>();
 		
 		for (System system : systems) {
+			
+			if (System.shouldIgnore(system.getName()))
+				continue;
+			
 			if (systemRepository.findByName(system.getName()) == null) {
 				temps.add(systemRepository.save(system));
 			}
 			temps.add(systemRepository.findByName(system.getName()));
 		}
 		return temps;
+	}
+	
+	public static ScoreWebsite checkScoreWebsite(ScoreWebsite scoreWebsite, ScoreWebsiteRepository scoreWebsiteRepository) {
+		if (scoreWebsiteRepository.findByName(scoreWebsite.getName()) == null) {
+			return scoreWebsiteRepository.save(scoreWebsite);
+		}
+		return scoreWebsiteRepository.findByName(scoreWebsite.getName());
 	}
 	
 }
