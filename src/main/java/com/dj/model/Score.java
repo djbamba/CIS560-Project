@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  * Created by DJ on 11/10/16.
@@ -19,7 +20,7 @@ public class Score {
 	private int id; // primary key
 	
 	/***	relations ***/
-	@ManyToOne
+	@OneToOne
 	private ScoreWebsite scoreWebsite; // foreign key to name in ScoreWebsite
 	
 	@ManyToOne
