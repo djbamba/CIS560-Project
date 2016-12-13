@@ -9,15 +9,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,35 +40,47 @@ public class TestController {
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void testComment(Model model) {
 		String gameName = "Halo 2";
-		Game game = gameRepository.findByName(gameName);
 
-//        game.getComments().clear();
-
-        Comment comment = new Comment();
-        comment.setText("Best game of all time!");
-        Comment comment2 = new Comment();
-        comment2.setText("Greatest multiplayer experience out of the whole franchise!");
-
-        List<Comment> comments = game.getComments();
-
-        if (comments.size() > 0) {
-            comments.clear();
-            comments = new ArrayList<>();
-        }
-
-        comments.add(comment);
-        comments.add(comment2);
-
-        game.setComments(comments);
-
-//        game.getComments().add(comment);
-//        game.getComments().add(comment2);
-
-        LOG.debug("Comments size: " + game.getComments().size());
-
-        gameRepository.save(game);
+        Game game = gameRepository.findByName(gameName);
+//        List<Comment> comments = game.getComments();
+//
+//        comments.clear();
+//        game.setComments(comments);
+//        gameRepository.save(game);
+//
+//        Comment comment = new Comment();
+//        comment.setText("Best game of all time!");
+//        comment.setDate(new Date());
+//        Comment comment2 = new Comment();
+//        comment2.setDate(new Date());
+//        comment2.setText("Greatest multiplayer experience out of the whole franchise!");
+//
+//        comments = new ArrayList<>();
+//
+//        comments.add(comment);
+//        comments.add(comment2);
+//
+//        game.setComments(comments);
+//
+//        gameRepository.save(game);
 
 		model.addAttribute("game", game);
 		LOG.debug("On Test Page");
 	}
+
+	@PostMapping(value = "/addComment/{gameId}")
+	public String addComment(@Valid @ModelAttribute("comment") Comment comment, @PathVariable(value = "gameId") String gameId,
+                             BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) LOG.error(bindingResult);
+
+	    Game game = gameRepository.findById(Integer.parseInt(gameId));
+
+        game.getComments().add(comment);
+
+        gameRepository.save(game);
+
+        return "tests/test";
+
+    }
 }

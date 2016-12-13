@@ -14,7 +14,9 @@ import java.util.List;
 //INSERT INTO game SELECT id, name, release_date, image_url from CSVREAD('./src/main/resources/data/games.csv');
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
-	
+
+	Game findById(Integer id);
+
 	Game findByName(String name);
 	
 	List<Game> findByNameLike(String name);
