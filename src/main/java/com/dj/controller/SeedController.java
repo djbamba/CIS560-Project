@@ -216,11 +216,11 @@ public class SeedController {
 				systems = RepoUtils.checkSystems(systems, systemRepository);
 				pub = RepoUtils.checkPublisher(pub, publisherRepository);
 				dev = RepoUtils.checkDeveloper(dev, developerRepository);
-//				country = RepoUtils.checkCountry(dev.getCountry(), countryRepository);
-//				country.addDeveloper(dev);
-
-//				country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
-//				country.addPublisher(pub);
+				country = RepoUtils.checkCountry(dev.getCountry(), countryRepository);
+				country.addDeveloper(dev);
+				
+				country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
+				country.addPublisher(pub);
 				/* build ScoreWebsite & Score */
 				scoreWebsiteInfo = resultsPage.getScoreWebsiteInfo();
 				
@@ -235,9 +235,9 @@ public class SeedController {
 				/* insert game into related info */
 				pub.addGame(game);
 				dev.addGame(game);
-				genres.forEach(genre -> genre.addGame(game));
-				systems.forEach(system -> system.addGame(game));
-
+				/* genres.forEach(genre -> genre.addGame(game)); */
+				/* systems.forEach(system -> system.addGame(game)); */
+				
 //				scoreWebsites.forEach(scoreWebsite -> scoreWebsite.addGame(game));
 				/* save game related info */
 				genres = genreRepository.save(genres);
@@ -266,6 +266,7 @@ public class SeedController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			resultsPage.close();
 		}
 	}
 	
@@ -287,6 +288,7 @@ public class SeedController {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				bingPage.close();
 			}
 			gameRepository.save(game);
 		}

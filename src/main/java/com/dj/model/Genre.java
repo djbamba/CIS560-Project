@@ -3,6 +3,7 @@ package com.dj.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -69,7 +70,7 @@ public class Genre {
 	
 	public void setGenre(String genre) {
 		
-		this.genre = genre;
+		this.genre = cleanGenre(genre);
 	}
 	
 	public void setGames(List<Game> games) {
@@ -85,16 +86,18 @@ public class Genre {
 	}
 	
 	private String cleanGenre(String genre) {
-		StringBuilder sb = new StringBuilder();
-		for (String section : genre.split("[ ]")) {
+		ArrayList<String> genreX = new ArrayList<>();
+		String[] genreName = genre.split("[ |-]");
+		
+		for (String section : genreName) {
 			if (FILTER.contains(section.toUpperCase()))
 				continue;
-			if (PLATFORM.contains(section.toUpperCase())) {
-				sb.append(" Platformer");
+			if (PLATFORM.contains(section.toUpperCase()) && !genreX.contains(section)) {
+				genreX.add("Platformer");
 			}
-			sb.append(section + " ");
+			genreX.add(section);
 		}
-		return sb.toString();
+		return genreX.stream().collect(Collectors.joining(" "));
 	}
 	
 	public static boolean shouldIgnore(String name) {

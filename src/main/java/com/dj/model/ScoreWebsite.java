@@ -1,7 +1,11 @@
 package com.dj.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+//import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -48,7 +52,7 @@ public class ScoreWebsite extends Website {
 //		this.scores = scores;
 //	}
 	
-	public Score getScores() {
+	public Score getScore() {
 		return score;
 	}
 	
