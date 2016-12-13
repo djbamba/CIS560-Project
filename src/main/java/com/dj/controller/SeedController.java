@@ -213,19 +213,6 @@ public class SeedController {
 				/* check info against their repositories */
 				genres = RepoUtils.checkGenres(genres, genreRepository);
 				systems = RepoUtils.checkSystems(systems, systemRepository);
-				
-//				if(pub != null){
-//					pub = RepoUtils.checkPublisher(pub, publisherRepository);
-//					country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
-//					country.addPublisher(pub);
-//				}
-//
-//				if(dev != null){
-//					dev = RepoUtils.checkDeveloper(dev, developerRepository);
-//					country = RepoUtils.checkCountry(dev.getCountry(), countryRepository);
-//					country.addDeveloper(dev);
-//				}
-				
 				/* build ScoreWebsite & Score */
 				scoreWebsiteInfo = resultsPage.getScoreWebsiteInfo();
 				
@@ -246,6 +233,17 @@ public class SeedController {
 				/* save game related info */
 //				genres = genreRepository.save(genres);
 //				systems = systemRepository.save(systems);
+				if(pub != null){
+					pub = RepoUtils.checkPublisher(pub, publisherRepository);
+					country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
+					country.addPublisher(pub);
+				}
+				
+				if(dev != null){
+					dev = RepoUtils.checkDeveloper(dev, developerRepository);
+					country = RepoUtils.checkCountry(dev.getCountry(), countryRepository);
+					country.addDeveloper(dev);
+				}
 				pub = publisherRepository.save(pub);
 				dev = developerRepository.save(dev);
 				scoreWebsites = scoreWebsiteRepository.save(scoreWebsites);

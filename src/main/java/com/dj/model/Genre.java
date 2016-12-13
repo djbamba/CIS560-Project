@@ -92,11 +92,12 @@ public class Genre {
 		for (String section : genreName) {
 			if (FILTER.contains(section.toUpperCase()))
 				continue;
-			if (PLATFORM.contains(section.toUpperCase()) && !genreX.contains(section)) {
+			else if (genreX.contains(section.toUpperCase()))
+				continue;
+			else if (PLATFORM.contains(section.toUpperCase()) && !genreX.contains(section.toUpperCase()))
 				genreX.add("PLATFORMER");
-			} else {
-				genreX.add(section);
-			}
+			else
+				genreX.add(section.toUpperCase());
 		}
 		return genreX.stream().collect(Collectors.joining(" "));
 	}
