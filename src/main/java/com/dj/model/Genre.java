@@ -16,7 +16,7 @@ import javax.persistence.Table;
 /**
  * Created by DJ on 11/10/16.
  */
-
+// TODO: 12/15/16 Write cleanGenre better
 @Entity
 @Table(name = "genre")
 public class Genre {
