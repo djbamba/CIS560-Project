@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,9 +37,8 @@ public class Game {
 	private String imageUrl;
 	
 	/*** relations ***/
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "game_genre", joinColumns = @JoinColumn(name = "game_id"),
-	 inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
+	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinTable(name = "game_genre", joinColumns = {@JoinColumn(name = "game_id")}, inverseJoinColumns = {@JoinColumn(name = "genre_id")})
 	private List<Genre> genres = new ArrayList<>();
 	
 	@ManyToMany
@@ -66,12 +66,12 @@ public class Game {
 	@ManyToOne(targetEntity = Publisher.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "publisher_id", referencedColumnName = "id")
 	private Publisher publisher;
-
+	
 	@OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL)
 	@JoinTable(name = "game_comment", joinColumns = @JoinColumn(name = "game_id"),
-	inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
+	 inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
 	private List<Comment> comments;
-
+	
 	public Game() {
 	}
 	
@@ -184,16 +184,15 @@ public class Game {
 	public List<System> getSystems() {
 		return systems;
 	}
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
+	
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("Game[id: %d name: %s release: %s]",
