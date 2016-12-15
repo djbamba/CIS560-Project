@@ -19,7 +19,7 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 
 	Game findByName(String name);
 	
-	List<Game> findByNameLike(String name);
+	List<Game> findByNameContaining(String name);
 	
 	List<Game> findByNameOrderByRelease(String name);
 }

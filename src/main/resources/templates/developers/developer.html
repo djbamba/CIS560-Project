@@ -11,7 +11,7 @@
 <header class="text-left">
     <h1 class="title" th:href="@{/}" onclick="goToIndex();">GameScraper</h1>
     <div class="form-group">
-        <label style="margin-right: 3%;" for="searchBar">Search by Game, Author, or Release Date.</label>
+        <label style="margin-right: 3%;" for="searchBar">Search by Game, Genre, or System.</label>
         <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
     </div>
     <h6 style="margin-left: calc(5% + 27px);">Reviews scraped from the web</h6>
@@ -41,6 +41,12 @@
 
 <script th:inline="javascript">
 /*<![CDATA[*/
+$("#searchBar").keyup(function(event){
+    if(event.keyCode == 13){
+        window.location = "/search/" + document.getElementById('searchBar').value;
+    }
+});
+
 $(document).ready(function() {
     var table = document.getElementById('resultsTable').getElementsByTagName("tr");
     for(var i = 0; i < table.length; i++){

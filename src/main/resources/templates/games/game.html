@@ -11,7 +11,7 @@
 <header class="text-left">
     <h1 class="title" th:href="@{/}" onclick="goToIndex();">GameScraper</h1>
     <div class="form-group">
-        <label style="margin-right: 3%;" for="searchBar">Search by Game, Author, or Release Date.</label>
+        <label style="margin-right: 3%;" for="searchBar">Search by Game, Genre, or System.</label>
         <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
     </div>
     <h6 style="margin-left: calc(5% + 27px);" class="title">Reviews scraped from the web</h6>
@@ -42,6 +42,14 @@
                 </td>
         </tbody>
         <tbody>
+        <th scope="row">Genres</th>
+        <td>
+            <div th:each="genre : ${game.genres}" >
+                <a style="text-transform: capitalize;" th:text="${#strings.toLowerCase(genre.genre)}" th:href="@{/genre/} + ${#strings.toLowerCase(genre.genre)}"> </a>
+            </div>
+        </td>
+        </tbody>
+        <tbody>
             <th scope="row">Publisher</th>
             <td>
                 <div>
@@ -56,6 +64,14 @@
                     <a th:text="${game.developer.name}" th:href="@{/developer/} + ${game.developer.name}"> </a>
                 </div>
             </td>
+        </tbody>
+        <tbody>
+        <th scope="row">Country</th>
+        <td>
+            <div>
+                <span>USA</span>
+            </div>
+        </td>
         </tbody>
     </table>
 
@@ -111,16 +127,26 @@
 
     <div class="row" style="margin-left: inherit; margin-top: 25px">
         <div th:each="comment : ${game.comments}" class="col-md-12" >
-            <blockquote>
-                <p th:text="${comment.text}"></p>
-                <footer th:text="${#dates.format(comment.date, 'dd-MMM-yyyy hh:mm:ss')}"></footer>
-            </blockquote>
+            <form class="form-inline">
+                <div class="form-group">
+                    <blockquote>
+                        <p th:text="${comment.text}"></p>
+                        <footer th:text="${#dates.format(comment.date, 'dd-MMM-yyyy hh:mm:ss')}"></footer>
+                    </blockquote>
+                </div>
+                <button type="button" value="delete" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </form>
         </div>
     </div>
 
-
     <script th:inline="javascript">
     /*<![CDATA[*/
+
+    $("#searchBar").keyup(function(event){
+    if(event.keyCode == 13){
+        window.location = "/search/" + document.getElementById('searchBar').value;
+    }
+});
     $(document).ready(function() {
         var table = document.getElementById('purchasesTable').getElementsByTagName("tr");
         for(var i = 0; i < table.length; i++){

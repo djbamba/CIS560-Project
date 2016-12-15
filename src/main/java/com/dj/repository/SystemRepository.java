@@ -17,4 +17,6 @@ public interface SystemRepository extends JpaRepository<System, Integer> {
 	System findByName(String name);
 
 	List<System> findAllByOrderByName();
+
+	List<System> findByNameContaining(String name);
 }
