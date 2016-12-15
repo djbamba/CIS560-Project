@@ -31,7 +31,6 @@ public class Genre {
 	
 	private final static List<String> FILTER = new ArrayList<String>() {{
 		add("GAME");
-		add("FIGHTING");
 		add("VIDEO");
 	}};
 	
