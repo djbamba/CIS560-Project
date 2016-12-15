@@ -1,11 +1,9 @@
 package com.dj.controller;
 
 import com.dj.model.*;
-import com.dj.repository.GameRepository;
+import com.dj.model.System;
+import com.dj.repository.*;
 
-import com.dj.repository.PurchaseWebsiteRepository;
-import com.dj.repository.ScoreRepository;
-import com.dj.repository.ScoreWebsiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +30,16 @@ public class GameController {
 	@Autowired
 	private PurchaseWebsiteRepository purchaseRepository;
 
+	@Autowired
 	private ScoreRepository scoreRepository;
+
+	@Autowired
+	private GenreRepository genreRepository;
+
+	@Autowired
+	private CountryRepository countryRepository;
+
+
 
 	@RequestMapping(value = "all", method = RequestMethod.GET)
 	public List<Game> getGames() {
@@ -48,6 +55,23 @@ public class GameController {
 	public String getGameByTitle(@PathVariable(value = "gameTitle") String title, Model model) {
 		String name = title.replace("_", " ");
 		Game test = gameRepository.findByName(name);
+
+		List<System> systemList = new ArrayList<>();
+		for (System system : test.getSystems()) {
+			if (!systemList.contains(system)) {
+				systemList.add(system);
+			}
+		}
+		test.setSystems(systemList);
+
+		List<Genre> genreList = new ArrayList<>();
+		for (Genre genre : test.getGenres()) {
+			if (!genreList.contains(genre)) {
+				genreList.add(genre);
+			}
+		}
+		test.setGenres(genreList);
+
 		model.addAttribute("game",test);
 		model.addAttribute("comment", new Comment());
 		List<PurchaseWebsite> purchase = test.getPurchaseWebsites();
@@ -66,13 +90,13 @@ public class GameController {
 			}
 		}
 		model.addAttribute("score", scoreWebsites2);
-		
+
 		return "games/game";
 	}
 
 	@RequestMapping(value = "recent", method = RequestMethod.GET)
 	public String getRecentGames(@RequestParam("searchText")String searchText, Model model){
-		model.addAttribute("games", gameRepository.findByNameLike(searchText));
+		model.addAttribute("games", gameRepository.findByNameContaining(searchText));
 		return "games/game";
 
 

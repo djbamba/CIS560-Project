@@ -479,7 +479,7 @@ public class SeedController {
 			LOG.info("Successfully saved " + counter + "/" + 226 + " Publishers");
 			checkBadParse(badLines);
 		} catch (Exception ex) {
-			LOG.error("Error in /populatePublishers:", ex);
+			LOG.error("Error in /populatePublishers :", ex);
 		}
 	}
 	
