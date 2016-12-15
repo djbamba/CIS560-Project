@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset= UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="../../css/index.css" th:href="@{../../css/index.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>GameScraper</title>
+</head>
+<body>
+<header class="text-left">
+    <h1 class="title" th:href="@{/}" onclick="goToIndex();">GameScraper</h1>
+    <div class="form-group">
+        <label style="margin-right: 3%;" for="searchBar">Search by Game, Genre, or System.</label>
+        <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
+    </div>
+    <h6 style="margin-left: calc(5% + 27px);">Reviews scraped from the web</h6>
+</header>
+
+<h3 class="ul-header" style="margin-top: 5%; text-transform: capitalize;" th:text="${#strings.toLowerCase(genre.genre)}"></h3>
+<table class="table results" id="resultsTable">
+    <thead>
+    <tr>
+        <th scope="row">Game</th>
+        <td>System</td>
+        <td>Released</td>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="game : ${genre.games}">
+            <th scope="row"><a th:text="${game.name}" href="/game/${game.name}" th:href="@{/game/} + ${game.name}"></a></th>
+            <td>
+                <div th:each="system : ${game.systems}" >
+                    <a th:text="${system.name}" th:href="@{/system/} + ${system.name}"></a>
+                </div>
+            </td>
+            <td><span th:text="${game.release}"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+$("#searchBar").keyup(function(event){
+    if(event.keyCode == 13){
+        window.location = "/search/" + document.getElementById('searchBar').value;
+    }
+});
+
+$(document).ready(function() {
+    var table = document.getElementById('resultsTable').getElementsByTagName("tr");
+    for(var i = 0; i < table.length; i++){
+
+        if((i % 2) == 1){
+            table[i].className += "odd"
+        }
+    }
+});
+
+function goToIndex(){
+    window.location = "/";
+}
+/*]]>*/
+</script>
+</body>
+</html>

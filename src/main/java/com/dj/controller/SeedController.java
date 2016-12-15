@@ -32,7 +32,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,7 +41,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Spliterator;
 
 /**
  * Created by DJ on 11/24/16.
@@ -142,7 +140,7 @@ public class SeedController {
 			shredded = resultsPage.shredBlock();
 			resultsPage.close();
 		} catch (Exception e) {
-			LOG.error("Exception in Google pages", e);
+			LOG.error("Exception in /google/{searchGame} :", e);
 		}
 		return shredded;
 	}
@@ -175,7 +173,7 @@ public class SeedController {
 			
 			resultsPage.close();
 		} catch (Exception e) {
-			LOG.error("Exception in Wiki pages", e);
+			LOG.error("Exception in /wiki/{searchGame}:", e);
 		}
 		
 		return sb.toString();
@@ -213,19 +211,6 @@ public class SeedController {
 				/* check info against their repositories */
 				genres = RepoUtils.checkGenres(genres, genreRepository);
 				systems = RepoUtils.checkSystems(systems, systemRepository);
-				
-//				if(pub != null){
-//					pub = RepoUtils.checkPublisher(pub, publisherRepository);
-//					country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
-//					country.addPublisher(pub);
-//				}
-//
-//				if(dev != null){
-//					dev = RepoUtils.checkDeveloper(dev, developerRepository);
-//					country = RepoUtils.checkCountry(dev.getCountry(), countryRepository);
-//					country.addDeveloper(dev);
-//				}
-				
 				/* build ScoreWebsite & Score */
 				scoreWebsiteInfo = resultsPage.getScoreWebsiteInfo();
 				
@@ -242,12 +227,27 @@ public class SeedController {
 				dev.addGame(game);
 				genres.forEach(genre -> genre.addGame(game));
 				systems.forEach(system -> system.addGame(game));
-				/* scoreWebsites.forEach(scoreWebsite -> scoreWebsite.addGame(game)); */
+			
+				 /*scoreWebsites.forEach(scoreWebsite -> scoreWebsite.addGame(game));*/
+				
+				
+//				pub = publisherRepository.save(pub);
+//				dev = developerRepository.save(dev);
+//				if (pub != null) {
+//
+//					country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
+//					country.addPublisher(pub);
+//				}
+//				if (dev != null) {
+//
+//					country = RepoUtils.checkCountry(dev.getCountry(), countryRepository);
+//					country.addDeveloper(dev);
+//				}
 				/* save game related info */
-//				genres = genreRepository.save(genres);
-//				systems = systemRepository.save(systems);
-				pub = publisherRepository.save(pub);
-				dev = developerRepository.save(dev);
+				genres = genreRepository.save(genres);
+				systems = systemRepository.save(systems);
+				dev = RepoUtils.checkDeveloper(dev, developerRepository);
+				pub = RepoUtils.checkPublisher(pub, publisherRepository);
 				scoreWebsites = scoreWebsiteRepository.save(scoreWebsites);
 				scores = scoreRepository.save(scores);
 				/* insert all info into game */
@@ -269,7 +269,7 @@ public class SeedController {
 			resultsPage.close();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Error in /populate :",e);
 			resultsPage.close();
 		}
 	}
@@ -291,7 +291,7 @@ public class SeedController {
 					game.setPurchaseWebsites(purchaseSites);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("Error in /populate/purchaseSites :", e);
 				bingPage.close();
 			}
 			gameRepository.save(game);
@@ -325,7 +325,7 @@ public class SeedController {
 			}
 			
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			LOG.error("Error in /populateCountries:", ex);
 		}
 	}
 	
@@ -361,7 +361,7 @@ public class SeedController {
 			}
 			br.close();
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			LOG.error("Error in /scrapePublishers:", ex);
 		}
 		
 	}
@@ -402,7 +402,7 @@ public class SeedController {
 			br.close();
 			
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			LOG.error("Error in /scrapeDevelopers:", ex);
 		}
 	}
 	
@@ -441,7 +441,7 @@ public class SeedController {
 			LOG.info("Successfully saved " + counter + "/" + 539 + " Developers");
 			checkBadParse(badLines);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Error in /populateDevelopers:", e);
 		}
 		
 	}
@@ -479,7 +479,7 @@ public class SeedController {
 			LOG.info("Successfully saved " + counter + "/" + 226 + " Publishers");
 			checkBadParse(badLines);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			LOG.error("Error in /populatePublishers :", ex);
 		}
 	}
 	

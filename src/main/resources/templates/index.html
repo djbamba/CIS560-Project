@@ -4,44 +4,56 @@
     <meta http-equiv="content-Type" content="text/html; charset= UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css" th:href="@{css/index.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <title>GameScraper</title>
 </head>
 <body>
     <header class="text-left">
         <h1 class="title">GameScraper</h1>
         <div class="form-group">
-            <label for="searchBar">Search by Game, Author, or Release Date.</label>
+            <label style="margin-right: 3%;" for="searchBar">Search by Game, Genre, or System.</label>
             <input type="text" class="form-control search" id="searchBar" placeholder="Search"/>
         </div>
-        <h6 style="margin-left: 70px;">Reviews scraped from the web.</h6>
+        <h6 style="margin-left: calc(5% + 27px);" >Reviews scraped from the web</h6>
 
     </header>
+
     <div class="text-center">
         <p><a href="/games" th:href="@{/games}"></a></p>
     </div>
-    <div style = "margin-top: 4%;" class="text-left">
+    <div>
         <section>
-            <h3 class="ul-header text-left">Games By Genre</h3>
-            <ul style= "margin-top: 1%;">
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Action</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Sports</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Shooting</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Fighting</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Adventure</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Trivia</button></ul>
-            </ul>
+            <h3 style="margin-top: 5%;" class="ul-header">Games By Genre</h3>
+            <div style="margin-top: 1%; text-transform: lowercase;" class="clearfix">
+                <ul style="-webkit-padding-start: 0;">
+                    <ul style="-webkit-padding-start: 2%; -webkit-padding-end: 2%;" th:each="genre : ${genres}"><a class="btn btn-default genre-button" th:href="@{/genre/} + ${#strings.toLowerCase(genre.genre)}" type="submit"><span th:text="${genre.genre}"></span></a></ul>
+                </ul>
+            </div>
         </section>
     </div>
-    <div style ="margin-top: 5%;" >
+    <div style="margin-bottom: 3%;">
         <section>
             <h3 class="ul-header">Games by System</h3>
-            <ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">PC</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Playstation 4</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Xbox One</button></ul>
-                <ul style ="padding: 0;"><button class="btn btn-default genre-button" type="submit">Handhelds</button></ul>
-            </ul>
+            <div style="margin-top: 1%; text-transform: lowercase;" class="clearfix">
+                <ul style="-webkit-padding-start: 0;">
+                    <ul style="-webkit-padding-start: 2%; -webkit-padding-end: 2%;" th:each="system : ${systems}"><a class="btn btn-default genre-button" th:href="@{/system/} + ${system.name}" type="submit"><span th:text="${system.name}"></span></a></ul>
+                </ul>
+            </div>
         </section>
     </div>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+$("#searchBar").keyup(function(event){
+    if(event.keyCode == 13){
+        window.location = "/search/" + document.getElementById('searchBar').value;
+    }
+});
+
+function goToIndex(){
+    window.location = "/";
+}
+/*]]>*/
+</script>
 </body>
 </html>

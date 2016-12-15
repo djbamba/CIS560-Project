@@ -11,5 +11,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ScoreRepository extends JpaRepository<Score, Integer> {
-	
+
+    Score findById(Integer id);
 }
