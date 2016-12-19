@@ -3,14 +3,19 @@ package com.dj.test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.concurrent.TimeUnit;
 
+import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import junitparams.mappers.CsvWithHeaderMapper;
 
 /**
  * Created by DJ on 11/9/16.
@@ -18,22 +23,37 @@ import junitparams.JUnitParamsRunner;
 // TODO: 12/15/16 Make this a real test class
 @RunWith(JUnitParamsRunner.class)
 public class Test {
-	private static final Logger LOG = LogManager.getLogger(Test.class);
-	private WebDriver driver;
 	
-	private String baseUrl = "localhost:8080/";
+	private static final Logger LOG = LogManager.getLogger(Test.class);
+	
+	private static WebDriver driver;
+	
+	private static String baseUrl = "localhost:8080/";
 	
 	@BeforeClass
-	public void setup() {
+	public static void setup() {
 		System.setProperty("webdriver.firefox.bin", "/Applications/Firefox-2.app/Contents/MacOS/firefox-bin");
 		driver = new FirefoxDriver();
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}
 	
 	@AfterClass
-	public void tearDown() {
+	public static void tearDown() {
 		driver.quit();
+	}
+	
+	@org.junit.Test
+	public void checkIndex() {
+		driver.get(baseUrl);
+		WebElement title = driver.findElement(By.className("title"));
+		Assert.assertEquals("Title Matches", "GameScraper", title.getText());
+	}
+	
+	@org.junit.Test
+	@FileParameters(value = "src/main/resources/data/games.csv", mapper = CsvWithHeaderMapper.class)
+	public void testGames(String id, String name, String release, String imageUrl) {
+		LOG.info("id: {} name: {} release: {} url: {}", id, name, release, imageUrl);
 	}
 	
 }
