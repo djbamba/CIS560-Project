@@ -52,32 +52,38 @@ public class SiteTest {
 	
 	@org.junit.Test
 	public void checkGenre() {
-		
+		String genre = "action";
+		driver.get(baseUrl + "genre/" + genre);
+		WebElement header = driver.findElement(By.className("ul-header"));
+		genre = header.getText();
+		Assert.assertEquals("Genre header", genre, header);
 	}
 	
 	@org.junit.Test
-	public void checkGameTitle() {
-		
-	}
-	
-	@org.junit.Test
-	public void checkCompany() {
-		
+	public void checkGame() {
+		String game = "Jet Grind Radio";
+		driver.get(baseUrl + "game/" + game);
+		WebElement header = driver.findElement(By.className("game-image-description"));
+		String actualHeader = header.getText();
+		Assert.assertEquals("Game header", game, actualHeader);
 	}
 	
 	@org.junit.Test
 	public void checkPublisher() {
-		
+		String sega = "Sega";
+		driver.get(baseUrl + "publisher/" + sega);
+		WebElement header = driver.findElement(By.className("ul-header"));
+		String actualHeader = header.getText();
+		Assert.assertEquals("Publisher header", sega, actualHeader);
 	}
 	
 	@org.junit.Test
-	public void checkScoreWebsite() {
-		
-	}
-	
-	@org.junit.Test
-	public void checkPurchaseWebsite() {
-		
+	public void checkDeveloper() {
+		String visualConcepts = "Visual Concepts";
+		driver.get(baseUrl + "developer/" + visualConcepts);
+		WebElement header = driver.findElement(By.className("ul-header"));
+		String actualHeader = header.getText();
+		Assert.assertEquals("Developer header", visualConcepts, actualHeader);
 	}
 	
 	@org.junit.Test
