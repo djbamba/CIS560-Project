@@ -22,9 +22,9 @@ import junitparams.mappers.CsvWithHeaderMapper;
  */
 // TODO: 12/15/16 Make this a real test class
 @RunWith(JUnitParamsRunner.class)
-public class Test {
+public class SiteTest {
 	
-	private static final Logger LOG = LogManager.getLogger(Test.class);
+	private static final Logger LOG = LogManager.getLogger(SiteTest.class);
 	
 	private static WebDriver driver;
 	
@@ -48,6 +48,36 @@ public class Test {
 		driver.get(baseUrl);
 		WebElement title = driver.findElement(By.className("title"));
 		Assert.assertEquals("Title Matches", "GameScraper", title.getText());
+	}
+	
+	@org.junit.Test
+	public void checkGenre() {
+		
+	}
+	
+	@org.junit.Test
+	public void checkGameTitle() {
+		
+	}
+	
+	@org.junit.Test
+	public void checkCompany() {
+		
+	}
+	
+	@org.junit.Test
+	public void checkPublisher() {
+		
+	}
+	
+	@org.junit.Test
+	public void checkScoreWebsite() {
+		
+	}
+	
+	@org.junit.Test
+	public void checkPurchaseWebsite() {
+		
 	}
 	
 	@org.junit.Test
