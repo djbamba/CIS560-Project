@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 /**
  * Created by DJ on 11/10/16.
  */
-
+// TODO: 12/15/16 Write cleanGenre better
 @Entity
 @Table(name = "genre")
 public class Genre {
@@ -48,7 +49,7 @@ public class Genre {
 	private String genre;
 	
 	/***	relations ***/
-	@ManyToMany(mappedBy = "genres")
+	@ManyToMany(mappedBy = "genres",fetch = FetchType.LAZY)
 	private List<Game> games = new ArrayList<>();
 	
 	public Genre(String genre) {
