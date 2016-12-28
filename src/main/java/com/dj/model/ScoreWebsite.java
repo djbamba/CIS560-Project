@@ -32,8 +32,8 @@ public class ScoreWebsite extends Website {
 		super(name, url);
 	}
 	
-	public void addScore(List<Score> scores) {
-		this.scores.addAll(scores);
+	public void addScore(Score score) {
+		this.scores.add(score);
 	}
 	
 	public List<Score> getScores() {

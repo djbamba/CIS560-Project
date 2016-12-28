@@ -207,7 +207,7 @@ public class SeedController {
 					LOG.info("Score Website info: {}", scoreWebInfo.toString());
 					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(scoreWebInfo[0], scoreWebInfo[1]), scoreWebsiteRepository);
 					tempScore = new Score(tempScoreWebsite, game, scoreWebInfo[2]);
-//					tempScoreWebsite.addScore(tempScore);
+					tempScoreWebsite.addScore(tempScore);
 					scores.add(tempScore);
 					scoreWebsites.add(tempScoreWebsite);
 				}
