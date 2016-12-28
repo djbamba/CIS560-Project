@@ -24,6 +24,7 @@ import com.dj.utils.repoutils.RepoUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.apache.catalina.mapper.Mapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
@@ -41,6 +42,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import junitparams.mappers.CsvWithHeaderMapper;
 
 /**
  * Created by DJ on 11/24/16.
@@ -89,62 +92,53 @@ public class SeedController {
 	@Autowired
 	private PurchaseWebsiteRepository purchaseWebsiteRepository;
 	
-	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
-	@ResponseBody
-	public String populateGames(@PathVariable(value = "pageNumber") String pageNumber) {
+	/*Function to seed game info from MetaCritic*/
+//	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
+// 	@ResponseBody
+// 	public String populateGames(@PathVariable(value = "pageNumber") String pageNumber) {
+//
+// 		ObjectMapper mapper = new ObjectMapper();
+// 		List<Game> games = MetaScraper.getPage(pageNumber);
+// 		StringBuilder sb = new StringBuilder();
+//
+// 		for (Game game : games) {
+//
+// 			try {
+// 				gameRepository.save(game);
+// 			} catch (ConstraintViolationException cve) {
+// 				LOG.error("Constraint Violation Exception", cve);
+// 				continue;
+// 			} catch (DataIntegrityViolationException dive) {
+// 				LOG.error("Data Integrity Violation Exception", dive);
+// 				continue;
+// 			} catch (Exception e) {
+// 				LOG.error("Exception Thrown", e);
+// 				continue;
+// 			}
+// 		}
+// 		games = gameRepository.findAll();
+//
+// 		games.forEach(gameConsumer -> {
+// 			try {
+// 				sb.append(mapper.writeValueAsString(gameConsumer) + "\n");
+// 			} catch (JsonProcessingException e) {
+// 				LOG.error("Json Processing Exception", e);
+// 			}
+// 		});
+//
+// 		return sb.toString();
+// 	}
+	@RequestMapping("all")
+	public void seedAll() {
+		populateCountries();
+		populateDevelopers();
+		populatePublishers();
 		
-		ObjectMapper mapper = new ObjectMapper();
-		List<Game> games = MetaScraper.getPage(pageNumber);
-		StringBuilder sb = new StringBuilder();
-		
-		for (Game game : games) {
-			
-			try {
-				gameRepository.save(game);
-			} catch (ConstraintViolationException cve) {
-				LOG.error("Constraint Violation Exception", cve);
-				continue;
-			} catch (DataIntegrityViolationException dive) {
-				LOG.error("Data Integrity Violation Exception", dive);
-				continue;
-			} catch (Exception e) {
-				LOG.error("Exception Thrown", e);
-				continue;
-			}
-		}
-		
-		games = gameRepository.findAll();
-		
-		games.forEach(gameConsumer -> {
-			try {
-				sb.append(mapper.writeValueAsString(gameConsumer) + "\n");
-			} catch (JsonProcessingException e) {
-				LOG.error("Json Processing Exception", e);
-			}
-		});
-		
-		return sb.toString();
 	}
 	
-	@RequestMapping(value = "/google/{searchGame}", produces = "text/html")
-	public String searchGoogle(@PathVariable(value = "searchGame") String searchText) {
-		
-		config();
-		String shredded = null;
-		
-		try {
-			String splitSearch = searchText.replace("_", " ");
-			GooglePage googlePage = new GooglePage(driver);
-			googlePage.searchGame(splitSearch);
-			GoogleResultsPage resultsPage = googlePage.getGoogleResultsPage();
-			shredded = resultsPage.shredBlock();
-			resultsPage.close();
-		} catch (Exception e) {
-			LOG.error("Exception in /google/{searchGame} :", e);
-		}
-		return shredded;
-	}
-	
+	/**
+	 * Function to search through Wikipedia to scrape game information.
+	 */
 	@RequestMapping(value = "/wiki/{searchGame}", produces = "text/html")
 	public String searchWiki(@PathVariable(value = "searchGame") String searchText) {
 		
@@ -159,19 +153,15 @@ public class SeedController {
 			WikiPage wikiPage = new WikiPage(driver);
 			wikiPage.searchGame(splitSearch);
 			WikiResultsPage resultsPage = wikiPage.getWikiResultsPage();
-			sb.append(resultsPage.shredBlock() + "\n");
 			
 			systems = resultsPage.getPlatforms();
-			systems.forEach(system -> {
-				sb.append(system.toString() + "\n");
-			});
-			
 			developer = resultsPage.getDeveloper();
-			LOG.info(developer.toString());
 			
+			LOG.info(developer.toString());
 			LOG.info("Image src: {}", resultsPage.getImageSource());
 			
 			resultsPage.close();
+			
 		} catch (Exception e) {
 			LOG.error("Exception in /wiki/{searchGame}:", e);
 		}
@@ -179,8 +169,8 @@ public class SeedController {
 		return sb.toString();
 	}
 	
-	@RequestMapping("/populate")
-	public void populate() {
+	@RequestMapping("/populateGameInfo")
+	public void populateGameInfo() {
 		/* drop table developer, game_genres, game_purchase_websites, game_score_website, genre, publisher, purchase_website, score, score_website,system,game_system,genre_games */
 		// TODO: 12/12/16 stop duplicate entries for genre-games...
 		List<Game> allGames = gameRepository.findAll();
@@ -227,9 +217,10 @@ public class SeedController {
 				dev.addGame(game);
 				genres.forEach(genre -> genre.addGame(game));
 				systems.forEach(system -> system.addGame(game));
-				
-//				pub = publisherRepository.save(pub);
-//				dev = developerRepository.save(dev);
+				if (pub.getName() != "N/A")
+					pub = publisherRepository.save(pub);
+				if (dev.getName() != "N/A")
+					dev = developerRepository.save(dev);
 //				if (pub != null) {
 //
 //					country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
@@ -266,12 +257,12 @@ public class SeedController {
 			resultsPage.close();
 			
 		} catch (Exception e) {
-			LOG.error("Error in /populate :",e);
+			LOG.error("Error in /populateGameInfo :", e);
 			resultsPage.close();
 		}
 	}
 	
-	@RequestMapping("/populate/purchaseSites")
+	@RequestMapping("/populateGameInfo/purchaseSites")
 	public void populatePurchaseSites() {
 		config();
 		
@@ -288,12 +279,16 @@ public class SeedController {
 					game.setPurchaseWebsites(purchaseSites);
 				}
 			} catch (Exception e) {
-				LOG.error("Error in /populate/purchaseSites :", e);
+				LOG.error("Error in /populateGameInfo/purchaseSites :", e);
 				bingPage.close();
 			}
 			gameRepository.save(game);
 		}
 		bingPage.close();
+	}
+	
+	public void populateGameInfoNew() {
+		
 	}
 	
 	@RequestMapping("/populateCountries")
@@ -478,6 +473,26 @@ public class SeedController {
 		} catch (Exception ex) {
 			LOG.error("Error in /populatePublishers :", ex);
 		}
+	}
+	
+	private List<String[]> readCsv(String location, String delims) {
+		List<String[]> csvRows = new ArrayList<>();
+		BufferedReader buffer = null;
+		String row = "";
+		try {
+			buffer = new BufferedReader(new FileReader(location));
+			buffer.readLine();
+			
+			while ((row = buffer.readLine()) != null) {
+				csvRows.add(row.split(delims));
+			}
+			
+		} catch (FileNotFoundException e) {
+			LOG.error("File Not Found in readCsv:", e);
+		} catch (IOException ee) {
+			LOG.error("IOException in readCsv");
+		}
+		return csvRows;
 	}
 	
 	private void checkBadParse(List<String> badLines) {
