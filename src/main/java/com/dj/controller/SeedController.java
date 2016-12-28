@@ -41,7 +41,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import junitparams.mappers.CsvWithHeaderMapper;
 
@@ -440,34 +444,50 @@ public class SeedController {
 	
 	@RequestMapping("/populatePublishers")
 	public void populatePublishers() {
-		File publishersCSV = new File("src/main/resources/data/publishers.csv");
-		BufferedReader br;
-		FileInputStream fis;
-		InputStreamReader isr;
-		
+//		File publishersCSV = new File("src/main/resources/data/publishers.csv");
+//		BufferedReader br;
+//		FileInputStream fis;
+//		InputStreamReader isr;
 		String line;
 		int counter = 0;
 		List<String> badLines = new ArrayList<>();
+		
+		List<String[]> publisherStrings = readCsv("src/main/resources/data/publishers.csv", ";");
+		String name, country;
 		try {
-			fis = new FileInputStream(publishersCSV);
-			isr = new InputStreamReader(fis);
-			br = new BufferedReader(isr);
-			
-			while ((line = br.readLine()) != null) {
-				String[] split = line.split(";");
-				String name = split[0];
-				String country = split[1];
+//			fis = new FileInputStream(publishersCSV);
+//			isr = new InputStreamReader(fis);
+//			br = new BufferedReader(isr);
+//
+//			while ((line = br.readLine()) != null) {
+//				String[] split = line.split(";");
+//				name = split[0];
+//				country = split[1];
+//				Country countryObject = countryRepository.findByName(country);
+//				Publisher publisher = new Publisher();
+//				publisher.setName(name);
+//				publisher.setCountry(countryObject);
+//				publisher.setContentRating("N/A");
+//				publisherRepository.save(publisher);
+//				if (countryObject == null)
+//					badLines.add(line);
+//				else
+//					counter++;
+//			}
+			for (String[] pubInfo : publisherStrings) {
+				name = pubInfo[0];
+				country = pubInfo[1];
 				Country countryObject = countryRepository.findByName(country);
-				Publisher publisher = new Publisher();
-				publisher.setName(name);
+				Publisher publisher = new Publisher(name, "N/A");
 				publisher.setCountry(countryObject);
-				publisher.setContentRating("N/A");
 				publisherRepository.save(publisher);
-				if (countryObject == null)
-					badLines.add(line);
-				else
+				if (countryObject == null) {
+					badLines.add(Arrays.stream(pubInfo).collect(Collectors.joining(" ")));
+				} else {
 					counter++;
+				}
 			}
+			
 			LOG.info("Successfully saved " + counter + "/" + 226 + " Publishers");
 			checkBadParse(badLines);
 		} catch (Exception ex) {
