@@ -47,8 +47,6 @@ import java.util.StringJoiner;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import junitparams.mappers.CsvWithHeaderMapper;
-
 /**
  * Created by DJ on 11/24/16.
  */
@@ -297,29 +295,34 @@ public class SeedController {
 	
 	@RequestMapping("/populateCountries")
 	public void populateCountries() {
-		File file = new File("src/main/resources/data/countries.csv");
-		BufferedReader br;
-		FileInputStream fis;
-		InputStreamReader isr;
-		
-		String line;
+//		File file = new File("src/main/resources/data/countries.csv");
+//		BufferedReader br;
+//		FileInputStream fis;
+//		InputStreamReader isr;
+//		String line;
+		List<String[]> countryInformation = readCsv("src/main/resources/data/countries.csv", ",", false);
+		List<Country> countries = new ArrayList<>();
 		try {
-			fis = new FileInputStream(file);
-			isr = new InputStreamReader(fis);
-			br = new BufferedReader(isr);
-			
-			while ((line = br.readLine()) != null) {
-				String[] split = line.split(",");
-				// 0 = name, 1 = code
-				Country country = new Country(split[1], split[0]);
-				countryRepository.save(country);
+//			fis = new FileInputStream(file);
+//			isr = new InputStreamReader(fis);
+//			br = new BufferedReader(isr);
+//
+//			while ((line = br.readLine()) != null) {
+//				String[] split = line.split(",");
+//				// 0 = name, 1 = code
+//				Country country = new Country(split[1], split[0]);
+//				countryRepository.save(country);
+//			}
+//			List<Country> countries = countryRepository.findAll();
+//			for (Country country : countries) {
+//				LOG.info("Country: " + country.toString());
+//			}
+			for (String[] countryInfo : countryInformation) {
+				countries.add(new Country(countryInfo[0], countryInfo[1]));
 			}
-			
-			List<Country> countries = countryRepository.findAll();
-			for (Country country : countries) {
-				LOG.debug("Country: " + country.toString());
-			}
-			
+			countries = RepoUtils.checkCountries(countries, countryRepository);
+			countries.stream().forEach(country -> LOG.info("Country: {}",country.toString()));
+		
 		} catch (Exception ex) {
 			LOG.error("Error in /populateCountries:", ex);
 		}
@@ -404,42 +407,53 @@ public class SeedController {
 	
 	@RequestMapping(value = "/populateDevelopers", method = RequestMethod.GET)
 	public void populateDevelopers() {
-		File developersCSV = new File("src/main/resources/data/developers.csv");
-		BufferedReader br;
-		FileInputStream fis;
-		InputStreamReader isr;
-		
-		String line;
+//		File developersCSV = new File("src/main/resources/data/developers.csv");
+//		BufferedReader br;
+//		FileInputStream fis;
+//		InputStreamReader isr;
+		String line, name, country = "";
 		int counter = 0;
 		List<String> badLines = new ArrayList<>();
+		List<String[]> developerInfo = readCsv("src/main/resources/data/developers.csv", ";", false);
 		try {
-			fis = new FileInputStream(developersCSV);
-			isr = new InputStreamReader(fis);
-			br = new BufferedReader(isr);
-			
-			while ((line = br.readLine()) != null) {
-				String[] split = line.split(";");
-				String name = split[0];
-				String country = split[1];
-				Country countryObject = countryRepository.findByName(country);
+//			fis = new FileInputStream(developersCSV);
+//			isr = new InputStreamReader(fis);
+//			br = new BufferedReader(isr);
+//
+//			while ((line = br.readLine()) != null) {
+//				String[] split = line.split(";");
+//				String name = split[0];
+//				String country = split[1];
+//				Country countryObject = countryRepository.findByName(country);
 //				if (countryObject != null)
-				Developer developer = new Developer();
-				developer.setName(name);
+//				Developer developer = new Developer();
+//				developer.setName(name);
+//				developer.setCountry(countryObject);
+//				developer.setLeadDesigner("N/A");
+//				developerRepository.save(developer);
+//				if (countryObject == null)
+//					badLines.add(line);
+//				else
+//					counter++;
+			for (String[] devInfo : developerInfo) {
+				name = devInfo[0];
+				country = devInfo[1];
+				Country countryObject = countryRepository.findByName(country);
+				Developer developer = new Developer(name, "N/A");
 				developer.setCountry(countryObject);
-				developer.setLeadDesigner("N/A");
-				developerRepository.save(developer);
-				if (countryObject == null)
-					badLines.add(line);
-				else
+				RepoUtils.checkDeveloper(developer, developerRepository);
+				// TODO: 12/28/16 revisit this and check countryObjects before adding to developer
+				if (countryObject == null) {
+					badLines.add(Arrays.stream(devInfo).collect(Collectors.joining(" ")));
+				} else {
 					counter++;
-				
+				}
 			}
-			LOG.info("Successfully saved " + counter + "/" + 539 + " Developers");
+			LOG.info(String.format("Successfully saved: %d out of: $d Developers", counter, 539));
 			checkBadParse(badLines);
 		} catch (Exception e) {
 			LOG.error("Error in /populateDevelopers:", e);
 		}
-		
 	}
 	
 	@RequestMapping("/populatePublishers")
@@ -448,12 +462,10 @@ public class SeedController {
 //		BufferedReader br;
 //		FileInputStream fis;
 //		InputStreamReader isr;
-		String line;
+		String line, name, country = "";
 		int counter = 0;
 		List<String> badLines = new ArrayList<>();
-		
-		List<String[]> publisherStrings = readCsv("src/main/resources/data/publishers.csv", ";");
-		String name, country;
+		List<String[]> publisherStrings = readCsv("src/main/resources/data/publishers.csv", ";", false);
 		try {
 //			fis = new FileInputStream(publishersCSV);
 //			isr = new InputStreamReader(fis);
@@ -495,14 +507,14 @@ public class SeedController {
 		}
 	}
 	
-	private List<String[]> readCsv(String location, String delims) {
+	private List<String[]> readCsv(String location, String delims, boolean header) {
 		List<String[]> csvRows = new ArrayList<>();
 		BufferedReader buffer = null;
 		String row = "";
 		try {
 			buffer = new BufferedReader(new FileReader(location));
-			buffer.readLine();
-			
+			if (header) //check if csv file has a header to skip
+				buffer.readLine();
 			while ((row = buffer.readLine()) != null) {
 				csvRows.add(row.split(delims));
 			}
