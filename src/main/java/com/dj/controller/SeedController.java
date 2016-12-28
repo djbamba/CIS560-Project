@@ -24,7 +24,6 @@ import com.dj.utils.repoutils.RepoUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.apache.catalina.mapper.Mapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
@@ -35,7 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,8 +41,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -95,47 +91,48 @@ public class SeedController {
 	private PurchaseWebsiteRepository purchaseWebsiteRepository;
 	
 	/*Function to seed game info from MetaCritic*/
-//	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
-// 	@ResponseBody
-// 	public String populateGames(@PathVariable(value = "pageNumber") String pageNumber) {
-//
-// 		ObjectMapper mapper = new ObjectMapper();
-// 		List<Game> games = MetaScraper.getPage(pageNumber);
-// 		StringBuilder sb = new StringBuilder();
-//
-// 		for (Game game : games) {
-//
-// 			try {
-// 				gameRepository.save(game);
-// 			} catch (ConstraintViolationException cve) {
-// 				LOG.error("Constraint Violation Exception", cve);
-// 				continue;
-// 			} catch (DataIntegrityViolationException dive) {
-// 				LOG.error("Data Integrity Violation Exception", dive);
-// 				continue;
-// 			} catch (Exception e) {
-// 				LOG.error("Exception Thrown", e);
-// 				continue;
-// 			}
-// 		}
-// 		games = gameRepository.findAll();
-//
-// 		games.forEach(gameConsumer -> {
-// 			try {
-// 				sb.append(mapper.writeValueAsString(gameConsumer) + "\n");
-// 			} catch (JsonProcessingException e) {
-// 				LOG.error("Json Processing Exception", e);
-// 			}
-// 		});
-//
-// 		return sb.toString();
-// 	}
+	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
+	@ResponseBody
+	public String populateGames(@PathVariable(value = "pageNumber") String pageNumber) {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		List<Game> games = MetaScraper.getPage(pageNumber);
+		StringBuilder sb = new StringBuilder();
+		
+		for (Game game : games) {
+			
+			try {
+				gameRepository.save(game);
+			} catch (ConstraintViolationException cve) {
+				LOG.error("Constraint Violation Exception", cve);
+				continue;
+			} catch (DataIntegrityViolationException dive) {
+				LOG.error("Data Integrity Violation Exception", dive);
+				continue;
+			} catch (Exception e) {
+				LOG.error("Exception Thrown", e);
+				continue;
+			}
+		}
+		games = gameRepository.findAll();
+		
+		games.forEach(gameConsumer -> {
+			try {
+				sb.append(mapper.writeValueAsString(gameConsumer) + "\n");
+			} catch (JsonProcessingException e) {
+				LOG.error("Json Processing Exception", e);
+			}
+		});
+		
+		return sb.toString();
+	}
+	
 	@RequestMapping("all")
 	public void seedAll() {
-		populateCountries();
-		populateDevelopers();
-		populatePublishers();
-		
+		seedGames();
+		seedCountries();
+		seedDevelopers();
+		seedPublishers();
 	}
 	
 	/**
@@ -206,10 +203,10 @@ public class SeedController {
 				/* build ScoreWebsite & Score */
 				scoreWebsiteInfo = resultsPage.getScoreWebsiteInfo();
 				
-				for (String[] info : scoreWebsiteInfo) {
-					LOG.info("Score Website info: {}", info.toString());
-					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(info[0], info[1]), scoreWebsiteRepository);
-					tempScore = new Score(tempScoreWebsite, game, info[2]);
+				for (String[] scoreWebInfo : scoreWebsiteInfo) {
+					LOG.info("Score Website info: {}", scoreWebInfo.toString());
+					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(scoreWebInfo[0], scoreWebInfo[1]), scoreWebsiteRepository);
+					tempScore = new Score(tempScoreWebsite, game, scoreWebInfo[2]);
 //					tempScoreWebsite.addScore(tempScore);
 					scores.add(tempScore);
 					scoreWebsites.add(tempScoreWebsite);
@@ -293,41 +290,6 @@ public class SeedController {
 		
 	}
 	
-	@RequestMapping("/populateCountries")
-	public void populateCountries() {
-//		File file = new File("src/main/resources/data/countries.csv");
-//		BufferedReader br;
-//		FileInputStream fis;
-//		InputStreamReader isr;
-//		String line;
-		List<String[]> countryInformation = readCsv("src/main/resources/data/countries.csv", ",", false);
-		List<Country> countries = new ArrayList<>();
-		try {
-//			fis = new FileInputStream(file);
-//			isr = new InputStreamReader(fis);
-//			br = new BufferedReader(isr);
-//
-//			while ((line = br.readLine()) != null) {
-//				String[] split = line.split(",");
-//				// 0 = name, 1 = code
-//				Country country = new Country(split[1], split[0]);
-//				countryRepository.save(country);
-//			}
-//			List<Country> countries = countryRepository.findAll();
-//			for (Country country : countries) {
-//				LOG.info("Country: " + country.toString());
-//			}
-			for (String[] countryInfo : countryInformation) {
-				countries.add(new Country(countryInfo[0], countryInfo[1]));
-			}
-			countries = RepoUtils.checkCountries(countries, countryRepository);
-			countries.stream().forEach(country -> LOG.info("Country: {}",country.toString()));
-		
-		} catch (Exception ex) {
-			LOG.error("Error in /populateCountries:", ex);
-		}
-	}
-	
 	@RequestMapping("/scrapePublishers")
 	public void scrapePublishers() throws InterruptedException {
 		config();
@@ -405,8 +367,55 @@ public class SeedController {
 		}
 	}
 	
-	@RequestMapping(value = "/populateDevelopers", method = RequestMethod.GET)
-	public void populateDevelopers() {
+	public void seedGames() {
+		List<Game> games = new ArrayList<>();
+		List<String[]> gameInformation = readCsv("src/main/resources/data/games.csv", ",", true);
+		
+		try {
+			for (String[] gameInfo : gameInformation) {
+				games.add(new Game(gameInfo[0], gameInfo[1], gameInfo[2], gameInfo[3]));
+			}
+			LOG.info("Successfully seeded: {} Games.", games.size());
+		} catch (Exception e) {
+			LOG.error("Error in seedGames: ", e);
+		}
+	}
+	
+	public void seedCountries() {
+//		File file = new File("src/main/resources/data/countries.csv");
+//		BufferedReader br;
+//		FileInputStream fis;
+//		InputStreamReader isr;
+//		String line;
+		List<String[]> countryInformation = readCsv("src/main/resources/data/countries.csv", ",", false);
+		List<Country> countries = new ArrayList<>();
+		try {
+//			fis = new FileInputStream(file);
+//			isr = new InputStreamReader(fis);
+//			br = new BufferedReader(isr);
+//
+//			while ((line = br.readLine()) != null) {
+//				String[] split = line.split(",");
+//				// 0 = name, 1 = code
+//				Country country = new Country(split[1], split[0]);
+//				countryRepository.save(country);
+//			}
+//			List<Country> countries = countryRepository.findAll();
+//			for (Country country : countries) {
+//				LOG.info("Country: " + country.toString());
+//			}
+			for (String[] countryInfo : countryInformation) {
+				countries.add(new Country(countryInfo[0], countryInfo[1]));
+			}
+			countries = RepoUtils.checkCountries(countries, countryRepository);
+			countries.stream().forEach(country -> LOG.info("Country: {}", country.toString()));
+			
+		} catch (Exception ex) {
+			LOG.error("Error in /seedCountries:", ex);
+		}
+	}
+	
+	public void seedDevelopers() {
 //		File developersCSV = new File("src/main/resources/data/developers.csv");
 //		BufferedReader br;
 //		FileInputStream fis;
@@ -449,15 +458,14 @@ public class SeedController {
 					counter++;
 				}
 			}
-			LOG.info(String.format("Successfully saved: %d out of: $d Developers", counter, 539));
+			LOG.info("Successfully saved: {}/{} Developers", counter, 539);
 			checkBadParse(badLines);
 		} catch (Exception e) {
-			LOG.error("Error in /populateDevelopers:", e);
+			LOG.error("Error in /seedDevelopers:", e);
 		}
 	}
 	
-	@RequestMapping("/populatePublishers")
-	public void populatePublishers() {
+	public void seedPublishers() {
 //		File publishersCSV = new File("src/main/resources/data/publishers.csv");
 //		BufferedReader br;
 //		FileInputStream fis;
@@ -500,10 +508,10 @@ public class SeedController {
 				}
 			}
 			
-			LOG.info("Successfully saved " + counter + "/" + 226 + " Publishers");
+			LOG.info("Successfully saved: {}/{} Publishers", counter, 226);
 			checkBadParse(badLines);
 		} catch (Exception ex) {
-			LOG.error("Error in /populatePublishers :", ex);
+			LOG.error("Error in /seedPublishers :", ex);
 		}
 	}
 	
