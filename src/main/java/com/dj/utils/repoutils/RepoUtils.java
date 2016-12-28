@@ -32,6 +32,18 @@ public class RepoUtils {
 		return countryRepository.findByCode(country.getCode());
 	}
 	
+	public static List<Country> checkCountries(List<Country> countries, CountryRepository countryRepository) {
+		List<Country> temps = new ArrayList<>();
+		
+		for (Country country : countries) {
+			if (countryRepository.findByName(country.getName()) == null) {
+				temps.add(countryRepository.save(country));
+			}
+			temps.add(countryRepository.findByName(country.getName()));
+		}
+		return temps;
+	}
+	
 	public static Developer checkDeveloper(Developer developer, DeveloperRepository developerRepository) {
 		if (developerRepository.findByName(developer.getName()) == null) {
 			return developerRepository.save(developer);
