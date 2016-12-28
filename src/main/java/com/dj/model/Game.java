@@ -80,6 +80,13 @@ public class Game {
 		this.name = name;
 		this.release = release;
 	}
+	/*constructor for seeding*/
+	public Game(String id, String name, String release, String imageUrl) {
+		this.id = Integer.parseInt(id);
+		this.name = name;
+		this. release = release;
+		this.imageUrl = imageUrl;
+	}
 	
 	public Developer getDeveloper() {
 		return developer;
