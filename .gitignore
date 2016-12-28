@@ -1,5 +1,6 @@
 src/main/resources/data/games.mv.db
 src/main/resources/data/games.trace.db
+*.sql
 .DS_Store
 *.idea
 *target/
