@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hibernate.jpa.internal.EntityManagerImpl.LOG;
 
@@ -84,11 +85,17 @@ public class GameController {
 		model.addAttribute("purchase", purchaseWebsites);
 		List<ScoreWebsite> scoreWebsites = test.getScoreWebsites();
 		List<ScoreWebsite> scoreWebsites2 = new ArrayList<>();
-		for (ScoreWebsite scoreWebsite : scoreWebsites) {
-			if(!scoreWebsite.getScore().getScore().trim().equals("")){
-				scoreWebsites2.add(scoreWebsite);
-			}
-		}
+//		for (ScoreWebsite scoreWebsite : scoreWebsites) {
+//			if(!scoreWebsite.getScore().getScore().trim().equals("")){
+//				scoreWebsites2.add(scoreWebsite);
+//			}
+//		}
+		
+		scoreWebsites.forEach(scoreWebsite -> scoreWebsite
+		                                       .getScores()
+		                                       .stream()
+		                                       .filter(score -> !score.getScore().trim().equalsIgnoreCase("")).map(score -> scoreWebsites2.add(scoreWebsite)));
+		
 		model.addAttribute("score", scoreWebsites2);
 
 		return "games/game";

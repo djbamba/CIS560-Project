@@ -218,7 +218,7 @@ public class SeedController {
 					LOG.info("Score Website info: {}", info.toString());
 					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(info[0], info[1]), scoreWebsiteRepository);
 					tempScore = new Score(tempScoreWebsite, game, info[2]);
-					tempScoreWebsite.addScore(tempScore);
+//					tempScoreWebsite.addScore(tempScore);
 					scores.add(tempScore);
 					scoreWebsites.add(tempScoreWebsite);
 				}
@@ -227,9 +227,6 @@ public class SeedController {
 				dev.addGame(game);
 				genres.forEach(genre -> genre.addGame(game));
 				systems.forEach(system -> system.addGame(game));
-			
-				 /*scoreWebsites.forEach(scoreWebsite -> scoreWebsite.addGame(game));*/
-				
 				
 //				pub = publisherRepository.save(pub);
 //				dev = developerRepository.save(dev);
