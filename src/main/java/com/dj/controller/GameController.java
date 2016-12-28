@@ -94,7 +94,7 @@ public class GameController {
 		scoreWebsites.forEach(scoreWebsite -> scoreWebsite
 		                                       .getScores()
 		                                       .stream()
-		                                       .filter(score -> !score.getScore().trim().equalsIgnoreCase("")).map(score -> scoreWebsites2.add(scoreWebsite)));
+		                                       .filter(score -> !score.getScore().trim().equals("")).map(score -> scoreWebsites2.add(scoreWebsite)));
 		
 		model.addAttribute("score", scoreWebsites2);
 

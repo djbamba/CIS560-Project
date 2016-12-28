@@ -19,8 +19,6 @@ public class Score {
 	private int id; // primary key
 	
 	/***	relations ***/
-//	@OneToOne
-//	private ScoreWebsite scoreWebsite; // foreign key to name in ScoreWebsite
 	
 	@ManyToOne
 	@JoinColumn(name = "game_id")
@@ -45,14 +43,6 @@ public class Score {
 	public int getId() {
 		return id;
 	}
-	
-//	public void setScoreWebsite(ScoreWebsite scoreWebsite) {
-//		this.scoreWebsite = scoreWebsite;
-//	}
-//
-//	public ScoreWebsite getScoreWebsite() {
-//		return scoreWebsite;
-//	}
 	
 	public void setGame(Game game) {
 		this.game = game;

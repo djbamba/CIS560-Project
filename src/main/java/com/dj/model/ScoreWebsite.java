@@ -36,7 +36,7 @@ public class ScoreWebsite extends Website {
 		this.scores.addAll(scores);
 	}
 	
-	public List<Score> getScore() {
+	public List<Score> getScores() {
 		return scores;
 	}
 	
