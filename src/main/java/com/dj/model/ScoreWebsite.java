@@ -1,5 +1,6 @@
 package com.dj.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -7,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -26,10 +26,12 @@ public class ScoreWebsite extends Website {
 	
 	public ScoreWebsite() {
 		super();
+		scores = new ArrayList<>();
 	}
 	
 	public ScoreWebsite(String name, String url) {
 		super(name, url);
+		scores = new ArrayList<>();
 	}
 	
 	public void addScore(Score score) {

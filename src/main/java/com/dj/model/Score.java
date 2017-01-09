@@ -30,8 +30,7 @@ public class Score {
 		
 	}
 	
-	public Score(ScoreWebsite scoreWebsite, Game game, String score) {
-//		this.scoreWebsite = scoreWebsite;
+	public Score(Game game, String score) {
 		this.game = game;
 		this.score = cleanScore(score);
 	}

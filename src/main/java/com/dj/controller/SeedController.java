@@ -41,6 +41,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -90,6 +91,17 @@ public class SeedController {
 	@Autowired
 	private PurchaseWebsiteRepository purchaseWebsiteRepository;
 	
+	@RequestMapping("all")
+	public void seedAll() {
+		seedGames();
+		seedCountries();
+		seedDevelopers();
+		seedPublishers();
+		
+		populateGameInfo();
+		populatePurchaseSites();
+	}
+	
 	/*Function to seed game info from MetaCritic*/
 	@RequestMapping(value = "/meta/{pageNumber}", produces = "application/json")
 	@ResponseBody
@@ -123,16 +135,81 @@ public class SeedController {
 				LOG.error("Json Processing Exception", e);
 			}
 		});
-		
 		return sb.toString();
 	}
 	
-	@RequestMapping("all")
-	public void seedAll() {
-		seedGames();
-		seedCountries();
-		seedDevelopers();
-		seedPublishers();
+	@RequestMapping("/scrapePublishers")
+	public void scrapePublishers() throws InterruptedException {
+		config();
+		
+		File file = new File("src/main/resources/data/publishers.csv");
+		BufferedWriter br;
+		FileOutputStream fos;
+		OutputStreamWriter osr;
+		
+		// Grab the list of publishers
+		WikiCompanyPage wikiPubPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
+		
+		List<WebElement> publishers = wikiPubPage.getPublishers();
+		
+		String line;
+		try {
+			fos = new FileOutputStream(file);
+			osr = new OutputStreamWriter(fos);
+			br = new BufferedWriter(osr);
+			
+			for (WebElement publisher : publishers) {
+				String name = wikiPubPage.getPubName(publisher);
+				String location = wikiPubPage.getPubLoc(publisher);
+				
+				line = name.concat(";").concat(location);
+				LOG.info(line);
+				br.write(line);
+				br.newLine();
+			}
+			br.close();
+		} catch (Exception ex) {
+			LOG.error("Error in /scrapePublishers:", ex);
+		}
+	}
+	
+	@RequestMapping("/scrapeDevelopers")
+	public void scrapeDevelopers() {
+		config();
+		
+		File file = new File("src/main/resources/data/developers.csv");
+		BufferedWriter br;
+		FileOutputStream fos;
+		OutputStreamWriter osr;
+		
+		WikiCompanyPage wikiDevPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_DEVELOPER);
+		List<WebElement> developerTables = wikiDevPage.getDeveloperTables();
+		// SMH, location is in 3rd column, I can't even
+		developerTables.remove(24);
+		
+		String line;
+		try {
+			fos = new FileOutputStream(file);
+			osr = new OutputStreamWriter(fos);
+			br = new BufferedWriter(osr);
+			
+			for (WebElement developerTable : developerTables) {
+				List<WebElement> devRows = wikiDevPage.getDevelopersFromTable(developerTable);
+				for (WebElement devRow : devRows) {
+					String name = wikiDevPage.getDevName(devRow);
+					String location = wikiDevPage.getDevLoc(devRow);
+					
+					line = name.concat(";").concat(location);
+					LOG.info(line);
+					br.write(line);
+					br.newLine();
+				}
+			}
+			br.close();
+			
+		} catch (Exception ex) {
+			LOG.error("Error in /scrapeDevelopers:", ex);
+		}
 	}
 	
 	/**
@@ -168,11 +245,10 @@ public class SeedController {
 		return sb.toString();
 	}
 	
-	@RequestMapping("/populateGameInfo")
 	public void populateGameInfo() {
-		/* drop table developer, game_genres, game_purchase_websites, game_score_website, genre, publisher, purchase_website, score, score_website,system,game_system,genre_games */
+		/* drop table developer, game_genre, game_purchase_website, game_score_website, genre, publisher, purchase_website, score, score_website,system,game_system, game, comment, company, game_comment, website_score, country */
 		// TODO: 12/12/16 stop duplicate entries for genre-games...
-		List<Game> allGames = gameRepository.findAll();
+//		List<Game> allGames = gameRepository.findAll();
 		config();
 		WikiPage wikiPage = new WikiPage(driver);
 		WikiResultsPage resultsPage = null;
@@ -190,7 +266,7 @@ public class SeedController {
 		
 		try {
 			
-			for (Game game : allGames) {
+			for (Game game : gameRepository.findAll()) {
 				resultsPage = wikiPage.searchGame(game.getName()).getWikiResultsPage();
 				/* extract info from resultsPage */
 				genres = resultsPage.getGenres();
@@ -200,13 +276,15 @@ public class SeedController {
 				/* check info against their repositories */
 				genres = RepoUtils.checkGenres(genres, genreRepository);
 				systems = RepoUtils.checkSystems(systems, systemRepository);
+				if (pub != null)
+					pub = RepoUtils.checkPublisher(pub, publisherRepository);
+				if (dev != null)
+					dev = RepoUtils.checkDeveloper(dev, developerRepository);
 				/* build ScoreWebsite & Score */
-				scoreWebsiteInfo = resultsPage.getScoreWebsiteInfo();
-				
-				for (String[] scoreWebInfo : scoreWebsiteInfo) {
-					LOG.info("Score Website info: {}", scoreWebInfo.toString());
-					tempScoreWebsite = RepoUtils.checkScoreWebsite(new ScoreWebsite(scoreWebInfo[0], scoreWebInfo[1]), scoreWebsiteRepository);
-					tempScore = new Score(tempScoreWebsite, game, scoreWebInfo[2]);
+				for (String[] scoreWebInfo : resultsPage.getScoreWebsiteInfo()) {
+//					LOG.info("Score Website info: {}", scoreWebInfo.toString());
+					tempScoreWebsite = buildScoreWebsite(scoreWebInfo[0], scoreWebInfo[1]).get();
+					tempScore = buildScore(game, scoreWebInfo[2]).get();
 					tempScoreWebsite.addScore(tempScore);
 					scores.add(tempScore);
 					scoreWebsites.add(tempScoreWebsite);
@@ -248,20 +326,28 @@ public class SeedController {
 				gameRepository.save(game);
 				/* clear lists */
 				scoreWebsites.clear();
-				scoreWebsiteInfo.clear();
 				scores.clear();
 				genres.clear();
 				systems.clear();
 			}
-			resultsPage.close();
+			if (resultsPage != null)
+				resultsPage.close();
 			
 		} catch (Exception e) {
 			LOG.error("Error in /populateGameInfo :", e);
-			resultsPage.close();
+			if (resultsPage != null)
+				resultsPage.close();
 		}
 	}
 	
-	@RequestMapping("/populateGameInfo/purchaseSites")
+	private Supplier<ScoreWebsite> buildScoreWebsite(String name, String url) {
+		return () -> RepoUtils.checkScoreWebsite(new ScoreWebsite(name, url), scoreWebsiteRepository);
+	}
+	
+	private Supplier<Score> buildScore(Game game, String score) {
+		return () -> new Score(game, score);
+	}
+	
 	public void populatePurchaseSites() {
 		config();
 		
@@ -286,87 +372,6 @@ public class SeedController {
 		bingPage.close();
 	}
 	
-	public void populateGameInfoNew() {
-		
-	}
-	
-	@RequestMapping("/scrapePublishers")
-	public void scrapePublishers() throws InterruptedException {
-		config();
-		
-		File file = new File("src/main/resources/data/publishers.csv");
-		BufferedWriter br;
-		FileOutputStream fos;
-		OutputStreamWriter osr;
-		
-		// Grab the list of publishers
-		WikiCompanyPage wikiPubPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_PUBLISHER);
-		
-		List<WebElement> publishers = wikiPubPage.getPublishers();
-		
-		String line;
-		try {
-			fos = new FileOutputStream(file);
-			osr = new OutputStreamWriter(fos);
-			br = new BufferedWriter(osr);
-			
-			for (WebElement publisher : publishers) {
-				String name = wikiPubPage.getPubName(publisher);
-				String location = wikiPubPage.getPubLoc(publisher);
-				
-				// TODO: Store publisher data
-				line = name.concat(";").concat(location);
-				LOG.info(line);
-				br.write(line);
-				br.newLine();
-			}
-			br.close();
-		} catch (Exception ex) {
-			LOG.error("Error in /scrapePublishers:", ex);
-		}
-		
-	}
-	
-	@RequestMapping("/scrapeDevelopers")
-	public void scrapeDevelopers() {
-		config();
-		
-		File file = new File("src/main/resources/data/developers.csv");
-		BufferedWriter br;
-		FileOutputStream fos;
-		OutputStreamWriter osr;
-		
-		WikiCompanyPage wikiDevPage = new WikiCompanyPage(driver, PageConstants.WIKI_COMPANY_DEVELOPER);
-		List<WebElement> developerTables = wikiDevPage.getDeveloperTables();
-		// SMH, location is in 3rd column, I can't even
-		developerTables.remove(24);
-		
-		String line;
-		try {
-			fos = new FileOutputStream(file);
-			osr = new OutputStreamWriter(fos);
-			br = new BufferedWriter(osr);
-			
-			for (WebElement developerTable : developerTables) {
-				List<WebElement> devRows = wikiDevPage.getDevelopersFromTable(developerTable);
-				for (WebElement devRow : devRows) {
-					String name = wikiDevPage.getDevName(devRow);
-					String location = wikiDevPage.getDevLoc(devRow);
-					
-					// TODO: Store developer data
-					line = name.concat(";").concat(location);
-					LOG.info(line);
-					br.write(line);
-					br.newLine();
-				}
-			}
-			br.close();
-			
-		} catch (Exception ex) {
-			LOG.error("Error in /scrapeDevelopers:", ex);
-		}
-	}
-	
 	public void seedGames() {
 		List<Game> games = new ArrayList<>();
 		List<String[]> gameInformation = readCsv("src/main/resources/data/games.csv", ",", true);
@@ -375,6 +380,7 @@ public class SeedController {
 			for (String[] gameInfo : gameInformation) {
 				games.add(new Game(gameInfo[0], gameInfo[1], gameInfo[2], gameInfo[3]));
 			}
+			gameRepository.save(games);
 			LOG.info("Successfully seeded: {} Games.", games.size());
 		} catch (Exception e) {
 			LOG.error("Error in seedGames: ", e);

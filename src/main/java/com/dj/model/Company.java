@@ -18,7 +18,7 @@ public abstract class Company{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected int id;
 	
-	@Column(name = "name")
+	@Column(name = "name", unique = true)
 	protected String name;
 	
 	public Company() {

@@ -18,7 +18,7 @@ public abstract class Website{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected int id;
 	
-	@Column(name = "name")
+	@Column(name = "name", unique = true)
 	protected String name;
 	
 	@Column(name = "url", length = 4000)
