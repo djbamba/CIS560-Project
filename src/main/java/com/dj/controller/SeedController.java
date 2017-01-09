@@ -294,20 +294,11 @@ public class SeedController {
 				dev.addGame(game);
 				genres.forEach(genre -> genre.addGame(game));
 				systems.forEach(system -> system.addGame(game));
+				scores.forEach(score -> score.setGame(game));
 				if (pub.getName() != "N/A")
 					pub = publisherRepository.save(pub);
 				if (dev.getName() != "N/A")
 					dev = developerRepository.save(dev);
-//				if (pub != null) {
-//
-//					country = RepoUtils.checkCountry(pub.getCountry(), countryRepository);
-//					country.addPublisher(pub);
-//				}
-//				if (dev != null) {
-//
-//					country = RepoUtils.checkCountry(dev.getCountry(), countryRepository);
-//					country.addDeveloper(dev);
-//				}
 				/* save game related info */
 				genres = genreRepository.save(genres);
 				systems = systemRepository.save(systems);
@@ -388,28 +379,9 @@ public class SeedController {
 	}
 	
 	public void seedCountries() {
-//		File file = new File("src/main/resources/data/countries.csv");
-//		BufferedReader br;
-//		FileInputStream fis;
-//		InputStreamReader isr;
-//		String line;
 		List<String[]> countryInformation = readCsv("src/main/resources/data/countries.csv", ",", false);
 		List<Country> countries = new ArrayList<>();
 		try {
-//			fis = new FileInputStream(file);
-//			isr = new InputStreamReader(fis);
-//			br = new BufferedReader(isr);
-//
-//			while ((line = br.readLine()) != null) {
-//				String[] split = line.split(",");
-//				// 0 = name, 1 = code
-//				Country country = new Country(split[1], split[0]);
-//				countryRepository.save(country);
-//			}
-//			List<Country> countries = countryRepository.findAll();
-//			for (Country country : countries) {
-//				LOG.info("Country: " + country.toString());
-//			}
 			for (String[] countryInfo : countryInformation) {
 				countries.add(new Country(countryInfo[0], countryInfo[1]));
 			}
@@ -422,34 +394,11 @@ public class SeedController {
 	}
 	
 	public void seedDevelopers() {
-//		File developersCSV = new File("src/main/resources/data/developers.csv");
-//		BufferedReader br;
-//		FileInputStream fis;
-//		InputStreamReader isr;
-		String line, name, country = "";
+		String name, country = "";
 		int counter = 0;
 		List<String> badLines = new ArrayList<>();
 		List<String[]> developerInfo = readCsv("src/main/resources/data/developers.csv", ";", false);
 		try {
-//			fis = new FileInputStream(developersCSV);
-//			isr = new InputStreamReader(fis);
-//			br = new BufferedReader(isr);
-//
-//			while ((line = br.readLine()) != null) {
-//				String[] split = line.split(";");
-//				String name = split[0];
-//				String country = split[1];
-//				Country countryObject = countryRepository.findByName(country);
-//				if (countryObject != null)
-//				Developer developer = new Developer();
-//				developer.setName(name);
-//				developer.setCountry(countryObject);
-//				developer.setLeadDesigner("N/A");
-//				developerRepository.save(developer);
-//				if (countryObject == null)
-//					badLines.add(line);
-//				else
-//					counter++;
 			for (String[] devInfo : developerInfo) {
 				name = devInfo[0];
 				country = devInfo[1];
@@ -472,34 +421,11 @@ public class SeedController {
 	}
 	
 	public void seedPublishers() {
-//		File publishersCSV = new File("src/main/resources/data/publishers.csv");
-//		BufferedReader br;
-//		FileInputStream fis;
-//		InputStreamReader isr;
-		String line, name, country = "";
+		String name, country = "";
 		int counter = 0;
 		List<String> badLines = new ArrayList<>();
 		List<String[]> publisherStrings = readCsv("src/main/resources/data/publishers.csv", ";", false);
 		try {
-//			fis = new FileInputStream(publishersCSV);
-//			isr = new InputStreamReader(fis);
-//			br = new BufferedReader(isr);
-//
-//			while ((line = br.readLine()) != null) {
-//				String[] split = line.split(";");
-//				name = split[0];
-//				country = split[1];
-//				Country countryObject = countryRepository.findByName(country);
-//				Publisher publisher = new Publisher();
-//				publisher.setName(name);
-//				publisher.setCountry(countryObject);
-//				publisher.setContentRating("N/A");
-//				publisherRepository.save(publisher);
-//				if (countryObject == null)
-//					badLines.add(line);
-//				else
-//					counter++;
-//			}
 			for (String[] pubInfo : publisherStrings) {
 				name = pubInfo[0];
 				country = pubInfo[1];
